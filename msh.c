@@ -1,11 +1,17 @@
-#include <stdio.h>
-#include <unistd.h>
-#include <fcntl.h>
+#include <msh.h>
 
-int main(int argv , char **argv)
+int main(int argc , char **argv)
 {
-	int fd = open("txt" , O_RDWR);
-	dup2(fd , STDOUT_FILENO);
-	printf("Hello world");
+	(void)(argc);
+	(void)(argv);
+	char *buff;
+	while(42)
+	{
+		buff = readline("> ");
+		add_history(buff);
+		printf("%s\n" , buff);
+		free(buff);
+	}	
+
 	return (1);
 }
