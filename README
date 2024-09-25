@@ -1,1 +1,14 @@
 # This is my note on minishel
+
+
+- t_cmd* parsecmd(char *s)
+	@params *s : buffer
+	@return    : parsed tree
+
+
+- t_cmd 
+
+
+--
+line ::= pipeline ["&"] [";"] [line]
+
