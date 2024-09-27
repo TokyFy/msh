@@ -6,9 +6,16 @@
 	@return    : parsed tree
 
 
-- t_cmd 
-
 
 --
-line ::= pipeline ["&"] [";"] [line]
+command_line ::= line
 
+line		::= pipe ["&"] [";"] [line]
+
+pipe		::= command ["|" pipeline]
+
+cmd	 	::= [name] [args] [redirections] | line [redirections]
+
+redirections	::= [redirection redirections]
+
+redirection	::= ">" filename | "<" filename | ">>" filename
