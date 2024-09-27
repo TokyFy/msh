@@ -7,7 +7,9 @@
 typedef enum e_type
 {
 	WORD,
-	REDIR,
+	REDIR_I,
+	REDIR_O,
+	APPEND,
 	PIPE,
 	HEREDOC,
 }
@@ -18,36 +20,30 @@ typedef struct s_token
 	char *value;
 } t_token;
 
+t_token*	get_world(char **buff)
+{
+	(void)(buff);
+	return NULL;
+}
+
+t_token*	get_operator(char **buff)
+{
+	(void)(buff);
+	return NULL;
+}
+
 t_token*	get_token(char **buff)
 {
 	char	*str;
-	char	*token_end;
-	char	ret = 'a';
-
 	str = *buff;
 	while (*str && strchr(WHITESPACE, *str))
 		str++;
-	token_end = str;
 	if (strchr(SYMBOL, *str))
 	{
-		if (strncmp(str, ">>", 2) || strncmp(str, "<<", 2))
-		{
-			token_end = str + 2;
-			ret = 'r';
-		}
-		else
-		{
-			token_end = str + 1;
-			ret = *str;
-		}
+		return get_operator(buff);
 	}
-	else
-		while (*token_end && !strchr(WHITESPACE, *token_end) && !strchr(SYMBOL,
-				*token_end))
-			token_end++;
-	*token = strndup(str, token_end - str);
-	*buff = token_end;
-	return (ret);
+
+	return (get_world(buff));
 }
 
 int	main(int argc, char **argv)
@@ -58,8 +54,5 @@ int	main(int argc, char **argv)
 	(void)(argc);
 	(void)(argv);
 	buff = strdup("ls -a");
-
-	printf("%c\n" , get_token(&buff , &token));
-	printf("buff : %s \ntoken : %s\n", buff, token);
 	return (1);
 }
