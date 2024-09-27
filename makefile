@@ -4,7 +4,7 @@ OBJS = $(SRCS:.c=.o)
 
 CC = cc
 IFLAGS = -Iinclude
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -g -Wall -Wextra -Werror
 all: $(NAME)
 
 
