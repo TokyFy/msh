@@ -1,5 +1,5 @@
 NAME = msh
-SRCS = msh.c
+SRCS = msh.c src/tokenizer.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
