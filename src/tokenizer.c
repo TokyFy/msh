@@ -75,6 +75,8 @@ t_token*	get_operator(char **buff)
 
 t_token*	get_token(char **buff)
 {
+    if(!buff || !*buff)
+        return NULL;
     char	*str;
     while (**buff && strchr(WHITESPACE, **buff))
         (*buff)++;
