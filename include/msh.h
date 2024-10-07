@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <string.h>
+#include <libft.h>
 
 #define WHITESPACE " \t\r\n\v"
 #define SYMBOL "<|>"

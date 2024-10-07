@@ -20,9 +20,9 @@ t_token*	get_word(char **buff)
     char quoted = 0;
     if(!*str)
         return NULL;
-    while(*str && (quoted || (!strchr(SYMBOL , *str) && !strchr(WHITESPACE , *str))))
+    while(*str && (quoted || (!ft_strchr(SYMBOL , *str) && !ft_strchr(WHITESPACE , *str))))
     {
-        if(!quoted && strchr("\"\'" , *str))
+        if(!quoted && ft_strchr("\"\'" , *str))
             quoted = *str;
         else if (quoted && quoted == *str)
             quoted = 0;
@@ -30,7 +30,7 @@ t_token*	get_word(char **buff)
     }
     token = malloc(sizeof(t_token));
     token->type = WORD;
-    token->value = strndup(*buff , str - *buff);
+    token->value = ft_strndup(*buff , str - *buff);
     *buff = str;
     return token;
 }
@@ -78,7 +78,7 @@ t_token*	get_token(char **buff)
     if(!buff || !*buff)
         return NULL;
     char	*str;
-    while (**buff && strchr(WHITESPACE, **buff))
+    while (**buff && ft_strchr(WHITESPACE, **buff))
         (*buff)++;
     str = *buff;
     if(!*str)
