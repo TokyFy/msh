@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:43:24 by franaivo          #+#    #+#             */
 /*   Updated: 2024/02/22 11:43:24 by franaivo         ###   ########.fr       */

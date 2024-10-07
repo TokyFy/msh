@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isalnum.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/19 16:30:03 by franaivo          #+#    #+#             */
 /*   Updated: 2024/02/22 10:29:01 by franaivo         ###   ########.fr       */

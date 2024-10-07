@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/23 17:37:43 by franaivo          #+#    #+#             */
 /*   Updated: 2024/02/23 17:37:43 by franaivo         ###   ########.fr       */
