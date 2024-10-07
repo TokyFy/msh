@@ -87,3 +87,23 @@ t_token*	get_token(char **buff)
         return get_operator(buff);
     return (get_word(buff));
 }
+
+t_list  *tokenizer(char **buff)
+{
+    t_list  *lst;
+    t_list  *element;
+    t_token *temp;
+
+    lst = NULL;
+    while ((temp = get_token(buff)))
+    {
+        if (!lst)
+            lst = ft_lstnew(temp);
+        else
+        {
+            element = ft_lstnew(temp);
+            ft_lstadd_back(&lst, element);
+        }
+    }
+    return (lst);
+}

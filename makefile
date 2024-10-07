@@ -20,9 +20,11 @@ $(NAME): $(OBJS) $(LIBFT)
 
 clean:
 	rm -f $(OBJS)
+	$(MAKE) clean -C $(LIBFTDIR)
 
 fclean: clean
 	rm -f $(NAME)
+	$(MAKE) fclean -C $(LIBFTDIR)
 
 re: fclean all
 

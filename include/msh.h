@@ -29,7 +29,8 @@ typedef struct s_token
 t_token*	get_token(char **buff);
 t_token*	get_operator(char **buff);
 t_token*	get_word(char **buff);
-void print_token(const t_token *token);
+void        print_token(const t_token *token);
+t_list      *tokenizer(char **buff);
 
 #endif
 
