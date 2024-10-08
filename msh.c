@@ -17,26 +17,16 @@ int	main(const int argc, char **argv)
 	//t_token	*token;
 	char	*buff;
 	char	*line;
-
 	(void)(argc);
 	(void)(argv);
-
-	t_list	*list;
-	while(1)
+	t_list	*tokens;
+	while(42)
 	{
 		line = readline("> ");
 		buff = line;
 		add_history(buff);
-		// while ((token = get_token(&buff)))
-		// 	print_token(token);
-
-		list = tokenizer(&buff);
-		while (list)
-		{
-			printf("%s\n", ((t_token *)list->content)->value);
-			list = list->next;
-		}
-		
+		tokens = tokenizer(&buff);
+		parse(&tokens);
 		free(line);
 	}
 }

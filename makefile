@@ -1,10 +1,10 @@
 NAME = msh
-SRCS = msh.c src/tokenizer.c
+SRCS = msh.c src/tokenizer.c src/parser.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
 IFLAGS = -Iinclude -Ilibc
-CFLAGS = -g -Wall -Wextra -Werror 
+CFLAGS = -g -Wall -Wextra -Werror
 LDFLAGS = -lreadline -lft -Llibc
 LIBFTDIR = libc
 LIBFT = $(LIBFTDIR)/libft.a
@@ -13,8 +13,8 @@ all: $(NAME)
 $(LIBFT):
 	$(MAKE) bonus -C $(LIBFTDIR)
 
-$(NAME): $(OBJS) $(LIBFT) 
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS) 
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LDFLAGS)
 %.o: %.c
 	$(CC) $(IFLAGS)  $(CFLAGS) -c $< -o $@
 

@@ -18,6 +18,7 @@ typedef enum e_type
     APPEND,
     PIPE,
     HEREDOC,
+    CMD
 } t_type;
 
 typedef struct s_token
@@ -32,5 +33,28 @@ t_token*	get_word(char **buff);
 void        print_token(const t_token *token);
 t_list      *tokenizer(char **buff);
 
-#endif
+typedef struct s_node
+{
+    t_type type;
+} t_node;
 
+typedef struct s_redirs {
+    t_type type;
+    char *string;
+} t_redir;
+
+typedef struct s_cmd {
+    t_type type;
+    char *exec;
+    char **argv;
+    t_list *redirs;
+} t_cmd;
+
+typedef struct s_pipe {
+    t_type type;
+    void* left;
+    void* right;
+} t_pipe;
+
+t_node* parse(t_list **tokens);
+#endif
