@@ -45,7 +45,6 @@ typedef struct s_redirs {
 
 typedef struct s_cmd {
     t_type type;
-    char *exec;
     char **argv;
     t_list *redirs;
 } t_cmd;
@@ -57,4 +56,5 @@ typedef struct s_pipe {
 } t_pipe;
 
 t_node* parse(t_list **tokens);
+void print_ast(void* ast , int level);
 #endif
