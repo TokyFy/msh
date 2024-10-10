@@ -56,5 +56,14 @@ typedef struct s_pipe {
     void* right;
 } t_pipe;
 
+typedef struct s_env
+{
+    char *name;
+    char *value;
+} t_env;
+
 t_node* parse(t_list **tokens);
+t_list  *get_env(char **env);
+void	msh_env(t_list *env);
+
 #endif

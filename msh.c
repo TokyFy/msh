@@ -6,13 +6,13 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/07 16:48:49 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:44:14 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
 
-int	main(const int argc, char **argv)
+int	main(const int argc, char **argv, char **e)
 {
 	//t_token	*token;
 	char	*buff;
@@ -20,6 +20,10 @@ int	main(const int argc, char **argv)
 	(void)(argc);
 	(void)(argv);
 	t_list	*tokens;
+	t_list	*env;
+
+	env = get_env(e);
+	msh_env(env);
 	while(42)
 	{
 		line = readline("> ");

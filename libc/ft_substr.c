@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 11:43:24 by franaivo          #+#    #+#             */
-/*   Updated: 2024/02/22 11:43:24 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/10/10 10:29:33 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
