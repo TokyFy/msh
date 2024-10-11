@@ -1,104 +1,154 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 09:33:43 by franaivo          #+#    #+#             */
+/*   Updated: 2024/10/11 09:33:45 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "libft.h"
 #include <msh.h>
+#include <string.h>
 
-void print_token(const t_token *token)
+void	print_token(const t_token *token)
 {
-    char* types[] = {"WORD" , "REDIR_I" , "REDIR_O" , "APPEND" , "PIPE" , "HEREDOC"};
-    if(!token)
-    {
-        printf("| NULL |\n");
-        return;
-    }
-    printf("| TYPE : %-10s " , types[token->type]);
-    printf("VALUE : %-10s |\n" , token->value);
+	char	**types;
+
+	types = (char *[6]){"word", "redir_i", "redir_o", "append", "pipe",
+		"heredoc"};
+	if (!token)
+	{
+		printf("| NULL |\n");
+		return ;
+	}
+	printf("| TYPE : %-10s ", types[token->type]);
+	printf("VALUE : %-10s |\n", token->value);
 }
 
-t_token*	get_word(char **buff)
+t_token	*get_word(char **buff)
 {
-    char *str;
-    t_token *token;
-    str = *buff;
-    char quoted = 0;
-    if(!*str)
-        return NULL;
-    while(*str && (quoted || (!ft_strchr(SYMBOL , *str) && !ft_strchr(WHITESPACE , *str))))
-    {
-        if(!quoted && ft_strchr("\"\'" , *str))
-            quoted = *str;
-        else if (quoted && quoted == *str)
-            quoted = 0;
-        str++;
-    }
-    token = malloc(sizeof(t_token));
-    token->type = WORD;
-    token->value = ft_strndup(*buff , str - *buff);
-    *buff = str;
-    return token;
+	char	*str;
+	t_token	*token;
+	char	quoted;
+
+	str = *buff;
+	quoted = 0;
+	if (!*str)
+		return (NULL);
+	while (*str && (quoted || (!ft_strchr(SYMBOL, *str)
+				&& !ft_strchr(WHITESPACE, *str))))
+	{
+		if (!quoted && ft_strchr("\"\'", *str))
+			quoted = *str;
+		else if (quoted && quoted == *str)
+			quoted = 0;
+		str++;
+	}
+	token = malloc(sizeof(t_token));
+	token->type = WORD;
+	token->value = ft_strndup(*buff, str - *buff);
+	*buff = str;
+	return (token);
 }
 
-t_token*	get_operator(char **buff)
+t_token	*parse_redirection_input(char **buff)
 {
-    t_token *token = malloc(sizeof(t_token));
-    token->value = NULL;
+	t_token	*token;
 
-    if(**buff == '<')
-    {
-        if(*(*buff + 1) == '<')
-        {
-            (*buff) += 2;
-            token->type = HEREDOC;
-            return token;
-        }
-        (*buff)++;
-        token->type = REDIR_I;
-        return token;
-    }
-    if (**buff == '>')
-    {
-        if(*(*buff + 1) == '>')
-        {
-            (*buff) += 2;
-            token->type = APPEND;
-            return token;
-        }
-        (*buff)++;
-        token->type = REDIR_O;
-        return token;
-    }
-    if(**buff == '|')
-    {
-        (*buff)++;
-        token->type = PIPE;
-        return token;
-    }
-    return NULL;
+	token = malloc(sizeof(t_token));
+	token->value = NULL;
+	if (*(*buff + 1) == '<')
+	{
+		(*buff) += 2;
+		token->type = HEREDOC;
+	}
+	else
+	{
+		(*buff)++;
+		token->type = REDIR_I;
+	}
+	return (token);
 }
 
-t_token*	get_token(char **buff)
+t_token	*parse_redirection_output(char **buff)
 {
-    if(!buff || !*buff)
-        return NULL;
-    char	*str;
-    while (**buff && ft_strchr(WHITESPACE, **buff))
-        (*buff)++;
-    str = *buff;
-    if(!*str)
-        return NULL;
-    if (strchr(SYMBOL, *str))
-        return get_operator(buff);
-    return (get_word(buff));
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	token->value = NULL;
+	if (*(*buff + 1) == '>')
+	{
+		(*buff) += 2;
+		token->type = APPEND;
+	}
+	else
+	{
+		(*buff)++;
+		token->type = REDIR_O;
+	}
+	return (token);
 }
 
-t_list  *tokenizer(char **buff)
+t_token	*parse_pipe_operator(char **buff)
 {
-    t_list  *lst;
-    t_list  *element;
-    t_token *temp;
+	t_token	*token;
 
-    lst = NULL;
-    while ((temp = get_token(buff)))
-    {
-            element = ft_lstnew(temp);
-            ft_lstadd_back(&lst, element);
-    }
-    return (lst);
+	token = malloc(sizeof(t_token));
+	token->value = NULL;
+	(*buff)++;
+	token->type = PIPE;
+	return (token);
+}
+
+t_token	*get_operator(char **buff)
+{
+	if (**buff == '<')
+		return (parse_redirection_input(buff));
+	if (**buff == '>')
+		return (parse_redirection_output(buff));
+	if (**buff == '|')
+		return (parse_pipe_operator(buff));
+	return (NULL);
+}
+
+t_token	*get_token(char **buff)
+{
+	char	*str;
+
+	if (!buff || !*buff)
+		return (NULL);
+	while (**buff && ft_strchr(WHITESPACE, **buff))
+		(*buff)++;
+	str = *buff;
+	if (!*str)
+		return (NULL);
+	if (strchr(SYMBOL, *str))
+		return (get_operator(buff));
+	return (get_word(buff));
+}
+
+void	free_tokens(t_list *tokens)
+{
+	ft_lstclear(&tokens, free);
+}
+
+t_list	*tokenizer(char **buff)
+{
+	t_list	*lst;
+	t_list	*element;
+	t_token	*temp;
+
+	lst = NULL;
+	temp = get_token(buff);
+	while (temp)
+	{
+		element = ft_lstnew(temp);
+		ft_lstadd_back(&lst, element);
+		temp = get_token(buff);
+	}
+	return (lst);
 }
