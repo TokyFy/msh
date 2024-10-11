@@ -14,23 +14,26 @@
 
 int	main(const int argc, char **argv, char **e)
 {
-	//t_token	*token;
 	char	*buff;
 	char	*line;
 	(void)(argc);
 	(void)(argv);
 	t_list	*tokens;
 	t_list	*env;
-
+  
 	env = get_env(e);
 	msh_env(env);
+  
+	t_node *ast;
+
 	while(42)
 	{
 		line = readline("> ");
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
-		parse(&tokens);
+		ast = parse(&tokens);
+		print_ast(ast , 0);
 		free(line);
 	}
 }
