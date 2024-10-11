@@ -32,6 +32,7 @@ t_token*	get_operator(char **buff);
 t_token*	get_word(char **buff);
 void        print_token(const t_token *token);
 t_list      *tokenizer(char **buff);
+void        free_tokens(t_list* tokens);
 
 typedef struct s_node
 {
@@ -63,7 +64,7 @@ typedef struct s_env
 
 t_node* parse(t_list **tokens);
 void print_ast(void* ast , int level);
-
+void free_ast(void* ast);
 
 t_list  *get_env(char **env);
 void	msh_env(t_list *env);

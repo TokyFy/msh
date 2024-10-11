@@ -26,6 +26,9 @@ fclean: clean
 	rm -f $(NAME)
 	$(MAKE) fclean -C $(LIBFTDIR)
 
+valgrind: $(NAME)
+	valgrind --suppressions=.valignores --leak-check=full --show-leak-kinds=all ./msh
+
 re: fclean all
 
 .PHONY: clean fclean re

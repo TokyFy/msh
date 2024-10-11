@@ -10,20 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 
 int	main(const int argc, char **argv, char **e)
 {
+    (void)(argc);
+	(void)(argv);
+	(void)(e);
 	char	*buff;
 	char	*line;
-	(void)(argc);
-	(void)(argv);
 	t_list	*tokens;
-	t_list	*env;
-  
-	env = get_env(e);
-	msh_env(env);
-  
+	t_list  *tokens_t;
 	t_node *ast;
 
 	while(42)
@@ -32,8 +30,11 @@ int	main(const int argc, char **argv, char **e)
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
+		tokens_t = tokens;
 		ast = parse(&tokens);
 		print_ast(ast , 0);
+		free_tokens(tokens_t);
+		free_ast(ast);
 		free(line);
 	}
 }
