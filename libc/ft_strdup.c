@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/22 10:29:01 by franaivo          #+#    #+#             */
-/*   Updated: 2024/02/22 10:29:01 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/10/11 14:33:17 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,17 @@ char	*ft_strdup(char *src)
 	return (new_src);
 }
 
-char * ft_strndup (const char *s, t_size_t n)
+char	*ft_strndup(const char *s, t_size_t n)
 {
-  char *result;
-  t_size_t len = ft_strlen (s);
+	char		*result;
+	t_size_t	len;
 
-  if (n < len)
-    len = n;
-
-  result = (char *) malloc (len + 1);
-  if (!result)
-    return 0;
-
-  result[len] = '\0';
-  return (char *) ft_memcpy (result, s, len);
+	len = ft_strlen(s);
+	if (n < len)
+		len = n;
+	result = (char *)malloc(len + 1);
+	if (!result)
+		return (0);
+	result[len] = '\0';
+	return ((char *)ft_memcpy(result, s, len));
 }

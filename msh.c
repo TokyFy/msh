@@ -15,16 +15,16 @@
 
 int	main(const int argc, char **argv, char **e)
 {
-    (void)(argc);
-	(void)(argv);
-	(void)(e);
 	char	*buff;
 	char	*line;
 	t_list	*tokens;
-	t_list  *tokens_t;
-	t_node *ast;
+	t_list	*tokens_t;
+	t_node	*ast;
 
-	while(42)
+	(void)(argc);
+	(void)(argv);
+	(void)(e);
+	while (42)
 	{
 		line = readline("> ");
 		buff = line;
@@ -32,7 +32,7 @@ int	main(const int argc, char **argv, char **e)
 		tokens = tokenizer(&buff);
 		tokens_t = tokens;
 		ast = parse(&tokens);
-		print_ast(ast , 0);
+		print_ast(ast, 0);
 		free_tokens(tokens_t);
 		free_ast(ast);
 		free(line);

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <string.h>
 
 int	parse_redir(t_cmd *cmd, t_list **tokens)
 {
@@ -56,21 +57,13 @@ void	**ft_lsttoarr(t_list *lst)
 	return (array);
 }
 
-void	*parse_cmd(t_list **tokens)
+void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
 {
-	t_token	*token;
-	t_cmd	*cmd;
 	t_list	*argv;
+	t_token	*token;
 
-	if (!*tokens)
-		return (NULL);
-	token = (*tokens)->content;
-	if (token->type == PIPE)
-		return (NULL);
-	cmd = malloc(sizeof(t_cmd));
 	argv = NULL;
-	ft_bzero(cmd, sizeof(t_cmd));
-	cmd->type = CMD;
+	token = (*tokens)->content;
 	while (token && token->type != PIPE)
 	{
 		if (token->type == WORD)
@@ -86,6 +79,22 @@ void	*parse_cmd(t_list **tokens)
 	}
 	cmd->argv = (char **)ft_lsttoarr(argv);
 	ft_lstclear(&argv, NULL);
+}
+
+void	*parse_cmd(t_list **tokens)
+{
+	t_token	*token;
+	t_cmd	*cmd;
+
+	if (!*tokens)
+		return (NULL);
+	token = (*tokens)->content;
+	if (token->type == PIPE)
+		return (NULL);
+	cmd = malloc(sizeof(t_cmd));
+	ft_bzero(cmd, sizeof(t_cmd));
+	cmd->type = CMD;
+	fill_t_cmd(cmd, tokens);
 	return (cmd);
 }
 
@@ -164,10 +173,10 @@ void	debug_array_nulled(char **array)
 void	debug_t_redirs(t_list *lst)
 {
 	char	**types;
-	types = (char*[6]){"WORD", "REDIR_I", "REDIR_O", "APPEND", "PIPE",
-		"HEREDOC"};
 	t_redir	*redir;
 
+	types = (char *[6]){"WORD", "REDIR_I", "REDIR_O", "APPEND", "PIPE",
+		"HEREDOC"};
 	if (!lst)
 		printf("NULL");
 	redir = NULL;
