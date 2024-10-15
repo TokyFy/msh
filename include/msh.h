@@ -62,8 +62,13 @@ typedef struct s_env
     char *value;
 } t_env;
 
+int	ft_strcmp(char *s1, char *s2);
+void	free_env(t_list *env);
+
 t_node* parse(t_list **tokens);
 t_list  *get_env(char **env);
-void	msh_env(t_list *env);
+void	builtin_env(t_list *env);
+t_list	*env_exist(t_list *env, char *name);
+void	builtin_export(t_list *env, char *str);
 
 #endif

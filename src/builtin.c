@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:12:23 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/10/10 16:57:37 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/10/15 17:26:21 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_list *get_env(char **env)
 	return (list_env);
 }
 
-void	msh_env(t_list *env)
+void	builtin_env(t_list *env)
 {
 	while (env)
 	{
@@ -56,5 +56,74 @@ void	msh_env(t_list *env)
 		env = env->next;
 	}
 	return ;
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	unsigned int	i;
+
+	i = 0;
+	while (*s1 && (*s1 == *s2))
+	{
+		s1++;
+		s2++;
+		i++;
+	}
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
+}
+
+t_list	*env_exist(t_list *env, char *name)
+{
+	t_list	*temp;
+	temp = env;
+	while (temp)
+	{
+		if (ft_strcmp(((t_env *)temp->content)->name, name) == 0)
+			return (temp);
+		temp = temp->next;
+	}
+	return (NULL);
+}
+
+void	update_env_element(t_list *element, char *value)
+{
+	char *new_value;
+
+	new_value = ft_strdup(value);
+	free(((t_env *)element->content)->value);
+	((t_env *)element->content)->value = new_value;
+	return ;
+}
+
+void	builtin_export(t_list *env, char *str)
+{
+	t_env	*new_element = new_env(str);
+	t_list	*element;
+	element = env_exist(env, new_element->name);
+	if (element)
+	{
+		update_env_element(element, new_element->value);
+		free(new_element->name);
+		free(new_element->value);
+		free(new_element);
+		new_element = NULL;
+	} else
+	{
+		ft_lstadd_back(&env, ft_lstnew(new_element));
+	}
+}
+
+void	free_env(t_list *env)
+{
+	t_list *temp;
+
+	temp = env;
+	while (temp)
+	{
+		free(((t_env *)temp->content)->name);
+		free(((t_env *)temp->content)->value);
+		temp = temp->next;
+	}
+	ft_lstclear(&env, free);
 }
 
