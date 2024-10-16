@@ -12,6 +12,7 @@
 
 #include "libft.h"
 #include <msh.h>
+#include <stdio.h>
 
 int	main(const int argc, char **argv, char **e)
 {
@@ -32,7 +33,13 @@ int	main(const int argc, char **argv, char **e)
 		tokens = tokenizer(&buff);
 		tokens_t = tokens;
 		ast = parse(&tokens);
-		print_ast(ast, 0);
+		if(analyse_ast(ast))
+		{
+		  print_ast(ast, 0);
+		  exec(ast);
+		}
+		else
+		  printf("Error\n");
 		free_tokens(tokens_t);
 		free_ast(ast);
 		free(line);

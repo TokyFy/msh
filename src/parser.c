@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 #include <string.h>
 
@@ -219,4 +220,50 @@ void	print_ast(void *tree, int level)
 	printf("%*sPIPE :\n", level * factor, " ");
 	print_ast(pipe->left, level + 1);
 	print_ast(pipe->right, level + 1);
+}
+
+int	analyse_t_pipe(t_pipe *pipe)
+{
+	if (pipe->left && pipe->right)
+	{
+		if (!analyse_ast(pipe->right) || !analyse_ast(pipe->left))
+			return (0);
+	}
+	else
+		return (0);
+	return (1);
+}
+
+int	analyse_t_cmd(t_cmd *cmd)
+{
+	t_list	*redirs;
+
+	if (!cmd->argv || !*cmd->argv)
+		return (0);
+	redirs = cmd->redirs;
+	while (redirs)
+	{
+		if (((t_redir *)redirs->content)->string == NULL)
+			return (0);
+		redirs = redirs->next;
+	}
+	return (1);
+}
+
+int	analyse_ast(void *tree)
+{
+	t_node	*node;
+
+	node = tree;
+	if (!node)
+		return (0);
+	if (node->type == PIPE)
+	{
+		return (analyse_t_pipe((t_pipe *)tree));
+	}
+	if (node->type == CMD)
+	{
+		return (analyse_t_cmd((t_cmd *)tree));
+	}
+	return (1);
 }

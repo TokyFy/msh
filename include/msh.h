@@ -45,6 +45,7 @@ t_token		*get_word(char **buff);
 void		print_token(const t_token *token);
 t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
+int analyse_ast(void *tree);
 
 typedef struct s_node
 {
@@ -84,4 +85,5 @@ void		free_ast(void *ast);
 t_list		*get_env(char **env);
 void		msh_env(t_list *env);
 
+void exec(void *ast);
 #endif
