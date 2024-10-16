@@ -45,7 +45,6 @@ typedef struct s_redirs {
 
 typedef struct s_cmd {
     t_type type;
-    char *exec;
     char **argv;
     t_list *redirs;
 } t_cmd;
@@ -66,6 +65,9 @@ int	ft_strcmp(char *s1, char *s2);
 void	free_env(t_list *env);
 
 t_node* parse(t_list **tokens);
+void print_ast(void* ast , int level);
+
+
 t_list  *get_env(char **env);
 void	builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);

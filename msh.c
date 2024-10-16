@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/15 17:33:01 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/10/16 08:59:45 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 
 int	main(const int argc, char **argv, char **e)
 {
-	//t_token	*token;
 	char	*buff;
 	char	*line;
 	(void)(argc);
 	(void)(argv);
 	t_list	*tokens;
 	t_list	*env;
-
+  
 	env = get_env(e);
+	msh_env(env);
+  
+	t_node *ast;
+
 	// msh_env(env);
 	while(42)
 	{
@@ -30,6 +33,8 @@ int	main(const int argc, char **argv, char **e)
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
+		ast = parse(&tokens);
+		print_ast(ast , 0);
 		// while (tokens)
 		// {
 		// 	print_token(tokens->content);
