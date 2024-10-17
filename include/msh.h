@@ -18,6 +18,9 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
+#include <stdlib.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
@@ -46,6 +49,7 @@ void		print_token(const t_token *token);
 t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
 int analyse_ast(void *tree);
+void exec_ast(void *ast , char**env);
 
 typedef struct s_node
 {

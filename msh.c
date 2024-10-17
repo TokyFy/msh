@@ -14,7 +14,7 @@
 #include <msh.h>
 #include <stdio.h>
 
-int	main(const int argc, char **argv, char **e)
+int	main(const int argc, char **argv, char **env)
 {
 	char	*buff;
 	char	*line;
@@ -24,7 +24,6 @@ int	main(const int argc, char **argv, char **e)
 
 	(void)(argc);
 	(void)(argv);
-	(void)(e);
 	while (42)
 	{
 		line = readline("> ");
@@ -35,8 +34,7 @@ int	main(const int argc, char **argv, char **e)
 		ast = parse(&tokens);
 		if(analyse_ast(ast))
 		{
-		  print_ast(ast, 0);
-		  exec(ast);
+			exec_ast(ast , env);
 		}
 		else
 		  printf("Error\n");
