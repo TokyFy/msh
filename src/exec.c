@@ -64,9 +64,9 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 			dup2(in, STDIN_FILENO);
 		// FORBIDEN FUNCT
 		execvp(cmd->argv[0], cmd->argv);
+		perror("msh");
 		close(in);
 		close(out);
-		perror("msh");
 	}
 }
 
