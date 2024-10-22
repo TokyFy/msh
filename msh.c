@@ -24,10 +24,12 @@ int	main(const int argc, char **argv, char **env)
 	t_list	*tokens;
 	t_list	*tokens_t;
 	t_node	*ast;
+	int ret;
 
 	(void)(argc);
 	(void)(argv);
 	(void)(env);
+	ret = 0;
 	while (42)
 	{
 		line = readline("> ");
@@ -38,7 +40,6 @@ int	main(const int argc, char **argv, char **env)
 		ast = parse(&tokens);
 		if(analyse_ast(ast))
 		{
-			int ret;
 			if(fork() == 0)
 				exec_ast(ast);
 			wait(&ret);
