@@ -10,18 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <fcntl.h>
 #include <msh.h>
-#include <stdio.h>
+#include <fcntl.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <time.h>
 #include <unistd.h>
 
-void	exec_t_cmd(t_cmd *cmd, char **env)
+void	exec_t_cmd(t_cmd *cmd, pid_t pid ,char **env)
 {
-	pid_t	pid;
 	int		out;
 	int		in;
 	t_list	*redirs;
@@ -30,8 +27,6 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 
 	out = -1;
 	in = -1;
-	(void)(in);
-	pid = fork();
 	if (pid == 0)
 	{
 		redirs = cmd->redirs;
@@ -70,15 +65,44 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 	}
 }
 
-void	exec_ast(void *ast, char **env)
+void	exec_ast(void *ast, void *parent , int stdout , char **env)
 {
-	t_node	*node;
+	t_node *node = ast;
+	pid_t pid;
+	int fd[2];
+	t_pipe *pip;
+	t_cmd *cmd;
+	(void)(parent);
 
-	node = ast;
-	if (node->type == CMD)
+	if(node->type == CMD)
 	{
-		exec_t_cmd((t_cmd *)ast, env);
+		pid = fork();
+		if(pid == 0)
+		{
+			pipe(fd);
+			cmd = ast;
+			dup2(stdout, STDIN_FILENO);
+			execvp(cmd->argv[0], cmd->argv);
+		}
+		else {
+			wait(NULL);
+			return;
+		}
+	}
+
+	if(node->type != PIPE)
+		return;
+	pipe(fd);
+	pid = fork();
+	pip = ast;
+	if(pid == 0)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		dup2(stdout, STDIN_FILENO);
+		execvp(cmd->argv[0], cmd->argv);
+		exec_ast(pip->right, ast, fd[0] , env);
+	}
+	else {
 		wait(NULL);
 	}
-	return ;
 }

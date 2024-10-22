@@ -13,6 +13,8 @@
 #include "libft.h"
 #include <msh.h>
 #include <stdio.h>
+#include <time.h>
+#include <unistd.h>
 
 int	main(const int argc, char **argv, char **env)
 {
@@ -34,7 +36,7 @@ int	main(const int argc, char **argv, char **env)
 		ast = parse(&tokens);
 		if(analyse_ast(ast))
 		{
-			exec_ast(ast , env);
+			exec_ast(ast , NULL , STDOUT_FILENO , env);
 		}
 		else
 		  printf("Error\n");

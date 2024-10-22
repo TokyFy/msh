@@ -10,6 +10,7 @@ LIBFTDIR = libc
 LIBFT = $(LIBFTDIR)/libft.a
 all: $(NAME)
 
+
 $(LIBFT):
 	$(MAKE) bonus -C $(LIBFTDIR)
 
