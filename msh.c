@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
+#include <libft.h>
 #include <stdio.h>
-#include <time.h>
+#include <stdlib.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 int	main(const int argc, char **argv, char **env)
@@ -26,6 +27,7 @@ int	main(const int argc, char **argv, char **env)
 
 	(void)(argc);
 	(void)(argv);
+	(void)(env);
 	while (42)
 	{
 		line = readline("> ");
@@ -36,7 +38,10 @@ int	main(const int argc, char **argv, char **env)
 		ast = parse(&tokens);
 		if(analyse_ast(ast))
 		{
-			exec_ast(ast , NULL , STDOUT_FILENO , env);
+			int ret;
+			if(fork() == 0)
+				exec_ast(ast);
+			wait(&ret);
 		}
 		else
 		  printf("Error\n");
