@@ -100,6 +100,7 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 	redir = redirs->content;
 	while (redirs)
 	{
+		redir = redirs->content;
 		if (*out != -1 && (redir->type == APPEND || redir->type == REDIR_O))
 			ft_close(*out);
 		if (*in != -1 && (redir->type == REDIR_I || redir->type == HEREDOC))
@@ -111,7 +112,6 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 		else if (redir->type == REDIR_I)
 			*in = ft_open(redir->string, O_RDONLY, 0644);
 		redirs = redirs->next;
-		redir = redirs->content;
 	}
 }
 
