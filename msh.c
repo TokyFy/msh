@@ -12,6 +12,7 @@
 
 #include <msh.h>
 #include <libft.h>
+#include <readline/readline.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
@@ -30,9 +31,12 @@ int	main(const int argc, char **argv, char **env)
 	(void)(argv);
 	(void)(env);
 	ret = 0;
+	desable_signal();
 	while (42)
 	{
-		line = readline("> ");
+		line = readline("~ ");
+		printf(".......\n");
+		continue;
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
@@ -41,7 +45,9 @@ int	main(const int argc, char **argv, char **env)
 		if(analyse_ast(ast))
 		{
 			if(fork() == 0)
+			{
 				exec_ast(ast);
+			}
 			wait(&ret);
 		}
 		else

@@ -90,4 +90,6 @@ t_list		*get_env(char **env);
 void		msh_env(t_list *env);
 
 void exec(void *ast);
+void desable_signal();
+void restore_signal();
 #endif
