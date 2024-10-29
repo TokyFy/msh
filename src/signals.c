@@ -16,32 +16,28 @@
 #include <string.h>
 #include <unistd.h>
 
-void msh_signal_handler(int sig , siginfo_t *info , void *context)
+extern volatile sig_atomic_t g_signal_received;
+
+void handle_sigint(int sig)
 {
-	(void)(info);
-	(void)(context);
-	(void)(sig);
-	printf("\n");
-  	rl_on_new_line();
-   	rl_replace_line("", 0);
-    rl_redisplay();
-	return;
+    (void)sig;
+    g_signal_received = 1;
+    write(STDOUT_FILENO, "\n", 1);    // Print newline
+    rl_on_new_line();                 // Inform readline about the newline
+    rl_replace_line("", 0);           // Clear the current line
+    rl_redisplay();                   // Redisplay the prompt
 }
 
-void desable_signal()
-{
-	struct sigaction sa;
-	sa.sa_sigaction = msh_signal_handler;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = SA_SIGINFO;
-	sigaction(SIGINT, &sa, NULL);
-}
-
-void restore_signal()
+void setup_signal_handling(void)
 {
     struct sigaction sa;
-    sa.sa_handler = NULL;
+
+    sa.sa_handler = handle_sigint;
     sigemptyset(&sa.sa_mask);
-    sa.sa_flags = SA_SIGINFO;
-    sigaction(SIGINT, &sa, NULL);
+    sa.sa_flags = 0;
+    if (sigaction(SIGINT, &sa, NULL) == -1)
+    {
+        perror("sigaction");
+        exit(EXIT_FAILURE);
+    }
 }

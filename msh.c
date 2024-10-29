@@ -13,10 +13,14 @@
 #include <msh.h>
 #include <libft.h>
 #include <readline/readline.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/wait.h>
 #include <unistd.h>
+#include <sys/types.h>
+
+volatile sig_atomic_t g_signal_received;
 
 int	main(const int argc, char **argv, char **env)
 {
@@ -25,18 +29,16 @@ int	main(const int argc, char **argv, char **env)
 	t_list	*tokens;
 	t_list	*tokens_t;
 	t_node	*ast;
-	int ret;
+	int status;
 
 	(void)(argc);
 	(void)(argv);
 	(void)(env);
-	ret = 0;
-	desable_signal();
+	status = 0;
+	setup_signal_handling();
 	while (42)
 	{
-		line = readline("~ ");
-		printf(".......\n");
-		continue;
+		line = readline("> ");
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
@@ -46,9 +48,18 @@ int	main(const int argc, char **argv, char **env)
 		{
 			if(fork() == 0)
 			{
+				signal(SIGINT, SIG_DFL);
+				signal(SIGQUIT, SIG_DFL);
 				exec_ast(ast);
 			}
-			wait(&ret);
+			else
+			{
+				signal(SIGINT, SIG_IGN);
+				wait(&status);
+				setup_signal_handling();
+				if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+            		write(STDOUT_FILENO, "\n", 1);
+			}
 		}
 		else
 		  printf("Error\n");
