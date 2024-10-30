@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:12:23 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/10/15 17:33:02 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/10/24 14:36:44 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_env	*new_env(char *str)
 	return (env);
 }
 
-t_list *get_env(char **env)
+t_list *copy_env(char **env)
 {
     t_list	*list_env;
 	t_list	*element;
@@ -95,7 +95,7 @@ void	update_env_element(t_list *element, char *value)
 	return ;
 }
 
-void	builtin_export(t_list *env, char *str)
+int	builtin_export(t_list *env, char *str)
 {
 	t_env	*new_element = new_env(str);
 	t_list	*element;
@@ -106,12 +106,18 @@ void	builtin_export(t_list *env, char *str)
 		free(new_element->name);
 		free(new_element->value);
 		free(new_element);
-		new_element = NULL;
+		new_element = NULL; 
 	} else
 	{
 		ft_lstadd_back(&env, ft_lstnew(new_element));
 	}
+	return (1);
 }
+
+// int	builtin_unset(t_list *env, char *name)
+// {
+	
+// }
 
 void	free_env(t_list *env)
 {
@@ -127,3 +133,14 @@ void	free_env(t_list *env)
 	ft_lstclear(&env, free);
 }
 
+char *get_env(t_list *env, char *name)
+{
+	t_list	*tmp;
+
+	tmp = env_exist(env, name);
+	if (tmp)
+	{
+		return (get_element_value(tmp));
+	}
+	return (NULL);
+}

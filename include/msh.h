@@ -67,10 +67,15 @@ void	free_env(t_list *env);
 t_node* parse(t_list **tokens);
 void print_ast(void* ast , int level);
 
+void    expand(t_list *env, void *tree);
+char    *get_env_name_in_string(char *str);
+char    *get_element_value(t_list *element);
+char    *handle_quote(char *input);
 
-t_list  *get_env(char **env);
+char *get_env(t_list *env, char *name);
+t_list  *copy_env(char **env);
 void	builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
-void	builtin_export(t_list *env, char *str);
+int	builtin_export(t_list *env, char *str);
 
 #endif
