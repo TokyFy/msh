@@ -1,5 +1,5 @@
 NAME = msh
-SRCS = msh.c src/tokenizer.c src/parser.c src/builtin.c src/expand.c
+SRCS = msh.c src/tokenizer.c src/parser.c src/builtin.c src/exec.c src/signals.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
@@ -9,6 +9,7 @@ LDFLAGS = -lreadline -lft -Llibc
 LIBFTDIR = libc
 LIBFT = $(LIBFTDIR)/libft.a
 all: $(NAME)
+
 
 $(LIBFT):
 	$(MAKE) bonus -C $(LIBFTDIR)
@@ -25,6 +26,9 @@ clean:
 fclean: clean
 	rm -f $(NAME)
 	$(MAKE) fclean -C $(LIBFTDIR)
+
+valgrind: $(NAME)
+	valgrind --track-fds=yes  --suppressions=.valignores --leak-check=full --show-leak-kinds=all ./msh
 
 re: fclean all
 
