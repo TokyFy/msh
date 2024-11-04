@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/31 07:45:33 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/10/31 10:31:37 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,9 @@ int	main(const int argc, char **argv, char **e)
 	char	*line;
 	t_list	*tokens;
 	t_list	*tokens_t;
-	t_node	*ast;
-	int status;
 
 	(void)(argc);
 	(void)(argv);
-	t_list	*tokens;
 	t_list	*env;
   
 	env = copy_env(e);
