@@ -6,20 +6,18 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/04 12:45:31 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/06 16:53:36 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
 
-char	*get_env_name_in_string(char *str)
+char	*get_env_name_in_string(char *string)
 {
 	char	*name;
 	char	*start;
-	char	*string;
 	int		len;
 
-	string = str;
 	len = 0;
 	while (*string)
 	{
@@ -53,41 +51,31 @@ char	*get_element_value(t_list *element)
 
 char	*handle_quote(char *input)
 {
-	int		len;
 	char	*result;
 	int		i;
 	char	current_quote;
 	char	*final_result;
 	int		j;
 
-	i = 0;
-	len = ft_strlen(input);
-	result = malloc(len + 1);
+	result = malloc(ft_strlen(input) + 1);
 	if (!result)
 		return (NULL);
-	i = 0, j = 0;
+	i = 0;
+	j = 0;
 	current_quote = '\0';
 	while (input[i])
 	{
 		if (input[i] == '\'' || input[i] == '"')
 		{
 			if (current_quote == '\0')
-			{
 				current_quote = input[i];
-			}
 			else if (input[i] == current_quote)
-			{
 				current_quote = '\0';
-			}
 			else
-			{
 				result[j++] = input[i];
-			}
 		}
 		else
-		{
 			result[j++] = input[i];
-		}
 		i++;
 	}
 	if (current_quote != '\0')
