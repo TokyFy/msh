@@ -50,6 +50,7 @@ t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
 int analyse_ast(void *tree);
 void	exec_ast(void *ast);
+t_list* exec_herdoc(void* ast);
 
 typedef struct s_node
 {
@@ -81,6 +82,10 @@ typedef struct s_env
 	char	*name;
 	char	*value;
 }			t_env;
+
+typedef struct s_heredoc{
+	int fd;
+} t_heredoc;
 
 t_node		*parse(t_list **tokens);
 void		print_ast(void *ast, int level);

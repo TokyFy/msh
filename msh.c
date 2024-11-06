@@ -17,21 +17,25 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <sys/wait.h>
 #include <unistd.h>
 #include <sys/types.h>
 
 volatile sig_atomic_t g_signal_received;
 
-typedef struct s_heredoc{
-	int fd;
-} t_heredoc;
-
-void exec_herdoc(void* ast)
+t_list* exec_herdoc(void* ast)
 {
 	static t_list *heredocs = NULL;
 	t_node* node = ast;
+
+	if(!ast)
+	{
+		if(!heredocs)
+			return NULL;
+		t_list *head = heredocs;
+		heredocs = heredocs->next;
+		return head;
+	}
 
 	(void)(heredocs);
 	if(node->type == CMD)
@@ -46,9 +50,11 @@ void exec_herdoc(void* ast)
 			{
 				pipe(fds);
 				char *line = NULL;
-				while (line == NULL || ft_strcmp(line, redir->string) != 0) {
+				while (42) {
 					if(line)
 					{
+						if(ft_strcmp(line, redir->string) == 0)
+							break;
 						ft_putstr_fd(line, fds[1]);
 						ft_putstr_fd("\n", fds[1]);
 					}
@@ -60,9 +66,9 @@ void exec_herdoc(void* ast)
 				heredoc->fd = fds[0];
 				ft_lstadd_back(&heredocs, ft_lstnew(heredoc));
 			}
-
 			redirs = redirs->next;
 		}
+		return NULL;
 	}
 	if(node->type == PIPE)
 	{
@@ -70,7 +76,7 @@ void exec_herdoc(void* ast)
 		exec_herdoc(pipe->left);
 		exec_herdoc(pipe->right);
 	}
-	return;
+	return NULL;
 }
 
 int	main(const int argc, char **argv, char **env)
@@ -101,8 +107,6 @@ int	main(const int argc, char **argv, char **env)
 			{
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
-				exec_herdoc(ast);
-				exit(EXIT_SUCCESS);
 				exec_herdoc(ast);
 				exec_ast(ast);
 			}
