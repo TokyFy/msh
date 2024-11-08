@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/06 16:53:36 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/08 17:30:28 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,31 @@ char	*get_element_value(t_list *element)
 	return (value);
 }
 
+void	remove_quote(char *input, char *current_quote, int *j, char **result)
+{
+	int i;
+
+	i = 0;
+	while (input[i])
+	{
+		if (input[i] == '\'' || input[i] == '"')
+		{
+			if (*current_quote == '\0')
+				*current_quote = input[i];
+			else if (input[i] == *current_quote)
+				*current_quote = '\0';
+			else
+				(*result)[(*j)++] = input[i];
+		}
+		else
+			(*result)[(*j)++] = input[i];
+		i++;
+	}
+}
+
 char	*handle_quote(char *input)
 {
 	char	*result;
-	int		i;
 	char	current_quote;
 	char	*final_result;
 	int		j;
@@ -60,31 +81,16 @@ char	*handle_quote(char *input)
 	result = malloc(ft_strlen(input) + 1);
 	if (!result)
 		return (NULL);
-	i = 0;
 	j = 0;
 	current_quote = '\0';
-	while (input[i])
-	{
-		if (input[i] == '\'' || input[i] == '"')
-		{
-			if (current_quote == '\0')
-				current_quote = input[i];
-			else if (input[i] == current_quote)
-				current_quote = '\0';
-			else
-				result[j++] = input[i];
-		}
-		else
-			result[j++] = input[i];
-		i++;
-	}
+	remove_quote(input, &current_quote, &j, &result);
 	if (current_quote != '\0')
 	{
 		free(result);
 		return (NULL);
 	}
 	result[j] = '\0';
-	final_result = strndup(result, j);
+	final_result = ft_strndup(result, j ); 
 	free(result);
 	return (final_result);
 }
