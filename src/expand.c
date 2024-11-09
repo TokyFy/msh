@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/08 17:30:28 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:24:46 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*get_element_value(t_list *element)
 
 void	remove_quote(char *input, char *current_quote, int *j, char **result)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (input[i])
@@ -90,79 +90,92 @@ char	*handle_quote(char *input)
 		return (NULL);
 	}
 	result[j] = '\0';
-	final_result = ft_strndup(result, j ); 
+	final_result = ft_strndup(result, j);
 	free(result);
 	return (final_result);
 }
 
-char	*expand_variables_in_string(t_list *env, char *input)
+void	toggle_quotes(char c, int *in_single_quotes, int *in_double_quotes)
 {
-	char	*result;
-	int		i;
-	int		in_double_quotes;
-	int		in_single_quotes;
-	char	*before_var;
+	if (c == '\'' && !(*in_double_quotes))
+	{
+		*in_single_quotes = !(*in_single_quotes);
+	}
+	else if (c == '"' && !(*in_single_quotes))
+	{
+		*in_double_quotes = !(*in_double_quotes);
+	}
+}
+
+char	*append_text(char *result, char *input, int start, int end)
+{
+	char	*portion;
+	char	*temp;
+
+	portion = ft_substr(input, start, end - start);
+	temp = ft_strjoin(result, portion);
+	free(result);
+	free(portion);
+	return (temp);
+}
+
+char	*expand_variable_if_exists(t_list *env, char *result, char *input,
+		int *i)
+{
 	char	*env_name;
 	char	*env_value;
-	char	*remaining;
 	char	*temp;
+
+	env_name = get_env_name_in_string(&input[*i]);
+	if (env_name)
+	{
+		env_value = get_env(env, env_name);
+		free(env_name);
+		if (env_value)
+		{
+			temp = ft_strjoin(result, env_value);
+			free(result);
+			result = temp;
+		}
+		while (ft_isalnum(input[*i + 1]) || input[*i + 1] == '_')
+			(*i)++;
+	}
+	return (result);
+}
+
+int	check_quote_status(char *input, int *i, int *in_single_quotes,
+		int *in_double_quotes)
+{
+	return ((input[*i] == '$' && *in_double_quotes && !(*in_single_quotes))
+		|| (input[*i] == '$' && !(*in_double_quotes) && !(*in_single_quotes)));
+}
+
+char	*expand_variables_in_string(t_list *env, char *input)
+{
+	int		i;
 	int		start;
+	int		in_double_quotes;
+	int		in_single_quotes;
+	char	*result;
 
 	result = ft_strdup("");
-	i = 0, start = 0;
+	i = -1;
+	start = 0;
 	in_double_quotes = 0;
 	in_single_quotes = 0;
-	while (input[i])
+	while (input[++i])
 	{
-		if (input[i] == '\'' && !in_double_quotes)
-		{
-			in_single_quotes = !in_single_quotes;
-			i++;
-			continue ;
-		}
-		else if (input[i] == '"' && !in_single_quotes)
-		{
-			in_double_quotes = !in_double_quotes;
-			i++;
-			continue ;
-		}
-		if ((input[i] == '$' && in_double_quotes && !in_single_quotes)
-			|| (input[i] == '$' && !in_double_quotes && !in_single_quotes))
+		toggle_quotes(input[i], &in_single_quotes, &in_double_quotes);
+		if (check_quote_status(input, &i, &in_single_quotes, &in_double_quotes))
 		{
 			if (i > start)
-			{
-				before_var = ft_substr(input, start, i - start);
-				temp = ft_strjoin(result, before_var);
-				free(result);
-				free(before_var);
-				result = temp;
-			}
-			env_name = get_env_name_in_string(&input[i]);
-			if (env_name)
-			{
-				env_value = get_env(env, env_name);
-				free(env_name);
-				if (env_value)
-				{
-					temp = ft_strjoin(result, env_value);
-					free(result);
-					result = temp;
-				}
-				while (isalnum(input[i + 1]) || input[i + 1] == '_')
-					i++;
-			}
+				result = append_text(result, input, start, i);
+			result = expand_variable_if_exists(env, result, input, &i);
 			start = i + 1;
 		}
-		i++;
 	}
 	if (i > start)
-	{
-		remaining = ft_substr(input, start, i - start);
-		temp = ft_strjoin(result, remaining);
-		free(result);
-		free(remaining);
-		result = temp;
-	}
+		result = append_text(result, input, start, i);
 	return (result);
 }
 
@@ -175,7 +188,6 @@ void	expand(t_list *env, void *tree)
 	char	*input;
 	char	*tmp;
 
-	(void)env;
 	ast = tree;
 	if (ast->type == CMD)
 	{
