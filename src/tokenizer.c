@@ -12,6 +12,8 @@
 
 #include "libft.h"
 #include <msh.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void	print_token(const t_token *token)
@@ -130,6 +132,7 @@ t_token	*get_token(char **buff)
 		return (get_operator(buff));
 	return (get_word(buff));
 }
+
 
 void	free_tokens(t_list *tokens)
 {

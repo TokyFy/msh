@@ -95,7 +95,12 @@ int	main(const int argc, char **argv, char **env)
 	setup_signal_handling();
 	while (42)
 	{
+		g_signal_received = 0;
 		line = readline("> ");
+		if(!line)
+			exit(0);
+		if(g_signal_received == SIGQUIT && !line)
+			exit(EXIT_SUCCESS);
 		buff = line;
 		add_history(buff);
 		tokens = tokenizer(&buff);
@@ -109,6 +114,10 @@ int	main(const int argc, char **argv, char **env)
 				signal(SIGQUIT, SIG_DFL);
 				exec_herdoc(ast);
 				exec_ast(ast);
+				free_tokens(tokens_t);
+				free_ast(ast);
+				free(line);
+				exit(0);
 			}
 			else
 			{

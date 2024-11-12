@@ -142,7 +142,6 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 	execvp(cmd->argv[0], cmd->argv);
 	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	exit(127);
 	return;
 }
 
