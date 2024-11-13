@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 09:33:43 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/11 09:33:45 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:19:12 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

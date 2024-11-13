@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/31 10:36:38 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:22:03 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ t_list  *copy_env(char **env);
 void	builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
 int	builtin_export(t_list *env, char *str);
+int	builtin_unset(t_list *env, char *name);
 
 void handle_sigint(int sig);
 void setup_signal_handling(void);

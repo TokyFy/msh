@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/31 10:31:37 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/13 12:41:25 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,50 @@ void exec_herdoc(void* ast)
 	}
 	return;
 }
+/****expand***/
+// int	main(const int argc, char **argv, char **e)
+// {
+// 	//t_token	*token;
+// 	char	*buff;
+// 	char	*line;
+// 	t_list	*tokens;
+// 	t_list	*tokens_t;
+
+// 	(void)(argc);
+// 	(void)(argv);
+// 	t_list	*env;
+  
+// 	env = copy_env(e);
+  
+// 	t_node *ast;
+// 	while(42)
+// 	{
+// 		line = readline("> ");
+// 		buff = line;
+// 		add_history(buff);
+// 		tokens = tokenizer(&buff);
+// 		tokens_t = tokens;
+// 		ast = parse(&tokens);
+// 		print_ast(ast , 0);
+// 		expand(env, ast);
+// 		print_ast(ast, 0);
+// 		free(line);
+// 	}
+// }
+void display_char_array(char **arr) {
+    int i = 0;
+    while (arr[i] != NULL) {
+        printf("%s\n", arr[i]);
+        i++;
+    }
+}
 
 int	main(const int argc, char **argv, char **e)
 {
 	//t_token	*token;
 	char	*buff;
 	char	*line;
-	t_list	*tokens;
-	t_list	*tokens_t;
+	//t_list	*tokens;
 
 	(void)(argc);
 	(void)(argv);
@@ -87,18 +123,24 @@ int	main(const int argc, char **argv, char **e)
   
 	env = copy_env(e);
   
-	t_node *ast;
+	//t_node *ast;
 	while(42)
 	{
 		line = readline("> ");
 		buff = line;
-		add_history(buff);
-		tokens = tokenizer(&buff);
-		tokens_t = tokens;
-		ast = parse(&tokens);
-		print_ast(ast , 0);
-		expand(env, ast);
-		print_ast(ast, 0);
+		if (strcmp(line, "env") == 0)
+		{
+			builtin_env(env);
+		} else
+		{
+			builtin_export(env, buff);
+		}
+		// add_history(buff);
+		// tokens = tokenizer(&buff);
+		// ast = parse(&tokens);
+		// print_ast(ast , 0);
+		// expand(env, ast);
+		// print_ast(ast, 0);
 		free(line);
 	}
 }

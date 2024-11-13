@@ -6,17 +6,39 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:12:23 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/09 16:06:31 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/13 14:24:40 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
 
+int contains_equal_after_first(const char *str) {
+    if (str == NULL || str[1] == '\0') {
+        
+        return 0;
+    }
+
+    int i = 1;
+    while (str[i] != '\0') {
+        if (str[i] == '=') {
+            return 1;
+        }
+        i++;
+    }
+
+    return 0;
+}
+
 t_env	*new_env(char *str)
 {
 	t_env			*env;
+	char			*tmp;
 	unsigned int	i;
 
+	tmp = str;
+	tmp++;
+	// if ((!(ft_isalpha(*str)) || *str == '_') || !(ft_strchr(tmp, '=')))
+	//  	return (NULL);
 	i = 0;
 	env = malloc(sizeof(t_env));
 	while (str[i] && str[i] != '=')
@@ -50,6 +72,8 @@ t_list *copy_env(char **env)
 
 void	builtin_env(t_list *env)
 {
+	if (!env)
+		return ;
 	while (env)
 	{
 		printf("%s=%s\n", ((t_env *)env->content)->name,
@@ -57,20 +81,6 @@ void	builtin_env(t_list *env)
 		env = env->next;
 	}
 	return ;
-}
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	unsigned int	i;
-
-	i = 0;
-	while (*s1 && (*s1 == *s2))
-	{
-		s1++;
-		s2++;
-		i++;
-	}
-	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
 
 t_list	*env_exist(t_list *env, char *name)
@@ -98,8 +108,12 @@ void	update_env_element(t_list *element, char *value)
 
 int	builtin_export(t_list *env, char *str)
 {
-	t_env	*new_element = new_env(str);
+	t_env	*new_element;
 	t_list	*element;
+
+	if (!contains_equal_after_first(str))
+		return (1);
+	new_element  = new_env(str);
 	element = env_exist(env, new_element->name);
 	if (element)
 	{
@@ -112,13 +126,13 @@ int	builtin_export(t_list *env, char *str)
 	{
 		ft_lstadd_back(&env, ft_lstnew(new_element));
 	}
-	return (1);
+	return (0);
 }
 
-// int	builtin_unset(t_list *env, char *name)
-// {
-	
-// }
+int	builtin_unset(t_list *env, char *name)
+{
+	return (0);
+}
 
 void	free_env(t_list *env)
 {
