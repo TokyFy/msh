@@ -99,4 +99,5 @@ void exec(void *ast);
 
 void handle_sigint(int sig);
 void setup_signal_handling(void);
+void	setup_heredoc_signal_handling(void);
 #endif

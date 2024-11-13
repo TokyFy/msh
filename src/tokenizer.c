@@ -133,7 +133,6 @@ t_token	*get_token(char **buff)
 	return (get_word(buff));
 }
 
-
 void	free_tokens(t_list *tokens)
 {
 	ft_lstclear(&tokens, free);

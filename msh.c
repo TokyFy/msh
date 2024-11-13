@@ -36,8 +36,7 @@ t_list* exec_herdoc(void* ast)
 		heredocs = heredocs->next;
 		return head;
 	}
-
-	(void)(heredocs);
+	setup_heredoc_signal_handling();
 	if(node->type == CMD)
 	{
 		t_cmd* cmd = ast;
@@ -45,18 +44,19 @@ t_list* exec_herdoc(void* ast)
 		while (redirs) {
 			t_redir* redir = redirs->content;
 			int fds[2];
-
 			if(redir->type == HEREDOC)
 			{
 				pipe(fds);
 				char *line = NULL;
 				while (42) {
+					if(g_signal_received != 0)
+						exit(1);
 					if(line)
 					{
 						if(ft_strcmp(line, redir->string) == 0)
 							break;
 						ft_putstr_fd(line, fds[1]);
-						ft_putstr_fd("\n", fds[1]);
+						ft_putstr_fd("\r\n", fds[1]);
 					}
 					free(line);
 					line = readline("heredoc < ");
@@ -110,9 +110,9 @@ int	main(const int argc, char **argv, char **env)
 		{
 			if(fork() == 0)
 			{
+				exec_herdoc(ast);
 				signal(SIGINT, SIG_DFL);
 				signal(SIGQUIT, SIG_DFL);
-				exec_herdoc(ast);
 				exec_ast(ast);
 				free_tokens(tokens_t);
 				free_ast(ast);

@@ -130,9 +130,11 @@ void	free_array_nulled(char **array)
 	return ;
 }
 
-void free_redir(void *ptr)
+void	free_redir(void *ptr)
 {
-	t_redir* redir = ptr;
+	t_redir	*redir;
+
+	redir = ptr;
 	free(redir->string);
 	free(redir);
 }
