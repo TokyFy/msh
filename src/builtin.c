@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:12:23 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/14 11:28:23 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:23:51 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ t_env	*new_env(char *str)
 
 	tmp = str;
 	tmp++;
-	// if ((!(ft_isalpha(*str)) || *str == '_') || !(ft_strchr(tmp, '=')))
-	//  	return (NULL);
 	i = 0;
 	env = malloc(sizeof(t_env));
 	while (str[i] && str[i] != '=')
@@ -150,6 +148,7 @@ int	builtin_unset(t_list **env, char *name)
 				*env = current->next;
 			free(((t_env *)current->content)->name);
 			free(((t_env *)current->content)->value);
+			free(current->content);
 			free(current);
 			return (0);
 		}
