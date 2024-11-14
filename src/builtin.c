@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/09 09:12:23 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/13 14:24:40 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:28:23 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,13 +72,16 @@ t_list *copy_env(char **env)
 
 void	builtin_env(t_list *env)
 {
+	t_list	*tmp;
+
 	if (!env)
 		return ;
-	while (env)
+	tmp = env;
+	while (tmp)
 	{
-		printf("%s=%s\n", ((t_env *)env->content)->name,
-			((t_env *)env->content)->value);
-		env = env->next;
+		printf("%s=%s\n", ((t_env *)tmp->content)->name,
+			((t_env *)tmp->content)->value);
+		tmp = tmp->next;
 	}
 	return ;
 }
@@ -129,9 +132,31 @@ int	builtin_export(t_list *env, char *str)
 	return (0);
 }
 
-int	builtin_unset(t_list *env, char *name)
+int	builtin_unset(t_list **env, char *name)
 {
-	return (0);
+	t_list	*current;
+	t_list	*prev;
+
+	prev = NULL;
+	current = *env;
+	
+	while(current)
+	{
+		if (!ft_strcmp(name, ((t_env *)current->content)->name))
+		{
+			if (prev)
+				prev->next = current->next;
+			else
+				*env = current->next;
+			free(((t_env *)current->content)->name);
+			free(((t_env *)current->content)->value);
+			free(current);
+			return (0);
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (1);
 }
 
 void	free_env(t_list *env)
