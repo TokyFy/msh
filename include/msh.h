@@ -18,9 +18,10 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <stdlib.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
@@ -100,4 +101,7 @@ void exec(void *ast);
 void handle_sigint(int sig);
 void setup_signal_handling(void);
 void	setup_heredoc_signal_handling(void);
+
+
+int ft_execvp(const char *__file, char *const __argv[]);
 #endif

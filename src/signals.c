@@ -35,7 +35,12 @@ void	handle_sigquit(int sig)
 
 void handle_sig_heredoc(int sig)
 {
+	char *args[2] = {"false" , NULL} ;
 	g_signal_received = sig;
+	write(STDOUT_FILENO, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	execvp("false", args);
 }
 
 void	setup_signal_handling(void)
