@@ -108,27 +108,28 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 			*in = ft_open(redir->string, O_RDONLY, 0644);
 		else if (redir->type == HEREDOC)
 		{
-			heredoc = exec_herdoc(NULL);
+			heredoc = exec_heredoc(NULL);
 			*in = ((t_heredoc *)heredoc->content)->fd;
 		}
 		redirs = redirs->next;
 	}
 }
 
-void false()
+void	_false(void)
 {
-	char *args[2] = {"false" , NULL};
+	char	**args;
+
+	args = (char *[2]){"false", NULL};
 	execvp("false", args);
 }
 
-int ft_execvp(const char *__file, char *const __argv[])
+int	ft_execvp(const char *__file, char *const __argv[])
 {
-	char *args[2] = {"false" , NULL};
 	execvp(__file, __argv);
-	ft_putstr_fd((char*)__file , STDERR_FILENO);
+	ft_putstr_fd((char *)__file, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	execvp("false", args);
-	return 0;
+	_false();
+	return (0);
 }
 
 void	exec_t_cmd(t_cmd *cmd, char **env)
@@ -191,6 +192,6 @@ void	exec_ast(void *ast)
 		exec_pipe(ast, &pid1, &pid2);
 		ft_waitpid(pid1, &status, 0);
 		ft_waitpid(pid2, &status, 0);
-		false();
+		_false();
 	}
 }

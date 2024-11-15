@@ -51,7 +51,7 @@ t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
 int analyse_ast(void *tree);
 void	exec_ast(void *ast);
-t_list* exec_herdoc(void* ast);
+t_list* exec_heredoc(void* ast);
 
 typedef struct s_node
 {
@@ -104,4 +104,5 @@ void	setup_heredoc_signal_handling(void);
 
 
 int ft_execvp(const char *__file, char *const __argv[]);
+void	_false(void);
 #endif

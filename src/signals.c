@@ -33,14 +33,13 @@ void	handle_sigquit(int sig)
 	g_signal_received = sig;
 }
 
-void handle_sig_heredoc(int sig)
+void	handle_sig_heredoc(int sig)
 {
-	char *args[2] = {"false" , NULL} ;
 	g_signal_received = sig;
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	execvp("false", args);
+	_false();
 }
 
 void	setup_signal_handling(void)
@@ -48,6 +47,7 @@ void	setup_signal_handling(void)
 	struct sigaction	sa;
 	struct sigaction	sa1;
 
+	g_signal_received = 0;
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
@@ -57,6 +57,7 @@ void	setup_signal_handling(void)
 	sa1.sa_flags = 0;
 	sigaction(SIGQUIT, &sa1, NULL);
 }
+
 void	setup_heredoc_signal_handling(void)
 {
 	struct sigaction	sa;

@@ -9,6 +9,7 @@
 /*   Updated: 2024/02/22 10:29:01 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+#include "libft.h"
 
 int	ft_strncmp(char *s1, char *s2, unsigned int n)
 {
@@ -28,6 +29,8 @@ int	ft_strncmp(char *s1, char *s2, unsigned int n)
 
 int	ft_strcmp(char *s1, char *s2)
 {
+	if(!s1 || !s2)
+		return -1;
 	while (*s1 && (*s1 == *s2))
 	{
 		s1++;

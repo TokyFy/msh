@@ -11,110 +11,141 @@
 /* ************************************************************************** */
 
 #include <msh.h>
-#include <stdlib.h>
-#include <unistd.h>
 
-volatile sig_atomic_t g_signal_received;
+volatile sig_atomic_t	g_signal_received;
 
-t_list* exec_herdoc(void* ast)
+void	write_heredoc(t_redir *redir, int fd)
 {
-	static t_list *heredocs = NULL;
-	t_node* node = ast;
+	char	*line;
 
-	if(!ast)
+	line = NULL;
+	while (42)
 	{
-		if(!heredocs)
-			return NULL;
-		t_list *head = heredocs;
+		if (line)
+		{
+			if (ft_strcmp(line, redir->string) == 0)
+				break ;
+			ft_putendl_fd(line, fd);
+		}
+		free(line);
+		line = readline("heredoc < ");
+	}
+}
+
+void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
+{
+	t_list		*redirs;
+	t_redir		*redir;
+	int			fds[2];
+	char		*line;
+	t_heredoc	*heredoc;
+
+	redirs = cmd->redirs;
+	while (redirs)
+	{
+		redir = redirs->content;
+		if (redir->type == HEREDOC)
+		{
+			pipe(fds);
+			line = NULL;
+			write_heredoc(redir, fds[1]);
+			close(fds[1]);
+			heredoc = malloc(sizeof(t_heredoc));
+			heredoc->fd = fds[0];
+			ft_lstadd_back(heredocs, ft_lstnew(heredoc));
+		}
+		redirs = redirs->next;
+	}
+}
+
+t_list	*exec_heredoc(void *ast)
+{
+	static t_list	*heredocs = NULL;
+	t_node			*node;
+	t_list			*head;
+
+	node = ast;
+	if (!ast)
+	{
+		if (!heredocs)
+			return (NULL);
+		head = heredocs;
 		heredocs = heredocs->next;
-		return head;
+		return (head);
 	}
 	setup_heredoc_signal_handling();
-	if(node->type == CMD)
+	if (node->type == CMD)
 	{
-		t_cmd* cmd = ast;
-		t_list* redirs = cmd->redirs;
-		while (redirs) {
-			t_redir* redir = redirs->content;
-			int fds[2];
-			if(redir->type == HEREDOC)
-			{
-				pipe(fds);
-				char *line = NULL;
-				while (42) {
-					if(line)
-					{
-						if(ft_strcmp(line, redir->string) == 0)
-							break;
-						ft_putendl_fd(line, fds[1]);
-					}
-					free(line);
-					line = readline("heredoc < ");
-				}
-				close(fds[1]);
-				t_heredoc *heredoc = malloc(sizeof(t_heredoc));
-				heredoc->fd = fds[0];
-				ft_lstadd_back(&heredocs, ft_lstnew(heredoc));
-			}
-			redirs = redirs->next;
+		feed_heredoc(ast, &heredocs);
+		return (NULL);
+	}
+	if (node->type == PIPE)
+	{
+		exec_heredoc(((t_pipe *)ast)->left);
+		exec_heredoc(((t_pipe *)ast)->right);
+	}
+	return (NULL);
+}
+
+void	*parser(char *line)
+{
+	t_list	*tokens;
+	t_list	*tokens_t;
+	void	*ast;
+
+	add_history(line);
+	tokens = tokenizer(&line);
+	tokens_t = tokens;
+	ast = parse(&tokens);
+	free_tokens(tokens_t);
+	return (ast);
+}
+
+int	execute(t_node *ast)
+{
+	int	status;
+
+	status = 0;
+	if (analyse_ast(ast))
+	{
+		if (fork() == 0)
+		{
+			exec_heredoc(ast);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			exec_ast(ast);
+			exit(1);
 		}
-		return NULL;
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			wait(&status);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+				write(STDOUT_FILENO, "\n", 1);
+		}
 	}
-	if(node->type == PIPE)
-	{
-		t_pipe *pipe = ast;
-		exec_herdoc(pipe->left);
-		exec_herdoc(pipe->right);
-	}
-	return NULL;
+	return (status);
 }
 
 int	main(const int argc, char **argv, char **env)
 {
-	char	*buff;
 	char	*line;
-	t_list	*tokens;
-	t_list	*tokens_t;
 	t_node	*ast;
-	int status;
+	int		status;
 
 	(void)(argc);
 	(void)(argv);
 	(void)(env);
-	status = 0;
 	while (42)
 	{
 		setup_signal_handling();
-		g_signal_received = 0;
 		line = readline("> ");
-		if(!line)
+		if (!line)
 			exit(0);
-		if(g_signal_received == SIGQUIT && !line)
+		if (g_signal_received == SIGQUIT && !line)
 			exit(EXIT_SUCCESS);
-		buff = line;
-		add_history(buff);
-		tokens = tokenizer(&buff);
-		tokens_t = tokens;
-		ast = parse(&tokens);
-		if(analyse_ast(ast))
-		{
-			if(fork() == 0)
-			{
-				exec_herdoc(ast);
-				signal(SIGINT, SIG_DFL);
-				signal(SIGQUIT, SIG_DFL);
-				exec_ast(ast);
-				exit(1);
-			}
-			else
-			{
-				signal(SIGINT, SIG_IGN);
-				wait(&status);
-				if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-					write(STDOUT_FILENO, "\n", 1);
-			}
-		}
-		free_tokens(tokens_t);
+		ast = parser(line);
+		status = execute(ast);
 		free_ast(ast);
 		free(line);
 	}
