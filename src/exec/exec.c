@@ -3,91 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/16 10:24:46 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:14:59 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <fcntl.h>
 #include <msh.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
-
-int	ft_open(char *file, int oflags, int iflags)
-{
-	int	fd;
-
-	fd = open(file, oflags, iflags);
-	if (fd == -1)
-	{
-		perror("Open");
-		exit(1);
-	}
-	return (fd);
-}
-
-void	perrorexit(const char *error)
-{
-	perror(error);
-	exit(1);
-}
-
-void	ft_pipe(int fds[2])
-{
-	if (pipe(fds) == -1)
-	{
-		perror("Pipe");
-		exit(EXIT_FAILURE);
-	}
-}
-
-pid_t	ft_fork(void)
-{
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == -1)
-	{
-		perror("Fork");
-		exit(EXIT_FAILURE);
-	}
-	return (pid);
-}
-
-void	ft_dup2(int old, int new)
-{
-	if (dup2(old, new) == -1)
-	{
-		perror("Dup");
-		exit(EXIT_FAILURE);
-	}
-	return ;
-}
-
-void	ft_close(int fd)
-{
-	if (close(fd) == -1)
-	{
-		perror("Close");
-		exit(EXIT_FAILURE);
-	}
-}
-
-void	ft_waitpid(pid_t pid, int *status, int op)
-{
-	if (waitpid(pid, status, op) == -1)
-	{
-		perror("waitpid");
-		exit(EXIT_FAILURE);
-	}
-}
 
 void	setup_redir(int *in, int *out, t_cmd *cmd)
 {

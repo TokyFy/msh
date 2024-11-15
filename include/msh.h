@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 10:17:26 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:14:44 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <stdlib.h>
-#include <stdlib.h>
-#include <unistd.h>
+# include <string.h>
+# include <sys/wait.h>
+# include <time.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
@@ -48,8 +50,8 @@ t_token		*get_word(char **buff);
 void		print_token(const t_token *token);
 t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
-int analyse_ast(void *tree);
-void	exec_ast(void *ast);
+int 		analyse_ast(void *tree);
+void		exec_ast(void *ast);
 
 typedef struct s_node
 {
@@ -82,31 +84,43 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
-int	ft_strcmp(char *s1, char *s2);
 void	free_env(t_list *env);
 
-t_node* parse(t_list **tokens);
-void print_ast(void* ast , int level);
-t_node		*parse(t_list **tokens);
-void		print_ast(void *ast, int level);
-void		free_ast(void *ast);
-
-void		msh_env(t_list *env);
-
-void exec(void *ast);
+t_node	*parse(t_list **tokens);
+void	print_ast(void *ast, int level);
+void	free_ast(void *ast);
 
 void    expand(t_list *env, void *tree);
-char    *get_env_name_in_string(char *str);
-char    *get_element_value(t_list *element);
-char    *handle_quote(char *input);
 
-char *get_env(t_list *env, char *name);
+char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
 void	builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
-int	builtin_export(t_list *env, char *str);
-int	builtin_unset(t_list **env, char *name);
-char **list_to_env_array(t_list *env_list);
+int		builtin_export(t_list *env, char *str);
+int		builtin_unset(t_list **env, char *name);
+char 	**list_to_env_array(t_list *env_list);
+t_env	*new_env(char *str);
+
+void	remove_quote(char *input, char *current_quote, int *j, char **result);
+char	*handle_quote(char *input);
+void	toggle_quotes(char c, int *in_single_quotes, int *in_double_quotes);
+int		check_quote_status(char *input, int *i, int *in_single_quotes,
+		int *in_double_quotes);
+char	*append_text(char *result, char *input, int start, int end);
+
+char	*get_env_name_in_string(char *string);
+char	*get_element_value(t_list *element);
+char	*expand_variable_if_exists(t_list *env, char *result, char *input,
+		int *i);
+char	*expand_variables_in_string(t_list *env, char *input);
+
+int		ft_open(char *file, int oflags, int iflags);
+pid_t	ft_fork(void);
+void	ft_pipe(int fds[2]);
+void	ft_dup2(int old, int new);
+void	ft_close(int fd);
+void	perrorexit(const char *error);
+void	ft_waitpid(pid_t pid, int *status, int op);
 
 void handle_sigint(int sig);
 void setup_signal_handling(void);
