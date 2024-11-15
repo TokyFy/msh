@@ -22,7 +22,7 @@ $(NAME): $(OBJS) $(LIBFT)
 
 clean:
 	rm -f $(OBJS)
-	$(MAKE) clean -C $(LIBFTDIR)
+	$(MAKE) fclean -C $(LIBFTDIR)
 
 fclean: clean
 	rm -f $(NAME)

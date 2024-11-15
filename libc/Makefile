@@ -6,7 +6,7 @@
 #    By: franaivo <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/21 10:07:39 by franaivo          #+#    #+#              #
-#    Updated: 2024/02/21 10:07:39 by franaivo         ###   ########.fr        #
+#    Updated: 2024/11/15 12:43:58 by franaivo         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,7 @@ bonus : $(OBJECTS) $(OBJ_BONUS)
 	@ar rcs $(NAME) $(OBJECTS) $(OBJ_BONUS)
 
 clean:
-	@rm -f $(OBJECTS)
+	@rm -f $(OBJECTS) $(OBJ_BONUS)
 
 fclean: clean
 	@rm -rf $(NAME)
