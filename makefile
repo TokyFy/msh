@@ -1,5 +1,6 @@
 NAME = msh
-SRCS = msh.c src/tokenizer.c src/parser.c src/builtin.c src/expand.c src/exec.c src/signals.c
+SRCS = msh.c src/tokenizer.c src/parser.c src/builtin.c src/expand.c src/exec.c src/signals.c \
+		src/env_utils.c
 OBJS = $(SRCS:.c=.o)
 
 CC = cc
