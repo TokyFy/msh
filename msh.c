@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 
 volatile sig_atomic_t	g_signal_received;
@@ -101,7 +102,7 @@ void	*parser(char *line)
 	return (ast);
 }
 
-int	execute(t_node *ast)
+int	execute(t_node *ast , char** env)
 {
 	int	status;
 
@@ -110,6 +111,7 @@ int	execute(t_node *ast)
 	{
 		if (fork() == 0)
 		{
+			expand(copy_env(env), ast);
 			exec_heredoc(ast);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
@@ -144,8 +146,7 @@ int	main(const int argc, char **argv, char **e)
 		if (g_signal_received == SIGQUIT && !line)
 			exit(EXIT_SUCCESS);
 		ast = parser(line);
-		expand(copy_env(e), ast);
-		status = execute(ast);
+		status = execute(ast , e);
 		free_ast(ast);
 		free(line);
 	}
