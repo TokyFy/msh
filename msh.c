@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
 
 volatile sig_atomic_t	g_signal_received;
@@ -38,7 +37,6 @@ void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
 	t_list		*redirs;
 	t_redir		*redir;
 	int			fds[2];
-	char		*line;
 	t_heredoc	*heredoc;
 
 	redirs = cmd->redirs;
@@ -48,7 +46,6 @@ void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
 		if (redir->type == HEREDOC)
 		{
 			pipe(fds);
-			line = NULL;
 			write_heredoc(redir, fds[1]);
 			close(fds[1]);
 			heredoc = malloc(sizeof(t_heredoc));
@@ -104,9 +101,7 @@ void	*parser(char *line)
 
 int	execute(t_node *ast , char** env)
 {
-	int	status;
-
-	status = 0;
+	int status;
 	if (analyse_ast(ast))
 	{
 		if (fork() == 0)
@@ -121,6 +116,7 @@ int	execute(t_node *ast , char** env)
 		else
 		{
 			signal(SIGINT, SIG_IGN);
+			signal(SIGQUIT, SIG_IGN);
 			wait(&status);
 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 				write(STDOUT_FILENO, "\n", 1);
@@ -137,14 +133,13 @@ int	main(const int argc, char **argv, char **e)
 
 	(void)(argc);
 	(void)(argv);
+	(void)(status);
 	while (42)
 	{
 		setup_signal_handling();
 		line = readline("> ");
 		if (!line)
 			exit(0);
-		if (g_signal_received == SIGQUIT && !line)
-			exit(EXIT_SUCCESS);
 		ast = parser(line);
 		status = execute(ast , e);
 		free_ast(ast);

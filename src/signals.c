@@ -45,17 +45,13 @@ void	handle_sig_heredoc(int sig)
 void	setup_signal_handling(void)
 {
 	struct sigaction	sa;
-	struct sigaction	sa1;
 
 	g_signal_received = 0;
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	sa1.sa_handler = handle_sigquit;
-	sigemptyset(&sa1.sa_mask);
-	sa1.sa_flags = 0;
-	sigaction(SIGQUIT, &sa1, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	setup_heredoc_signal_handling(void)
