@@ -18,9 +18,10 @@
 # include <readline/readline.h>
 # include <stdio.h>
 # include <stdlib.h>
-#include <stdlib.h>
-#include <stdlib.h>
 #include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
+#include <sys/types.h>
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
@@ -50,6 +51,7 @@ t_list		*tokenizer(char **buff);
 void		free_tokens(t_list *tokens);
 int analyse_ast(void *tree);
 void	exec_ast(void *ast);
+t_list* exec_heredoc(void* ast);
 
 typedef struct s_node
 {
@@ -82,11 +84,10 @@ typedef struct s_env
 	char	*value;
 }			t_env;
 
-int	ft_strcmp(char *s1, char *s2);
-void	free_env(t_list *env);
+typedef struct s_heredoc{
+	int fd;
+} t_heredoc;
 
-t_node* parse(t_list **tokens);
-void print_ast(void* ast , int level);
 t_node		*parse(t_list **tokens);
 void		print_ast(void *ast, int level);
 void		free_ast(void *ast);
@@ -110,4 +111,9 @@ char **list_to_env_array(t_list *env_list);
 
 void handle_sigint(int sig);
 void setup_signal_handling(void);
+void	setup_heredoc_signal_handling(void);
+
+
+int ft_execvp(const char *__file, char *const __argv[]);
+void	_false(void);
 #endif
