@@ -12,6 +12,8 @@
 
 #include "libft.h"
 #include <msh.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 void	print_token(const t_token *token)

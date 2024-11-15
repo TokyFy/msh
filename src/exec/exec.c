@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:14:59 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:31:35 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 {
 	t_list	*redirs;
 	t_redir	*redir;
+	t_list	*heredoc;
 
 	if (!cmd->redirs)
 		return ;
@@ -34,6 +35,11 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 			*out = ft_open(redir->string, O_CREAT | O_APPEND | O_RDWR, 0644);
 		else if (redir->type == REDIR_I)
 			*in = ft_open(redir->string, O_RDONLY, 0644);
+		else if (redir->type == HEREDOC)
+		{
+			heredoc = exec_heredoc(NULL);
+			*in = ((t_heredoc *)heredoc->content)->fd;
+		}
 		redirs = redirs->next;
 	}
 }
@@ -57,10 +63,7 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 		ft_dup2(in, STDIN_FILENO);
 		ft_close(in);
 	}
-	execvp(cmd->argv[0], cmd->argv);
-	ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	exit(127);
+	ft_execvp(cmd->argv[0], cmd->argv);
 }
 
 void	exec_pipe(void *ast, int *pid1, int *pid2)
@@ -101,7 +104,6 @@ void	exec_ast(void *ast)
 		exec_pipe(ast, &pid1, &pid2);
 		ft_waitpid(pid1, &status, 0);
 		ft_waitpid(pid2, &status, 0);
-		exit(status);
+		_false();
 	}
-	return ;
 }

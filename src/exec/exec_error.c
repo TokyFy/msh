@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 15:11:15 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:13:47 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:36:07 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,21 @@ void	ft_waitpid(pid_t pid, int *status, int op)
 		perror("waitpid");
 		exit(EXIT_FAILURE);
 	}
+}
+
+void	_false(void)
+{
+	char	**args;
+
+	args = (char *[2]){"false", NULL};
+	execvp("false", args);
+}
+
+int	ft_execvp(const char *__file, char *const __argv[])
+{
+	execvp(__file, __argv);
+	ft_putstr_fd((char *)__file, STDERR_FILENO);
+	ft_putstr_fd(": command not found\n", STDERR_FILENO);
+	_false();
+	return (0);
 }

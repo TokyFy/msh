@@ -6,154 +6,147 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 13:14:11 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:30:22 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libc/libft.h"
 #include <msh.h>
-#include <libft.h>
-#include <readline/readline.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <unistd.h>
-#include <sys/types.h>
 
-volatile sig_atomic_t g_signal_received;
+volatile sig_atomic_t	g_signal_received;
 
-typedef struct s_heredoc{
-	int fd;
-} t_heredoc;
-
-void exec_herdoc(void* ast)
+void	write_heredoc(t_redir *redir, int fd)
 {
-	static t_list *heredocs = NULL;
-	t_node* node = ast;
-
-	(void)(heredocs);
-	if(node->type == CMD)
-	{
-		t_cmd* cmd = ast;
-		t_list* redirs = cmd->redirs;
-		while (redirs) {
-			t_redir* redir = redirs->content;
-			int fds[2];
-
-			if(redir->type == HEREDOC)
-			{
-				pipe(fds);
-				char *line = NULL;
-				while (line == NULL || ft_strcmp(line, redir->string) != 0) {
-					if(line)
-					{
-						ft_putstr_fd(line, fds[1]);
-						ft_putstr_fd("\n", fds[1]);
-					}
-					free(line);
-					line = readline("heredoc < ");
-				}
-				close(fds[1]);
-				t_heredoc *heredoc = malloc(sizeof(t_heredoc));
-				heredoc->fd = fds[0];
-				ft_lstadd_back(&heredocs, ft_lstnew(heredoc));
-			}
-
-			redirs = redirs->next;
-		}
-	}
-	if(node->type == PIPE)
-	{
-		t_pipe *pipe = ast;
-		exec_herdoc(pipe->left);
-		exec_herdoc(pipe->right);
-	}
-	return;
-}
-/****expand***/
-int	main(const int argc, char **argv, char **e)
-{
-	//t_token	*token;
-	char	*buff;
 	char	*line;
+
+	line = NULL;
+	while (42)
+	{
+		if (line)
+		{
+			if (ft_strcmp(line, redir->string) == 0)
+				break ;
+			ft_putendl_fd(line, fd);
+		}
+		free(line);
+		line = readline("heredoc < ");
+	}
+}
+
+void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
+{
+	t_list		*redirs;
+	t_redir		*redir;
+	int			fds[2];
+	char		*line;
+	t_heredoc	*heredoc;
+
+	redirs = cmd->redirs;
+	while (redirs)
+	{
+		redir = redirs->content;
+		if (redir->type == HEREDOC)
+		{
+			pipe(fds);
+			line = NULL;
+			write_heredoc(redir, fds[1]);
+			close(fds[1]);
+			heredoc = malloc(sizeof(t_heredoc));
+			heredoc->fd = fds[0];
+			ft_lstadd_back(heredocs, ft_lstnew(heredoc));
+		}
+		redirs = redirs->next;
+	}
+}
+
+t_list	*exec_heredoc(void *ast)
+{
+	static t_list	*heredocs = NULL;
+	t_node			*node;
+	t_list			*head;
+
+	node = ast;
+	if (!ast)
+	{
+		if (!heredocs)
+			return (NULL);
+		head = heredocs;
+		heredocs = heredocs->next;
+		return (head);
+	}
+	setup_heredoc_signal_handling();
+	if (node->type == CMD)
+	{
+		feed_heredoc(ast, &heredocs);
+		return (NULL);
+	}
+	if (node->type == PIPE)
+	{
+		exec_heredoc(((t_pipe *)ast)->left);
+		exec_heredoc(((t_pipe *)ast)->right);
+	}
+	return (NULL);
+}
+
+void	*parser(char *line)
+{
 	t_list	*tokens;
 	t_list	*tokens_t;
+	void	*ast;
+
+	add_history(line);
+	tokens = tokenizer(&line);
+	tokens_t = tokens;
+	ast = parse(&tokens);
+	free_tokens(tokens_t);
+	return (ast);
+}
+
+int	execute(t_node *ast)
+{
+	int	status;
+
+	status = 0;
+	if (analyse_ast(ast))
+	{
+		if (fork() == 0)
+		{
+			exec_heredoc(ast);
+			signal(SIGINT, SIG_DFL);
+			signal(SIGQUIT, SIG_DFL);
+			exec_ast(ast);
+			exit(1);
+		}
+		else
+		{
+			signal(SIGINT, SIG_IGN);
+			wait(&status);
+			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+				write(STDOUT_FILENO, "\n", 1);
+		}
+	}
+	return (status);
+}
+
+int	main(const int argc, char **argv, char **e)
+{
+	char	*line;
+	t_node	*ast;
+	int		status;
 
 	(void)(argc);
 	(void)(argv);
-	t_list	*env;
-  
-	env = copy_env(e);
-  
-	t_node *ast;
-	while(42)
+	while (42)
 	{
+		setup_signal_handling();
 		line = readline("> ");
-		buff = line;
-		if (strcmp(line, "exit") == 0)
- 		{
- 			break;
- 		}
-		add_history(buff);
-		tokens = tokenizer(&buff);
-		tokens_t = tokens;
-		ast = parse(&tokens);
-		print_ast(ast , 0);
-		expand(env, ast);
-		print_ast(ast, 0);
+		if (!line)
+			exit(0);
+		if (g_signal_received == SIGQUIT && !line)
+			exit(EXIT_SUCCESS);
+		ast = parser(line);
+		expand(copy_env(e), ast);
+		status = execute(ast);
+		free_ast(ast);
 		free(line);
 	}
-	free_env(env);
 }
-
-
-// void display_char_array(char **arr) {
-//     int i = 0;
-//     while (arr[i] != NULL) {
-//         printf("%s\n", arr[i]);
-//         i++;
-//     }
-// }
-
-// int	main(const int argc, char **argv, char **e)
-// {
-// 	//t_token	*token;
-// 	char	*buff;
-// 	char	*line;
-// 	//t_list	*tokens;
-
-// 	(void)(argc);
-// 	(void)(argv);
-// 	t_list	*env;
-  
-// 	env = copy_env(e);
-  
-// 	//t_node *ast;
-// 	while(42)
-// 	{
-// 		line = readline("> ");
-// 		buff = line;
-// 		if (strcmp(line, "env") == 0)
-// 		{
-// 			builtin_env(env);
-// 		} else if (strcmp(line, "exit") == 0)
-// 		{
-// 			break;
-// 		}
-// 		else
-// 		{
-// 			builtin_unset(&env, buff);
-// 		}
-// 		// add_history(buff);
-// 		// tokens = tokenizer(&buff);
-// 		// ast = parse(&tokens);
-// 		// print_ast(ast , 0);
-// 		// expand(env, ast);
-// 		// print_ast(ast, 0);
-// 		free(line);
-// 	}
-
-// 	free_env(env);
-// }

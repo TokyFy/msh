@@ -6,12 +6,13 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:09:10 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:00:23 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:32:49 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <msh.h>
+#include <stdlib.h>
 #include <string.h>
 
 int	parse_redir(t_cmd *cmd, t_list **tokens)

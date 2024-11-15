@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:14:44 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:31:29 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <time.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <signal.h>
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
@@ -90,6 +91,10 @@ t_node	*parse(t_list **tokens);
 void	print_ast(void *ast, int level);
 void	free_ast(void *ast);
 
+typedef struct s_heredoc{
+	int fd;
+} t_heredoc;
+
 void    expand(t_list *env, void *tree);
 
 char 	*get_env(t_list *env, char *name);
@@ -121,7 +126,14 @@ void	ft_dup2(int old, int new);
 void	ft_close(int fd);
 void	perrorexit(const char *error);
 void	ft_waitpid(pid_t pid, int *status, int op);
+int		ft_execvp(const char *__file, char *const __argv[]);
+void	_false(void);
 
 void handle_sigint(int sig);
 void setup_signal_handling(void);
+void	setup_heredoc_signal_handling(void);
+
+
+int ft_execvp(const char *__file, char *const __argv[]);
+void	_false(void);
 #endif

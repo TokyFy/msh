@@ -13,6 +13,8 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <stdlib.h>
+
 typedef unsigned long	t_size_t;
 
 typedef struct s_list
@@ -42,6 +44,8 @@ int						ft_tolower(int c);
 char					*ft_strchr(const char *s, int c);
 char					*ft_strrchr(const char *s, int c);
 int						ft_strncmp(char *s1, char *s2, unsigned int n);
+int						ft_strcmp(char *s1, char *s2);
+
 void					*ft_memchr(const void *s, int c, t_size_t n);
 int						ft_memcmp(const void *s1, const void *s2, t_size_t n);
 char					*ft_strnstr(const char *str, const char *needle,
@@ -81,4 +85,6 @@ void					ft_lstclear(t_list **lst, void (*del)(void *));
 void					ft_lstiter(t_list *lst, void (*f)(void *));
 t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
 							void (*del)(void *));
+
+int	ft_strcmp(char *s1, char *s2);
 #endif
