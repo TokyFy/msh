@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 
 void	setup_redir(int *in, int *out, t_cmd *cmd)
 {
@@ -63,6 +66,8 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 		ft_dup2(in, STDIN_FILENO);
 		ft_close(in);
 	}
+	if(exec_builtings((t_node*)cmd) != -1)
+		_false();
 	ft_execvp(cmd->argv[0], cmd->argv);
 }
 
@@ -108,10 +113,36 @@ void	exec_ast(void *ast)
 	}
 }
 
+int builtin_cd(t_cmd* cmd) {
+	if(cmd->argv[2])
+	{
+		printf("cd : 1 argument expected\n");
+		return 1;
+	}
+    if (chdir(cmd->argv[1]) != 0) {
+        perror("cd :");
+        return 1;
+    }
+    return 0;
+}
+
+int exec_builtings(t_node *ast)
+{
+	if(ast->type != CMD)
+		return -1;
+
+	t_cmd* cmd = (t_cmd*)ast;
+
+	if(strcmp("cd", cmd->argv[0]) == 0)
+		return builtin_cd(cmd);
+
+	return -1;
+}
+
 int	execute(t_node *ast , char** env)
 {
 	int status = 0;
-	if (analyse_ast(ast))
+	if (analyse_ast(ast) && exec_builtings(ast) == -1)
 	{
 		if (fork() == 0)
 		{

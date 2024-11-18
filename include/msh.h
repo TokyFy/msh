@@ -92,6 +92,7 @@ void	print_ast(void *ast, int level);
 void	free_ast(void *ast);
 void	*parser(char *line);
 int	execute(t_node *ast , char** env);
+int exec_builtings(t_node *ast);
 
 typedef struct s_heredoc{
 	int fd;
