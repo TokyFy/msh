@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:31:29 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 12:00:19 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ typedef struct s_heredoc{
 
 void    expand(t_list *env, void *tree);
 
+t_list  **static_env(char **e);
 char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
 void	builtin_env(t_list *env);
