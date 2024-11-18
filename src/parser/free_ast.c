@@ -26,6 +26,14 @@ void	free_array_nulled(char **array)
 	return ;
 }
 
+void    free_redir(void *ptr)
+{
+	t_redir *redir;
+
+	redir = ptr;
+	free(redir->string);
+	free(redir);
+}
 void	free_ast(void *ast)
 {
 	t_node	*node;
@@ -39,7 +47,7 @@ void	free_ast(void *ast)
 	{
 		cmd = ast;
 		free_array_nulled(cmd->argv);
-		ft_lstclear(&cmd->redirs, free);
+		ft_lstclear(&cmd->redirs, free_redir);
 		free(cmd);
 		return ;
 	}

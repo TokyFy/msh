@@ -15,6 +15,20 @@
 #include <stdlib.h>
 #include <string.h>
 
+void	*parser(char *line)
+{
+	t_list	*tokens;
+	t_list	*tokens_t;
+	void	*ast;
+
+	add_history(line);
+	tokens = tokenizer(&line);
+	tokens_t = tokens;
+	ast = parse(&tokens);
+	free_tokens(tokens_t);
+	return (ast);
+}
+
 int	parse_redir(t_cmd *cmd, t_list **tokens)
 {
 	t_token	*token;
@@ -38,26 +52,7 @@ int	parse_redir(t_cmd *cmd, t_list **tokens)
 	return (1);
 }
 
-void	**ft_lsttoarr(t_list *lst)
-{
-	t_size_t	len;
-	void		**array;
-	int			i;
 
-	len = ft_lstsize(lst);
-	array = malloc(sizeof(void *) * (len + 1));
-	i = 0;
-	if (!array)
-		return (NULL);
-	while (lst)
-	{
-		array[i] = lst->content;
-		i++;
-		lst = lst->next;
-	}
-	array[len] = NULL;
-	return (array);
-}
 
 void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
 {

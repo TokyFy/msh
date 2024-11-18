@@ -19,3 +19,23 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	f(lst->content);
 	ft_lstiter(lst->next, f);
 }
+void	**ft_lsttoarr(t_list *lst)
+{
+	t_size_t	len;
+	void		**array;
+	int			i;
+
+	len = ft_lstsize(lst);
+	array = malloc(sizeof(void *) * (len + 1));
+	i = 0;
+	if (!array)
+		return (NULL);
+	while (lst)
+	{
+		array[i] = lst->content;
+		i++;
+		lst = lst->next;
+	}
+	array[len] = NULL;
+	return (array);
+}
