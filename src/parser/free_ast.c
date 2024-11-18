@@ -34,6 +34,7 @@ void    free_redir(void *ptr)
 	free(redir->string);
 	free(redir);
 }
+
 void	free_ast(void *ast)
 {
 	t_node	*node;
