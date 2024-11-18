@@ -101,7 +101,7 @@ void	*parser(char *line)
 
 int	execute(t_node *ast , char** env)
 {
-	int status;
+	int status = 0;
 	if (analyse_ast(ast))
 	{
 		if (fork() == 0)
@@ -111,7 +111,6 @@ int	execute(t_node *ast , char** env)
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			exec_ast(ast);
-			exit(1);
 		}
 		else
 		{
