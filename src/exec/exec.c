@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:31:35 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:15:48 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,42 @@ void	exec_ast(void *ast)
 	}
 }
 
+int builtin_cd(t_cmd* cmd) {
+	if(cmd->argv[2])
+	{
+		printf("cd : 1 argument expected\n");
+		return 1;
+	}
+    if (chdir(cmd->argv[1]) != 0) {
+        perror("cd :");
+        return 1;
+    }
+    return 0;
+}
+
+int exec_builtings(t_node *ast)
+{
+	if(ast->type != CMD)
+		return -1;
+
+	t_cmd* cmd = (t_cmd*)ast;
+
+	if(strcmp("cd", cmd->argv[0]) == 0)
+		return builtin_cd(cmd);
+	else if (strcmp("export", cmd->argv[0]) == 0)
+		return export(cmd);
+	else if (ft_strcmp("env", cmd->argv[0]) == 0)
+		return (env(cmd));
+	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
+		return (unset(cmd));
+
+	return -1;
+}
+
 int	execute(t_node *ast , char** env)
 {
 	int status = 0;
-	if (analyse_ast(ast))
+	if (analyse_ast(ast) && exec_builtings(ast) == -1)
 	{
 		if (fork() == 0)
 		{
@@ -132,3 +164,28 @@ int	execute(t_node *ast , char** env)
 	}
 	return (status);
 }
+
+// int	execute(t_node *ast , char** env)
+// {
+// 	int status = 0;
+// 	if (analyse_ast(ast))
+// 	{
+// 		if (fork() == 0)
+// 		{
+// 			expand(copy_env(env), ast);
+// 			exec_heredoc(ast);
+// 			signal(SIGINT, SIG_DFL);
+// 			signal(SIGQUIT, SIG_DFL);
+// 			exec_ast(ast);
+// 		}
+// 		else
+// 		{
+// 			signal(SIGINT, SIG_IGN);
+// 			signal(SIGQUIT, SIG_IGN);
+// 			wait(&status);
+// 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+// 				write(STDOUT_FILENO, "\n", 1);
+// 		}
+// 	}
+// 	return (status);
+// }

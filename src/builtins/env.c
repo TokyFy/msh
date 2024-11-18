@@ -6,25 +6,11 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 13:32:46 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:37:19 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
-
-void	free_env(t_list *env)
-{
-	t_list	*temp;
-
-	temp = env;
-	while (temp)
-	{
-		free(((t_env *)temp->content)->name);
-		free(((t_env *)temp->content)->value);
-		temp = temp->next;
-	}
-	ft_lstclear(&env, free);
-}
 
 char	*get_env(t_list *env, char *name)
 {
@@ -77,12 +63,12 @@ t_list	*copy_env(char **env)
 	return (list_env);
 }
 
-void	builtin_env(t_list *env)
+int	builtin_env(t_list *env)
 {
 	t_list	*tmp;
 
 	if (!env)
-		return ;
+		return (1);
 	tmp = env;
 	while (tmp)
 	{
@@ -90,5 +76,11 @@ void	builtin_env(t_list *env)
 			((t_env *)tmp->content)->value);
 		tmp = tmp->next;
 	}
-	return ;
+	return (0);
+}
+
+int	env(t_cmd *cmd)
+{
+	(void)cmd;
+	return (builtin_env(*(static_env(NULL))));
 }
