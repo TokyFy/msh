@@ -10,15 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <fcntl.h>
+
 #include <msh.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <sys/wait.h>
-#include <time.h>
-#include <unistd.h>
 
 int	ft_open(char *file, int oflags, int iflags)
 {

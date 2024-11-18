@@ -122,18 +122,19 @@ char	*expand_variables_in_string(t_list *env, char *input);
 int		ft_open(char *file, int oflags, int iflags);
 pid_t	ft_fork(void);
 void	ft_pipe(int fds[2]);
-void	ft_dup2(int old, int new);
+void	ft_dup2(int old, int news);
 void	ft_close(int fd);
 void	perrorexit(const char *error);
 void	ft_waitpid(pid_t pid, int *status, int op);
 int		ft_execvp(const char *__file, char *const __argv[]);
 void	_false(void);
 
-void handle_sigint(int sig);
-void setup_signal_handling(void);
+t_list	*exec_heredoc(void *ast);
+void	handle_sigint(int sig);
+void	setup_signal_handling(void);
 void	setup_heredoc_signal_handling(void);
 
 
-int ft_execvp(const char *__file, char *const __argv[]);
+int		ft_execvp(const char *__file, char *const __argv[]);
 void	_false(void);
 #endif
