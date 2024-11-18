@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 13:27:16 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:43:59 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,12 @@ int	builtin_export(t_list *env, char *str)
 	{
 		ft_lstadd_back(&env, ft_lstnew(new_element));
 	}
-	return (0);
+	return (0) ;
+}
+
+int export(t_cmd *cmd)
+{
+	t_list	env;
+	env = static_env(NULL);
+	builtin_export()
 }
