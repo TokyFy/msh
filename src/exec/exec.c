@@ -164,28 +164,3 @@ int	execute(t_node *ast , char** env)
 	}
 	return (status);
 }
-
-// int	execute(t_node *ast , char** env)
-// {
-// 	int status = 0;
-// 	if (analyse_ast(ast))
-// 	{
-// 		if (fork() == 0)
-// 		{
-// 			expand(copy_env(env), ast);
-// 			exec_heredoc(ast);
-// 			signal(SIGINT, SIG_DFL);
-// 			signal(SIGQUIT, SIG_DFL);
-// 			exec_ast(ast);
-// 		}
-// 		else
-// 		{
-// 			signal(SIGINT, SIG_IGN);
-// 			signal(SIGQUIT, SIG_IGN);
-// 			wait(&status);
-// 			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-// 				write(STDOUT_FILENO, "\n", 1);
-// 		}
-// 	}
-// 	return (status);
-// }
