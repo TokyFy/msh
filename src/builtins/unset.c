@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:27:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 13:29:10 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:36:30 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,20 @@ int	builtin_unset(t_list **env, char *name)
 		current = current->next;
 	}
 	return (1);
+}
+
+int	unset(t_cmd *cmd)
+{
+	t_list	**env;
+	int		i;
+
+	env = static_env(NULL);
+	i = 1;
+	while ((cmd->argv)[i])
+	{
+		if (builtin_unset(env, (cmd->argv)[i]) != 0)
+			return (1);
+		i++;
+	}
+	return (0);
 }

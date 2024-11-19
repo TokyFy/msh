@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:31:29 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/18 16:15:06 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,9 +100,13 @@ typedef struct s_heredoc{
 
 void    expand(t_list *env, void *tree);
 
+int		unset (t_cmd *cmd);
+int		env(t_cmd *cmd);
+int		export(t_cmd *cmd);
+t_list  **static_env(char **e);
 char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
-void	builtin_env(t_list *env);
+int		builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
 int		builtin_export(t_list *env, char *str);
 int		builtin_unset(t_list **env, char *name);
