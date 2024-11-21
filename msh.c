@@ -23,7 +23,6 @@ int	main(const int argc, char **argv, char **e)
 
 	(void)(argc);
 	(void)(argv);
-	(void)(status);
 	static_env(e);
 	while (42)
 	{
@@ -32,7 +31,7 @@ int	main(const int argc, char **argv, char **e)
 		if (!line)
 		{
 			free_env(*static_env(NULL));
-			exit(0);
+			exit(status);
 		}
 		ast = parser(line);
 		status = execute(ast , e);
