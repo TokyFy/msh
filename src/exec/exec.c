@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 16:15:48 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/22 13:55:55 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,10 @@ int exec_builtings(t_node *ast)
 		return (env(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		return (unset(cmd));
+	else if (ft_strcmp("pwd", cmd->argv[0]) == 0)
+		return (pwd());
+	else if (ft_strcmp("echo", cmd->argv[0]) == 0)
+		return (echo(cmd));
 
 	return -1;
 }
