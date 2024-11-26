@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/22 14:03:15 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:35:12 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_heredoc{
 
 void    expand(t_list *env, void *tree);
 
+int		msh_exit(t_cmd *cmd);
 int		unset (t_cmd *cmd);
 int		env(t_cmd *cmd);
 int		export(t_cmd *cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antanana      +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 13:09:10 by franaivo          #+#    #+#             */
-/*   Updated: 2024/10/11 13:09:16 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/11/26 09:28:52 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
