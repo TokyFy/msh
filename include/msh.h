@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 16:15:06 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:35:12 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,9 @@ void    expand(t_list *env, void *tree);
 int		ft_unset (t_cmd *cmd);
 int		ft_env(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);
+int		msh_exit(t_cmd *cmd);
+int 	pwd(void);
+int 	echo(t_cmd *cmd);
 t_list  **static_env(char **e);
 char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
@@ -125,6 +128,7 @@ char	*get_element_value(t_list *element);
 char	*expand_variable_if_exists(t_list *env, char *result, char *input,
 		int *i);
 char	*expand_variables_in_string(t_list *env, char *input);
+void	expand_main_loop(t_list *env, char ***temp);
 
 int		ft_open(char *file, int oflags, int iflags);
 pid_t	ft_fork(void);

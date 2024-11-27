@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 16:15:48 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/26 10:34:51 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int	is_builting(t_cmd *cmd)
 
 	if (!cmd || cmd->type != CMD)
 		return (0);
+
 	exec = cmd->argv[0];
 	return (ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "export") || ft_strcmp(exec,
 			"env") || ft_strcmp(exec, "unset"));
@@ -159,6 +160,12 @@ int	exec_builtings(t_node *ast)
 		return (ft_env(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		return (ft_unset(cmd));
+	else if (ft_strcmp("pwd", cmd->argv[0]) == 0)
+		return (pwd());
+	else if (ft_strcmp("echo", cmd->argv[0]) == 0)
+		return (echo(cmd));
+	else if (ft_strcmp("exit", cmd->argv[0]) == 0)
+		return (msh_exit(cmd));
 	return (-1);
 }
 
