@@ -1,3 +1,4 @@
 CompileFlags:
   Add:
     - "-I/home/toky/cursur/msh/include"
+    - "-I/home/franaivo/Documents/Toky/Cursus/msh/include"

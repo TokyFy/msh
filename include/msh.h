@@ -100,9 +100,9 @@ typedef struct s_heredoc{
 
 void    expand(t_list *env, void *tree);
 
-int		unset (t_cmd *cmd);
-int		env(t_cmd *cmd);
-int		export(t_cmd *cmd);
+int		ft_unset (t_cmd *cmd);
+int		ft_env(t_cmd *cmd);
+int		ft_export(t_cmd *cmd);
 t_list  **static_env(char **e);
 char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);

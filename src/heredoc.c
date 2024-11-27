@@ -5,7 +5,8 @@
 void	write_heredoc(t_redir *redir, int fd)
 {
 	char	*line;
-	int quoted;
+	int		quoted;
+
 	line = NULL;
 	quoted = ft_strchr(redir->string, '\"') != NULL;
 	while (42)
@@ -14,7 +15,7 @@ void	write_heredoc(t_redir *redir, int fd)
 		{
 			if (ft_strcmp(line, redir->string) == 0)
 				break ;
-			if(!quoted)
+			if (!quoted)
 				line = expand_variables_in_string(*static_env(NULL), line);
 			ft_putendl_fd(line, fd);
 		}

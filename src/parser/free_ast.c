@@ -26,9 +26,9 @@ void	free_array_nulled(char **array)
 	return ;
 }
 
-void    free_redir(void *ptr)
+void	free_redir(void *ptr)
 {
-	t_redir *redir;
+	t_redir	*redir;
 
 	redir = ptr;
 	free(redir->string);

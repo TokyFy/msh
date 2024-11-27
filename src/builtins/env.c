@@ -79,7 +79,7 @@ int	builtin_env(t_list *env)
 	return (0);
 }
 
-int	env(t_cmd *cmd)
+int	ft_env(t_cmd *cmd)
 {
 	(void)cmd;
 	return (builtin_env(*(static_env(NULL))));

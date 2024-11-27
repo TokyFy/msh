@@ -39,7 +39,7 @@ int	builtin_unset(t_list **env, char *name)
 	return (1);
 }
 
-int	unset(t_cmd *cmd)
+int	ft_unset(t_cmd *cmd)
 {
 	t_list	**env;
 	int		i;

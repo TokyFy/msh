@@ -82,7 +82,7 @@ int	builtin_export(t_list *env, char *str)
 	return (1);
 }
 
-int	export(t_cmd *cmd)
+int	ft_export(t_cmd *cmd)
 {
 	t_list	**env;
 	int		i;

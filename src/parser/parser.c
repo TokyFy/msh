@@ -52,8 +52,6 @@ int	parse_redir(t_cmd *cmd, t_list **tokens)
 	return (1);
 }
 
-
-
 void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
 {
 	t_list	*argv;
