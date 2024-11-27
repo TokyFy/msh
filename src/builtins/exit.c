@@ -14,6 +14,7 @@
 
 int	msh_exit(t_cmd *cmd)
 {
+	return 0;
 	int		exit_code;
 	t_list	**env;
 
