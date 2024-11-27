@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <string.h>
+#include <unistd.h>
 
 void	setup_redir(int *in, int *out, t_cmd *cmd)
 {
@@ -106,7 +109,7 @@ void	exec_ast(void *ast)
 	{
 		if (exec_builtings((t_node *)ast) == -1)
 			exec_t_cmd((t_cmd *)ast, NULL);
-		return ;
+		_false();
 	}
 	if (((t_node *)ast)->type == PIPE)
 	{
@@ -119,12 +122,15 @@ void	exec_ast(void *ast)
 
 int	builtin_cd(t_cmd *cmd)
 {
-	if (cmd->argv[2])
+	char *path = cmd->argv[1];
+	if (!path)
+		path = get_env(*static_env(NULL), "HOME");
+	if(!path)
 	{
-		printf("cd : 1 argument expected\n");
-		return (1);
+		ft_putendl_fd("cd : Path required", STDERR_FILENO);
+		return 1;
 	}
-	if (chdir(cmd->argv[1]) != 0)
+	if (chdir(path) != 0)
 	{
 		perror("cd :");
 		return (1);
@@ -169,12 +175,33 @@ int	exec_builtings(t_node *ast)
 	return (-1);
 }
 
+int exec_high_level_builting(t_node* ast)
+{
+	if(ast->type != CMD)
+		return -1;
+
+	t_cmd *cmd = (t_cmd*)ast;
+	char *exec = cmd->argv[0];
+
+	if(!(strcmp(exec, "export") == 0 || strcmp(exec, "unset") || strcmp(exec, "cd")))
+		return -1;
+
+	if (strcmp("cd", cmd->argv[0]) == 0)
+		return (builtin_cd(cmd));
+	else if (strcmp("export", cmd->argv[0]) == 0)
+		return (ft_export(cmd));
+	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
+		return (ft_unset(cmd));
+
+	return -1;
+}
+
 int	execute(t_node *ast, char **env)
 {
 	int	status;
 
 	status = 0;
-	if (analyse_ast(ast) && exec_builtings(ast) == -1)
+	if (analyse_ast(ast) && exec_high_level_builting((ast)) == -1)
 	{
 		if (fork() == 0)
 		{
