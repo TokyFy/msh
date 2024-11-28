@@ -10,11 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 volatile sig_atomic_t	g_signal_received;
+
+const char* shell_path(char **argv)
+{
+	static char *path;
+	char *pwd = NULL;
+	if(!argv)
+		return path;
+
+	pwd = getcwd(pwd, 0);
+	path = ft_strjoin(pwd, "/msh");
+	free(pwd);
+	return NULL;
+}
 
 int	main(const int argc, char **argv, char **e)
 {
@@ -22,17 +38,22 @@ int	main(const int argc, char **argv, char **e)
 	t_node	*ast;
 	int		status = 0;
 
-	(void)(argc);
-	(void)(argv);
+	if(argc > 1)
+		return ft_atoi(argv[1]);
+
+	shell_path(argv);
 	static_env(e);
+
 	while (42)
 	{
+		printf("%d \n" , WEXITSTATUS(status));
 		setup_signal_handling();
 		line = readline("> ");
 		if (!line || strcmp(line, "exit") == 0)
 		{
 			free(line);
 			free_env(*static_env(NULL));
+			free((void*)shell_path(NULL));
 			exit(status);
 		}
 		ast = parser(line);

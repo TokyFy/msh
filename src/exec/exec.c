@@ -12,6 +12,8 @@
 
 #include "libft.h"
 #include <msh.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 
@@ -101,7 +103,7 @@ void	exec_pipe(void *ast, int *pid1, int *pid2)
 
 void	exec_ast(void *ast)
 {
-	int	status;
+	int	status = 0;
 	int	pid1;
 	int	pid2;
 
@@ -109,14 +111,14 @@ void	exec_ast(void *ast)
 	{
 		if (exec_builtings((t_node *)ast) == -1)
 			exec_t_cmd((t_cmd *)ast, NULL);
-		_false();
+		_exit2(127);
 	}
 	if (((t_node *)ast)->type == PIPE)
 	{
 		exec_pipe(ast, &pid1, &pid2);
 		ft_waitpid(pid1, &status, 0);
-		ft_waitpid(pid2, &status, 0);
-		_false();
+		ft_waitpid(pid2, NULL, 0);
+		_exit2(WEXITSTATUS(status));
 	}
 }
 
@@ -146,8 +148,9 @@ int	is_builting(t_cmd *cmd)
 		return (0);
 
 	exec = cmd->argv[0];
-	return (ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "export") || ft_strcmp(exec,
-			"env") || ft_strcmp(exec, "unset"));
+	return (ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "export") == 0 || ft_strcmp(exec,
+			"env") == 0 || ft_strcmp(exec, "unset") == 0 || ft_strcmp(exec, "pwd") == 0 ||
+			ft_strcmp(exec, "echo") == 0);
 }
 
 int	exec_builtings(t_node *ast)

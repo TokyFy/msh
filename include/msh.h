@@ -138,14 +138,12 @@ void	ft_close(int fd);
 void	perrorexit(const char *error);
 void	ft_waitpid(pid_t pid, int *status, int op);
 int		ft_execvp(const char *__file, char *const __argv[]);
-void	_false(void);
 
 t_list	*exec_heredoc(void *ast);
 void	handle_sigint(int sig);
 void	setup_signal_handling(void);
 void	setup_heredoc_signal_handling(void);
+const char* shell_path(char **argv);
+void	_exit2(int status);
 
-
-int		ft_execvp(const char *__file, char *const __argv[]);
-void	_false(void);
 #endif

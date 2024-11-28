@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <stdio.h>
+#include <string.h>
 
 void	perrorexit(const char *error)
 {
@@ -27,12 +30,13 @@ void	ft_waitpid(pid_t pid, int *status, int op)
 	}
 }
 
-void	_false(void)
+void	_exit2(int status)
 {
-	char	**args;
-
-	args = (char *[2]){"false", NULL};
-	execvp("false", args);
+	const char	*args[3];
+	args[0] = shell_path(NULL);
+	args[1] = ft_itoa(status);
+	args[2] = NULL;
+	execvp(args[0], (char**)args);
 }
 
 int	ft_execvp(const char *__file, char *const __argv[])
@@ -40,6 +44,6 @@ int	ft_execvp(const char *__file, char *const __argv[])
 	execvp(__file, __argv);
 	ft_putstr_fd((char *)__file, STDERR_FILENO);
 	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	_false();
+	_exit2(127);
 	return (0);
 }
