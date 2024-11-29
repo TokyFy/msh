@@ -9,6 +9,7 @@ void	write_heredoc(t_redir *redir, int fd)
 
 	line = NULL;
 	quoted = ft_strchr(redir->string, '\"') != NULL;
+	redir->string = remove_quotes(redir->string);
 	while (42)
 	{
 		if (line)
