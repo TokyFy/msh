@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 16:37:19 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 11:08:58 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,13 @@
 char	*get_env(t_list *env, char *name)
 {
 	t_list	*tmp;
+	int		status;
 
+	if (ft_strcmp(name, "?") == 0)
+	{
+		status = get_status();
+		return (ft_itoa(status));
+	}
 	tmp = env_exist(env, name);
 	if (tmp)
 	{

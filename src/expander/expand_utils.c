@@ -6,67 +6,81 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:00:01 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 14:08:32 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:20:06 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 
-char	*get_env_name_in_string(char *string)
+char	*extract_env_name(char *string)
 {
 	char	*name;
 	char	*start;
 	int		len;
 
 	len = 0;
+	if (*string == '?')
+		return (ft_strdup("?"));
+	if (ft_isalpha(*string) || *string == '_')
+	{
+		start = string;
+		while (ft_isalnum(*string) || *string == '_')
+		{
+			len++;
+			string++;
+		}
+		name = ft_strndup(start, len);
+		return (name);
+	}
+	return (NULL);
+}
+
+char	*get_env_name_in_string(char *string)
+{
 	while (*string)
 	{
 		if (*string == '$')
 		{
 			string++;
-			if (ft_isalpha(*string) || *string == '_')
-			{
-				start = string;
-				while (ft_isalnum(*string) || *string == '_')
-				{
-					len++;
-					string++;
-				}
-				name = ft_strndup(start, len);
-				return (name);
-			}
+			return (extract_env_name(string));
 		}
 		string++;
 	}
 	return (NULL);
 }
 
-char	*get_element_value(t_list *element)
+char	*append_env_value(t_list *env, char *result, char *env_name)
 {
-	char	*value;
+	char	*env_value;
+	char	*temp;
 
-	value = ((t_env *)element->content)->value;
-	return (value);
+	env_value = get_env(env, env_name);
+	if (env_value)
+	{
+		temp = ft_strjoin(result, env_value);
+		free(result);
+		result = temp;
+	}
+	return (result);
 }
 
 char	*expand_variable_if_exists(t_list *env, char *result, char *input,
 		int *i)
 {
 	char	*env_name;
-	char	*env_value;
-	char	*temp;
 
 	env_name = get_env_name_in_string(&input[*i]);
-	if (env_name)
+	if (ft_strcmp(env_name, "?") == 0)
 	{
-		env_value = get_env(env, env_name);
+		result = append_env_value(env, result, env_name);
 		free(env_name);
-		if (env_value)
-		{
-			temp = ft_strjoin(result, env_value);
-			free(result);
-			result = temp;
-		}
+		(*i)++;
+	}
+	else if (env_name)
+	{
+		result = append_env_value(env, result, env_name);
+		free(env_name);
 		while (ft_isalnum(input[*i + 1]) || input[*i + 1] == '_')
 			(*i)++;
 	}

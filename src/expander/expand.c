@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/22 12:59:02 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:04:09 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,12 @@ void	expand(t_list *env, void *tree)
 		temp = cmd->argv;
 		expand_main_loop(env, &temp);
 	}
+}
+
+char	*get_element_value(t_list *element)
+{
+	char	*value;
+
+	value = ((t_env *)element->content)->value;
+	return (value);
 }

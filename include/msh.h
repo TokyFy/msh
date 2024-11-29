@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/26 10:35:12 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 10:32:57 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ typedef struct s_heredoc{
 
 void    expand(t_list *env, void *tree);
 
+int		get_status(void);
+void	set_status(int value);
 int		ft_unset (t_cmd *cmd);
 int		ft_env(t_cmd *cmd);
 int		ft_export(t_cmd *cmd);

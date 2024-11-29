@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 15:42:19 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 12:23:44 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	main(const int argc, char **argv, char **e)
 {
 	char	*line;
 	t_node	*ast;
-	int		status = 0;
+	int		status;
 
 	(void)(argc);
 	(void)(argv);
+	status = 0;
 	static_env(e);
 	while (42)
 	{
@@ -31,10 +32,11 @@ int	main(const int argc, char **argv, char **e)
 		if (!line)
 		{
 			free_env(*static_env(NULL));
-			exit(status);
+			exit(get_status());
 		}
 		ast = parser(line);
 		status = execute(ast , e);
+		set_status(status);
 		free_ast(ast);
 		free(line);
 	}
