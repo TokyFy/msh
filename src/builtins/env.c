@@ -19,7 +19,7 @@ char	*get_env(t_list *env, char *name)
 
 	if (ft_strcmp(name, "?") == 0)
 	{
-		status = get_status();
+		status = WEXITSTATUS(get_status());
 		return (ft_itoa(status));
 	}
 	tmp = env_exist(env, name);
