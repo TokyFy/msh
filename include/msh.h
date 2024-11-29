@@ -111,7 +111,7 @@ char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
 int		builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
-int		builtin_export(t_list *env, char *str);
+int		builtin_export(t_list **env, char *str);
 int		builtin_unset(t_list **env, char *name);
 char 	**list_to_env_array(t_list *env_list);
 t_env	*new_env(char *str);
