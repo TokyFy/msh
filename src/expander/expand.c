@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 13:19:40 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:29:35 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,20 @@ void	expand_main_loop(t_list *env, char ***temp)
 	}
 }
 
-void	expand(t_list *env, void *tree)
+void	expand(void *tree)
 {
+	t_list	**env;
 	t_node	*ast;
 	t_cmd	*cmd;
 	char	**temp;
 
+	env = static_env(NULL);
 	ast = tree;
 	if (ast->type == CMD)
 	{
 		cmd = tree;
 		temp = cmd->argv;
-		expand_main_loop(env, &temp);
+		expand_main_loop(*env, &temp);
 	}
 }
 

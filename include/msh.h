@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 13:24:17 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:25:04 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ typedef struct s_heredoc{
 	int fd;
 } t_heredoc;
 
-void    expand(t_list *env, void *tree);
+void    expand(void *tree);
 
 char	*remove_quotes(char *input);
 int		get_status(void);

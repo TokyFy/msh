@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/26 10:34:51 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 15:26:15 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,12 +198,13 @@ int	execute(t_node *ast, char **env)
 {
 	int	status;
 
+	(void) env;
 	status = exec_high_level_builting((ast)) ;
 	if (analyse_ast(ast) && status == -1)
 	{
 		if (fork() == 0)
 		{
-			expand(copy_env(env), ast);
+			expand(ast);
 			exec_heredoc(ast);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
