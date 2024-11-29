@@ -1,4 +1,4 @@
-NAME = msh
+NAME = minishell
 SRCS =	msh.c src/tokenizer/tokenizer.c src/tokenizer/tokenizer_utils.c src/parser/parser.c \
 		src/parser/analyse_ast.c src/parser/free_ast.c src/parser/debug.c \
 		src/exec/exec.c src/exec/exec_utils.c src/exec/exec_error.c src/signals.c \

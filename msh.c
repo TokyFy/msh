@@ -45,7 +45,6 @@ int	main(const int argc, char **argv, char **e)
 	static_env(e);
 	while (42)
 	{
-		printf("%d \n" , WEXITSTATUS(status));
 		setup_signal_handling();
 		line = readline("> ");
 		if (!line || strcmp(line, "exit") == 0)
