@@ -176,7 +176,7 @@ int	exec_builtings(t_node *ast)
 
 int exec_high_level_builting(t_node* ast)
 {
-	if(ast->type != CMD)
+	if(ast->type != CMD || !((t_cmd*)ast)->argv[0])
 		return -1;
 
 	t_cmd *cmd = (t_cmd*)ast;
@@ -223,5 +223,5 @@ int	execute(t_node *ast, char **env)
 				write(STDOUT_FILENO, "\n", 1);
 		}
 	}
-	return (status);
+	return ((int)ft_abs(status));
 }
