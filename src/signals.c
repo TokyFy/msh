@@ -22,6 +22,7 @@ extern volatile sig_atomic_t	g_signal_received;
 void	handle_sigint(int sig)
 {
 	g_signal_received = sig;
+	set_status(130 << 8);
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);

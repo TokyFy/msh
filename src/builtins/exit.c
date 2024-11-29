@@ -14,15 +14,7 @@
 
 int	msh_exit(t_cmd *cmd)
 {
+	(void)(cmd);
+	_exit2(get_status());
 	return 0;
-	int		exit_code;
-	t_list	**env;
-
-	exit_code = 0;
-	env = static_env(NULL);
-	free_env(*env);
-	if ((cmd->argv)[1])
-		exit_code = ft_atoi((cmd->argv)[1]);
-	free_ast((void *)cmd);
-	exit(exit_code);
 }

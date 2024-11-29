@@ -38,15 +38,11 @@ int	main(const int argc, char **argv, char **e)
 	t_node	*ast;
 	int		status;
 
-	(void)(argc);
-	(void)(argv);
 	status = 0;
 	if(argc > 1)
 		return ft_atoi(argv[1]);
-
 	shell_path(argv);
 	static_env(e);
-
 	while (42)
 	{
 		printf("%d \n" , WEXITSTATUS(status));

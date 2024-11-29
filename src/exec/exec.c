@@ -176,26 +176,21 @@ int	exec_builtings(t_node *ast)
 
 int exec_high_level_builting(t_node* ast)
 {
-	if(ast->type != CMD || !((t_cmd*)ast)->argv[0])
+	if(!ast || ast->type != CMD || !((t_cmd*)ast)->argv[0])
 		return -1;
-
 	t_cmd *cmd = (t_cmd*)ast;
 	char *exec = cmd->argv[0];
 	int status = -1;
-
 	if(!(strcmp(exec, "export") == 0 || strcmp(exec, "unset") || strcmp(exec, "cd")))
 		return -1;
-
 	if (strcmp("cd", cmd->argv[0]) == 0)
 		status = (builtin_cd(cmd));
 	else if (strcmp("export", cmd->argv[0]) == 0)
 		status = (ft_export(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		status = (ft_unset(cmd));
-
 	if(status != -1)
 		return status << 8;
-
 	return (status);
 }
 
