@@ -6,11 +6,40 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:55:24 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 14:10:18 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:24:48 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
+
+char	*remove_quotes(char *input)
+{
+	char	*result;
+	int		i;
+	int		j;
+	char	quote_char;
+
+	if (!input)
+		return (NULL);
+	result = malloc(strlen(input) + 1);
+	if (!result)
+		return (NULL);
+	i = 0; 
+	j = 0;
+	quote_char = '\0';
+	while (input[i])
+	{
+		if ((input[i] == '\'' || input[i] == '"') && quote_char == '\0')
+			quote_char = input[i];
+		else if (input[i] == quote_char)
+			quote_char = '\0';
+		else
+			result[j++] = input[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
+}
 
 void	remove_quote(char *input, char *current_quote, int *j, char **result)
 {
@@ -75,16 +104,4 @@ int	check_quote_status(char *input, int *i, int *in_single_quotes,
 {
 	return ((input[*i] == '$' && *in_double_quotes && !(*in_single_quotes))
 		|| (input[*i] == '$' && !(*in_double_quotes) && !(*in_single_quotes)));
-}
-
-char	*append_text(char *result, char *input, int start, int end)
-{
-	char	*portion;
-	char	*temp;
-
-	portion = ft_substr(input, start, end - start);
-	temp = ft_strjoin(result, portion);
-	free(result);
-	free(portion);
-	return (temp);
 }
