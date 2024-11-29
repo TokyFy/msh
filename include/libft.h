@@ -86,6 +86,6 @@ void					ft_lstiter(t_list *lst, void (*f)(void *));
 t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
 							void (*del)(void *));
 void	**ft_lsttoarr(t_list *lst);
-
+unsigned long ft_abs(long n);
 int	ft_strcmp(char *s1, char *s2);
 #endif

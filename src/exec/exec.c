@@ -98,35 +98,39 @@ void	exec_pipe(void *ast, int *pid1, int *pid2)
 
 void	exec_ast(void *ast)
 {
-	int	status;
+	int	status = 0;
 	int	pid1;
 	int	pid2;
 
 	if (((t_node *)ast)->type == CMD)
 	{
-		if (exec_builtings((t_node *)ast) == -1)
+		status = exec_builtings((t_node *)ast);
+		if (status == -1)
 			exec_t_cmd((t_cmd *)ast, NULL);
-		return ;
+		_exit2(WEXITSTATUS(status));
 	}
 	if (((t_node *)ast)->type == PIPE)
 	{
 		exec_pipe(ast, &pid1, &pid2);
 		ft_waitpid(pid1, &status, 0);
-		ft_waitpid(pid2, &status, 0);
-		_false();
+		ft_waitpid(pid2, NULL, 0);
+		_exit2(WEXITSTATUS(status));
 	}
 }
 
 int	builtin_cd(t_cmd *cmd)
 {
-	if (cmd->argv[2])
+	char *path = cmd->argv[1];
+	if (!path)
+		path = get_env(*static_env(NULL), "HOME");
+	if(!path)
 	{
-		printf("cd : 1 argument expected\n");
-		return (1);
+		ft_putendl_fd("cd : Path required", STDERR_FILENO);
+		return 1;
 	}
-	if (chdir(cmd->argv[1]) != 0)
+	if (chdir(path) != 0)
 	{
-		perror("cd :");
+		perror("cd");
 		return (1);
 	}
 	return (0);
@@ -140,41 +144,67 @@ int	is_builting(t_cmd *cmd)
 		return (0);
 
 	exec = cmd->argv[0];
-	return (ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "export") || ft_strcmp(exec,
-			"env") || ft_strcmp(exec, "unset"));
+	return (ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "export") == 0 || ft_strcmp(exec,
+			"env") == 0 || ft_strcmp(exec, "unset") == 0 || ft_strcmp(exec, "pwd") == 0 ||
+			ft_strcmp(exec, "echo") == 0 || ft_strcmp(exec , "exit") == 0);
 }
 
 int	exec_builtings(t_node *ast)
 {
 	t_cmd	*cmd;
-
+	int status = -1;
 	cmd = (t_cmd *)ast;
 	if (!is_builting(cmd))
 		return (-1);
 	redirect(cmd);
 	if (strcmp("cd", cmd->argv[0]) == 0)
-		return (builtin_cd(cmd));
+		status = (builtin_cd(cmd));
 	else if (strcmp("export", cmd->argv[0]) == 0)
-		return (ft_export(cmd));
+		status = (ft_export(cmd));
 	else if (ft_strcmp("env", cmd->argv[0]) == 0)
-		return (ft_env(cmd));
+		status = (ft_env(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
-		return (ft_unset(cmd));
+		status = (ft_unset(cmd));
 	else if (ft_strcmp("pwd", cmd->argv[0]) == 0)
-		return (pwd());
+		status = (pwd());
 	else if (ft_strcmp("echo", cmd->argv[0]) == 0)
-		return (echo(cmd));
+		status = (echo(cmd));
 	else if (ft_strcmp("exit", cmd->argv[0]) == 0)
-		return (msh_exit(cmd));
-	return (-1);
+		status = (msh_exit(cmd));
+	return (status);
+}
+
+int exec_high_level_builting(t_node* ast)
+{
+	if(ast->type != CMD || !((t_cmd*)ast)->argv[0])
+		return -1;
+
+	t_cmd *cmd = (t_cmd*)ast;
+	char *exec = cmd->argv[0];
+	int status = -1;
+
+	if(!(strcmp(exec, "export") == 0 || strcmp(exec, "unset") || strcmp(exec, "cd")))
+		return -1;
+
+	if (strcmp("cd", cmd->argv[0]) == 0)
+		status = (builtin_cd(cmd));
+	else if (strcmp("export", cmd->argv[0]) == 0)
+		status = (ft_export(cmd));
+	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
+		status = (ft_unset(cmd));
+
+	if(status != -1)
+		return status << 8;
+
+	return (status);
 }
 
 int	execute(t_node *ast, char **env)
 {
 	int	status;
 
-	status = 0;
-	if (analyse_ast(ast) && exec_builtings(ast) == -1)
+	status = exec_high_level_builting((ast)) ;
+	if (analyse_ast(ast) && status == -1)
 	{
 		if (fork() == 0)
 		{
@@ -193,5 +223,5 @@ int	execute(t_node *ast, char **env)
 				write(STDOUT_FILENO, "\n", 1);
 		}
 	}
-	return (status);
+	return ((int)ft_abs(status));
 }

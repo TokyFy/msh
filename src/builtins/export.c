@@ -56,7 +56,7 @@ static void	update_env_element(t_list *element, char *value)
 	return ;
 }
 
-int	builtin_export(t_list *env, char *str)
+int	builtin_export(t_list **env, char *str)
 {
 	t_env	*new_element;
 	t_list	*element;
@@ -64,7 +64,7 @@ int	builtin_export(t_list *env, char *str)
 	if (!contains_equal_after_first(str))
 		return (1);
 	new_element = new_env(str);
-	element = env_exist(env, new_element->name);
+	element = env_exist(*env, new_element->name);
 	if (element)
 	{
 		update_env_element(element, new_element->value);
@@ -76,7 +76,7 @@ int	builtin_export(t_list *env, char *str)
 	}
 	else
 	{
-		ft_lstadd_back(&env, ft_lstnew(new_element));
+		ft_lstadd_back(env, ft_lstnew(new_element));
 		return (0);
 	}
 	return (1);
@@ -91,7 +91,7 @@ int	ft_export(t_cmd *cmd)
 	i = 1;
 	while ((cmd->argv)[i])
 	{
-		if (builtin_export(*env, (cmd->argv)[i]) != 0)
+		if (builtin_export(env, (cmd->argv)[i]) != 0)
 			return (1);
 		i++;
 	}

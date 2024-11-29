@@ -113,7 +113,7 @@ char 	*get_env(t_list *env, char *name);
 t_list  *copy_env(char **env);
 int		builtin_env(t_list *env);
 t_list	*env_exist(t_list *env, char *name);
-int		builtin_export(t_list *env, char *str);
+int		builtin_export(t_list **env, char *str);
 int		builtin_unset(t_list **env, char *name);
 char 	**list_to_env_array(t_list *env_list);
 t_env	*new_env(char *str);
@@ -139,15 +139,13 @@ void	ft_dup2(int old, int news);
 void	ft_close(int fd);
 void	perrorexit(const char *error);
 void	ft_waitpid(pid_t pid, int *status, int op);
-int		ft_execvp(const char *__file, char *const __argv[]);
-void	_false(void);
+int		ft_execvp(const char *__file, char * __argv[]);
 
 t_list	*exec_heredoc(void *ast);
 void	handle_sigint(int sig);
 void	setup_signal_handling(void);
 void	setup_heredoc_signal_handling(void);
+const char* shell_path(char **argv);
+void	_exit2(int status);
 
-
-int		ft_execvp(const char *__file, char *const __argv[]);
-void	_false(void);
 #endif
