@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 15:14:30 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 12:04:09 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/11/29 13:19:40 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,16 @@ char	*get_element_value(t_list *element)
 
 	value = ((t_env *)element->content)->value;
 	return (value);
+}
+
+char	*append_text(char *result, char *input, int start, int end)
+{
+	char	*portion;
+	char	*temp;
+
+	portion = ft_substr(input, start, end - start);
+	temp = ft_strjoin(result, portion);
+	free(result);
+	free(portion);
+	return (temp);
 }
