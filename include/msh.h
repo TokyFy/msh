@@ -137,7 +137,7 @@ void	ft_dup2(int old, int news);
 void	ft_close(int fd);
 void	perrorexit(const char *error);
 void	ft_waitpid(pid_t pid, int *status, int op);
-int		ft_execvp(const char *__file, char *const __argv[]);
+int		ft_execvp(const char *__file, char * __argv[]);
 
 t_list	*exec_heredoc(void *ast);
 void	handle_sigint(int sig);

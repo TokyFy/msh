@@ -18,10 +18,9 @@ static int	analyse_t_pipe(t_pipe *pipe)
 	{
 		if (!analyse_ast(pipe->right) || !analyse_ast(pipe->left))
 			return (0);
+		return 1;
 	}
-	else
-		return (0);
-	return (1);
+	return 0;
 }
 
 static int	analyse_t_cmd(t_cmd *cmd)
