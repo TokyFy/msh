@@ -27,7 +27,7 @@ const char* shell_path(char **argv)
 		return path;
 
 	pwd = getcwd(pwd, 0);
-	path = ft_strjoin(pwd, "/msh");
+	path = ft_strjoin(pwd, "/minishell");
 	free(pwd);
 	return NULL;
 }
@@ -36,9 +36,6 @@ int	main(const int argc, char **argv, char **e)
 {
 	char	*line;
 	t_node	*ast;
-	int		status;
-
-	status = 0;
 	if(argc > 1)
 		return ft_atoi(argv[1]);
 	shell_path(argv);
@@ -47,16 +44,15 @@ int	main(const int argc, char **argv, char **e)
 	{
 		setup_signal_handling();
 		line = readline("> ");
-		if (!line || strcmp(line, "exit") == 0)
+		if (!line)
 		{
 			free(line);
 			free_env(*static_env(NULL));
 			free((void*)shell_path(NULL));
-			exit(get_status());
+			exit(WEXITSTATUS(get_status()));
 		}
 		ast = parser(line);
-		status = execute(ast , e);
-		set_status(status);
+		set_status(execute(ast , e));
 		free_ast(ast);
 		free(line);
 	}

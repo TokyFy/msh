@@ -27,8 +27,8 @@ static int	analyse_t_cmd(t_cmd *cmd)
 {
 	t_list	*redirs;
 
-	if (!cmd->argv || !*cmd->argv)
-		return (0);
+	// if (!cmd->argv || !*cmd->argv)
+	//	return (0);
 	redirs = cmd->redirs;
 	while (redirs)
 	{

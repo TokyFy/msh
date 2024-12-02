@@ -15,6 +15,6 @@
 int	msh_exit(t_cmd *cmd)
 {
 	(void)(cmd);
-	_exit2(get_status());
+	_exit2(WEXITSTATUS(get_status()));
 	return 0;
 }

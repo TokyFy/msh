@@ -41,16 +41,6 @@ void	_exit2(int status)
 	args[2] = NULL;
 	execve(args[0], (char **)args , NULL);
 }
-/*
-int	ft_execvp(const char *__file, char *const __argv[])
-{
-	execvp(__file, __argv);
-	ft_putstr_fd((char *)__file, STDERR_FILENO);
-	ft_putstr_fd(": command not found\n", STDERR_FILENO);
-	_exit2(127);
-	return (0);
-}
-*/
 
 int	file_exists(const char *path)
 {
@@ -112,7 +102,8 @@ int	ft_execvp(const char *__file, char * __argv[])
 		__argv[0] = exec_path;
 	}
 	execve(__argv[0], __argv, NULL);
-	perror(__file);
+	ft_putstr_fd((char*)__file , STDERR_FILENO);
+	ft_putendl_fd(" : command not found", STDERR_FILENO);
 	_exit2(127);
 	return -1;
 }

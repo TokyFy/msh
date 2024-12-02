@@ -68,7 +68,8 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 {
 	(void)(env);
 	redirect(cmd);
-	ft_execvp(cmd->argv[0], cmd->argv);
+	if(cmd->argv[0])
+		ft_execvp(cmd->argv[0], cmd->argv);
 }
 
 void	exec_pipe(void *ast, int *pid1, int *pid2)
@@ -181,14 +182,16 @@ int exec_high_level_builting(t_node* ast)
 	t_cmd *cmd = (t_cmd*)ast;
 	char *exec = cmd->argv[0];
 	int status = -1;
-	if(!(strcmp(exec, "export") == 0 || strcmp(exec, "unset") || strcmp(exec, "cd")))
+	if(!(ft_strcmp(exec, "export") == 0 || ft_strcmp(exec, "unset") == 0 || ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "exit") == 0))
 		return -1;
-	if (strcmp("cd", cmd->argv[0]) == 0)
+	if (ft_strcmp("cd", cmd->argv[0]) == 0)
 		status = (builtin_cd(cmd));
-	else if (strcmp("export", cmd->argv[0]) == 0)
+	else if (ft_strcmp("export", cmd->argv[0]) == 0)
 		status = (ft_export(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		status = (ft_unset(cmd));
+	else if (ft_strcmp("exit", cmd->argv[0]) == 0)
+		msh_exit(cmd);
 	if(status != -1)
 		return status << 8;
 	return (status);

@@ -35,7 +35,7 @@ fclean: clean
 	$(MAKE) fclean -C $(LIBFTDIR)
 
 valgrind: $(NAME)
-	valgrind --track-fds=yes  --suppressions=.valignores --leak-check=full --show-leak-kinds=all ./msh
+	valgrind --track-fds=yes  --suppressions=.valignores --leak-check=full --show-leak-kinds=all ./$(NAME)
 
 re: fclean all
 
