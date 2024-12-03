@@ -10,7 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <string.h>
 
 char	*get_env(t_list *env, char *name)
 {
@@ -30,6 +32,31 @@ char	*get_env(t_list *env, char *name)
 	return (NULL);
 }
 
+char* array_to_string(char** array) {
+    if (array == NULL || *array == NULL) {
+        return ft_strdup("");
+    }
+
+    char* result = ft_strdup("");
+    int i = 0;
+
+    while (array[i] != NULL) {
+        if (i > 0) {
+            char* temp = ft_strjoin(result, " ");
+            free(result);
+            result = temp;
+        }
+        char* temp = ft_strjoin(result, array[i]);
+        free(result);
+        result = temp;
+
+        i++;
+    }
+
+    return result;
+}
+
+
 t_env	*new_env(char *str)
 {
 	t_env			*env;
@@ -43,7 +70,7 @@ t_env	*new_env(char *str)
 	while (str[i] && str[i] != '=')
 		i++;
 	env->name = ft_substr(str, 0, i);
-	env->value = ft_substr(str, i + 1, -1);
+	env->value = array_to_string(ft_split(ft_substr(str, i + 1, -1) , ' '));
 	return (env);
 }
 
