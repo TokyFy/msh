@@ -22,10 +22,18 @@ volatile sig_atomic_t	g_signal_received;
 const char* shell_path(char **argv)
 {
 	static char *path;
+	char *next_shlvl;
 	char *pwd = NULL;
 	if(!argv)
 		return path;
 
+	char* shlvl = get_env(*static_env(NULL), "SHLVL");
+	if(!shlvl)
+		shlvl = strdup("1");
+	int shell_level = ft_atoi(shlvl);
+	next_shlvl = ft_itoa(shell_level + 1);
+	set_env("SHLVL", next_shlvl);
+	free(next_shlvl);
 	pwd = getcwd(pwd, 0);
 	path = ft_strjoin(pwd, "/minishell");
 	free(pwd);
@@ -38,8 +46,8 @@ int	main(const int argc, char **argv, char **e)
 	t_node	*ast;
 	if(argc > 1)
 		exit(ft_atoi(argv[1]));
-	shell_path(argv);
 	static_env(e);
+	shell_path(argv);
 	while (42)
 	{
 		setup_signal_handling();

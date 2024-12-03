@@ -24,6 +24,8 @@ char	*get_env(t_list *env, char *name)
 		status = WEXITSTATUS(get_status());
 		return (ft_itoa(status));
 	}
+	if(ft_strcmp(name, "$") == 0)
+		return ft_strdup("$");
 	tmp = env_exist(env, name);
 	if (tmp)
 	{
@@ -32,30 +34,33 @@ char	*get_env(t_list *env, char *name)
 	return (NULL);
 }
 
-char* array_to_string(char** array) {
-    if (array == NULL || *array == NULL) {
-        return ft_strdup("");
+char* trim_space(const char *str) {
+    if (str == NULL) {
+        return NULL;
     }
-
-    char* result = ft_strdup("");
-    int i = 0;
-
-    while (array[i] != NULL) {
-        if (i > 0) {
-            char* temp = ft_strjoin(result, " ");
-            free(result);
-            result = temp;
+    size_t len = strlen(str);
+    char *result = (char *)malloc(len + 1);
+    if (result == NULL) {
+        return NULL;
+    }
+    const char *read = str;
+    char *write = result;
+    int space_found = 0;
+    while (*read != '\0') {
+        if (isspace((unsigned char)*read)) {
+            if (!space_found) {
+                *write++ = ' ';
+                space_found = 1;
+            }
+        } else {
+            *write++ = *read;
+            space_found = 0;
         }
-        char* temp = ft_strjoin(result, array[i]);
-        free(result);
-        result = temp;
-
-        i++;
+        read++;
     }
-
+    *write = '\0'; // Null-terminate the string
     return result;
 }
-
 
 t_env	*new_env(char *str)
 {
@@ -63,14 +68,14 @@ t_env	*new_env(char *str)
 	char			*tmp;
 	unsigned int	i;
 
-	tmp = str;
-	tmp++;
 	i = 0;
 	env = malloc(sizeof(t_env));
 	while (str[i] && str[i] != '=')
 		i++;
 	env->name = ft_substr(str, 0, i);
-	env->value = array_to_string(ft_split(ft_substr(str, i + 1, -1) , ' '));
+	tmp = ft_substr(str, i + 1, -1);
+	env->value = trim_space(tmp);
+	free(tmp);
 	return (env);
 }
 

@@ -90,6 +90,7 @@ void	free_env(t_list *env);
 t_node	*parse(t_list **tokens);
 void	print_ast(void *ast, int level);
 void	free_ast(void *ast);
+void	free_array_nulled(char **array);
 void	*parser(char *line);
 int	execute(t_node *ast , char** env);
 int exec_builtings(t_node *ast);

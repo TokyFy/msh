@@ -22,6 +22,8 @@ char	*extract_env_name(char *string)
 	len = 0;
 	if (*string == '?')
 		return (ft_strdup("?"));
+	if(isspace(*string) || *string == '"' || !*string)
+		return ft_strdup("$");
 	if (ft_isalpha(*string) || *string == '_')
 	{
 		start = string;
