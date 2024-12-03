@@ -37,7 +37,7 @@ int	main(const int argc, char **argv, char **e)
 	char	*line;
 	t_node	*ast;
 	if(argc > 1)
-		return ft_atoi(argv[1]);
+		exit(ft_atoi(argv[1]));
 	shell_path(argv);
 	static_env(e);
 	while (42)
@@ -46,7 +46,7 @@ int	main(const int argc, char **argv, char **e)
 		line = readline("> ");
 		if (!line)
 		{
-			//ft_putstr_fd("exit\n" , STDERR_FILENO);
+			ft_putstr_fd("exit\n" , STDERR_FILENO);
 			free(line);
 			free_env(*static_env(NULL));
 			free((void*)shell_path(NULL));

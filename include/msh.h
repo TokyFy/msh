@@ -98,8 +98,6 @@ typedef struct s_heredoc{
 	int fd;
 } t_heredoc;
 
-void    expand(void *tree);
-
 char	*remove_quotes(char *input);
 int		get_status(void);
 void	set_status(int value);

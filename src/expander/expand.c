@@ -30,13 +30,12 @@ void	expand_main_loop(t_list *env, char ***temp)
 	}
 }
 
-void	expand(void *tree)
+void	expand_cmd(void *tree)
 {
 	t_list	**env;
 	t_node	*ast;
 	t_cmd	*cmd;
 	char	**temp;
-
 	env = static_env(NULL);
 	ast = tree;
 	if (ast->type == CMD)
@@ -45,6 +44,16 @@ void	expand(void *tree)
 		temp = cmd->argv;
 		expand_main_loop(*env, &temp);
 	}
+}
+
+void expand(void *tree)
+{
+	t_node *ast = tree;
+	if(ast->type == CMD)
+		return expand_cmd(tree);
+
+	expand(((t_pipe*)tree)->left);
+	expand(((t_pipe*)tree)->right);
 }
 
 char	*get_element_value(t_list *element)
