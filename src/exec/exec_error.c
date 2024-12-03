@@ -10,12 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdio.h>
-#include <string.h>
 #include <sys/stat.h>
-#include <unistd.h>
 
 void	perrorexit(const char *error)
 {

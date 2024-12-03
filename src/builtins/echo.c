@@ -47,7 +47,6 @@ int	echo(t_cmd *cmd)
 		option = 1;
 		i++;
 	}
-	expand_main_loop(*(static_env(NULL)), &(cmd->argv));
 	while ((cmd->argv)[i])
 	{
 		ft_putstr_fd((cmd->argv)[i], 1);

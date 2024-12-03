@@ -131,6 +131,7 @@ char	*expand_variable_if_exists(t_list *env, char *result, char *input,
 		int *i);
 char	*expand_variables_in_string(t_list *env, char *input);
 void	expand_main_loop(t_list *env, char ***temp);
+void expand(void *tree);
 
 int		ft_open(char *file, int oflags, int iflags);
 pid_t	ft_fork(void);

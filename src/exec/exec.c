@@ -189,6 +189,7 @@ int exec_high_level_builting(t_node* ast)
 	int status = -1;
 	if(!(ft_strcmp(exec, "export") == 0 || ft_strcmp(exec, "unset") == 0 || ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "exit") == 0))
 		return -1;
+	expand(ast);
 	if (ft_strcmp("cd", cmd->argv[0]) == 0)
 		status = (builtin_cd(cmd));
 	else if (ft_strcmp("export", cmd->argv[0]) == 0)
@@ -217,6 +218,7 @@ int	execute(t_node *ast, char **env)
 		if (fork() == 0)
 		{
 			exec_heredoc(ast);
+			expand(ast);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			exec_ast(ast);
