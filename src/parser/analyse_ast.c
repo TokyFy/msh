@@ -10,14 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <unistd.h>
 
 static int	analyse_t_pipe(t_pipe *pipe)
 {
 	if (pipe->left && pipe->right)
 	{
 		if (!analyse_ast(pipe->right) || !analyse_ast(pipe->left))
+		{
+			ft_putstr_fd("msh : syntax error : void pipe\n", STDERR_FILENO);
 			return (0);
+		}
 		return 1;
 	}
 	return 0;
@@ -27,13 +32,14 @@ static int	analyse_t_cmd(t_cmd *cmd)
 {
 	t_list	*redirs;
 
-	// if (!cmd->argv || !*cmd->argv)
-	//	return (0);
 	redirs = cmd->redirs;
 	while (redirs)
 	{
 		if (((t_redir *)redirs->content)->string == NULL)
+		{
+			ft_putstr_fd("msh : syntax error : void redirection\n", STDERR_FILENO);
 			return (0);
+		}
 		redirs = redirs->next;
 	}
 	return (1);

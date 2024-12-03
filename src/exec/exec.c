@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <stdlib.h>
+#include <string.h>
+#include <unistd.h>
 
 void	setup_redir(int *in, int *out, t_cmd *cmd)
 {
@@ -134,6 +137,8 @@ int	builtin_cd(t_cmd *cmd)
 		perror("cd");
 		return (1);
 	}
+	path = getcwd(NULL, 0);
+	set_env("PWD", path);
 	return (0);
 }
 
@@ -182,6 +187,7 @@ int exec_high_level_builting(t_node* ast)
 	t_cmd *cmd = (t_cmd*)ast;
 	char *exec = cmd->argv[0];
 	int status = -1;
+	expand(ast);
 	if(!(ft_strcmp(exec, "export") == 0 || ft_strcmp(exec, "unset") == 0 || ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "exit") == 0))
 		return -1;
 	if (ft_strcmp("cd", cmd->argv[0]) == 0)
@@ -191,7 +197,7 @@ int exec_high_level_builting(t_node* ast)
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		status = (ft_unset(cmd));
 	else if (ft_strcmp("exit", cmd->argv[0]) == 0)
-		msh_exit(cmd);
+		status = msh_exit(cmd);
 	if(status != -1)
 		return status << 8;
 	return (status);
@@ -200,10 +206,14 @@ int exec_high_level_builting(t_node* ast)
 int	execute(t_node *ast, char **env)
 {
 	int	status;
+	int analyse;
 
 	(void) env;
 	status = exec_high_level_builting((ast)) ;
-	if (analyse_ast(ast) && status == -1)
+	analyse = analyse_ast(ast);
+	if(!analyse)
+		return 2 << 8;
+	if (analyse && status == -1)
 	{
 		if (fork() == 0)
 		{

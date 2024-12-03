@@ -46,6 +46,7 @@ int	main(const int argc, char **argv, char **e)
 		line = readline("> ");
 		if (!line)
 		{
+			//ft_putstr_fd("exit\n" , STDERR_FILENO);
 			free(line);
 			free_env(*static_env(NULL));
 			free((void*)shell_path(NULL));

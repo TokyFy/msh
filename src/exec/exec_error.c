@@ -101,7 +101,7 @@ int	ft_execvp(const char *__file, char * __argv[])
 		}
 		__argv[0] = exec_path;
 	}
-	execve(__argv[0], __argv, NULL);
+	execve(__argv[0], __argv, list_to_env_array(*static_env(NULL)));
 	ft_putstr_fd((char*)__file , STDERR_FILENO);
 	ft_putendl_fd(" : command not found", STDERR_FILENO);
 	_exit2(127);

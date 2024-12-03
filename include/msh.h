@@ -118,6 +118,7 @@ int		builtin_export(t_list **env, char *str);
 int		builtin_unset(t_list **env, char *name);
 char 	**list_to_env_array(t_list *env_list);
 t_env	*new_env(char *str);
+void set_env(char *env , char* value);
 
 void	remove_quote(char *input, char *current_quote, int *j, char **result);
 char	*handle_quote(char *input);

@@ -36,7 +36,7 @@ int	builtin_unset(t_list **env, char *name)
 		prev = current;
 		current = current->next;
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_unset(t_cmd *cmd)
