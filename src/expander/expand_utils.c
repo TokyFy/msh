@@ -34,7 +34,7 @@ char	*extract_env_name(char *string)
 	len = 0;
 	if (*string == '?')
 		return (ft_strdup("?"));
-	if(isspace(*string) || count_char(string, '"') % 2 != 0 || !*string)
+	if((isspace(*string) || ( *string == '"' && count_char(string, '\"') % 2 != 0) || !*string))
 		return ft_strdup("$");
 	if (ft_isalpha(*string) || *string == '_')
 	{

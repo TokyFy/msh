@@ -66,10 +66,10 @@ int	builtin_export(t_list **env, char *str)
 	t_list	*element;
 
 	if (!contains_equal_after_first(str))
-	{
 		return (1);
-	}
 	new_element = new_env(str);
+	if(!new_element)
+		return (1);
 	element = env_exist(*env, new_element->name);
 	if (element)
 	{
