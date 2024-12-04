@@ -132,6 +132,7 @@ int	builtin_cd(t_cmd *cmd)
 		ft_putendl_fd("cd : Path required", STDERR_FILENO);
 		return 1;
 	}
+	set_env("OLDPWD", get_env(*static_env(NULL), "PWD"));
 	if (chdir(path) != 0)
 	{
 		perror("cd");
@@ -139,6 +140,7 @@ int	builtin_cd(t_cmd *cmd)
 	}
 	path = getcwd(NULL, 0);
 	set_env("PWD", path);
+	free(path);
 	return (0);
 }
 
@@ -217,8 +219,8 @@ int	execute(t_node *ast, char **env)
 	{
 		if (fork() == 0)
 		{
-			exec_heredoc(ast);
 			expand(ast);
+			exec_heredoc(ast);
 			signal(SIGINT, SIG_DFL);
 			signal(SIGQUIT, SIG_DFL);
 			exec_ast(ast);
