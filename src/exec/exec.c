@@ -19,7 +19,6 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 {
 	t_list	*redirs;
 	t_redir	*redir;
-	t_list	*heredoc;
 
 	if (!cmd->redirs)
 		return ;
@@ -40,8 +39,7 @@ void	setup_redir(int *in, int *out, t_cmd *cmd)
 			*in = ft_open(redir->string, O_RDONLY, 0644);
 		else if (redir->type == HEREDOC)
 		{
-			heredoc = exec_heredoc(NULL);
-			*in = ((t_heredoc *)heredoc->content)->fd;
+			*in = redir->fd;
 		}
 		redirs = redirs->next;
 	}

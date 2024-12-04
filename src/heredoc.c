@@ -25,12 +25,11 @@ void	write_heredoc(t_redir *redir, int fd)
 	}
 }
 
-void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
+void	feed_heredoc(t_cmd *cmd)
 {
 	t_list		*redirs;
 	t_redir		*redir;
 	int			fds[2];
-	t_heredoc	*heredoc;
 
 	redirs = cmd->redirs;
 	while (redirs)
@@ -41,9 +40,7 @@ void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
 			pipe(fds);
 			write_heredoc(redir, fds[1]);
 			close(fds[1]);
-			heredoc = malloc(sizeof(t_heredoc));
-			heredoc->fd = fds[0];
-			ft_lstadd_back(heredocs, ft_lstnew(heredoc));
+			redir->fd = fds[0];
 		}
 		redirs = redirs->next;
 	}
@@ -51,23 +48,13 @@ void	feed_heredoc(t_cmd *cmd, t_list **heredocs)
 
 t_list	*exec_heredoc(void *ast)
 {
-	static t_list	*heredocs = NULL;
 	t_node			*node;
-	t_list			*head;
 
 	node = ast;
-	if (!ast)
-	{
-		if (!heredocs)
-			return (NULL);
-		head = heredocs;
-		heredocs = heredocs->next;
-		return (head);
-	}
 	setup_heredoc_signal_handling();
 	if (node->type == CMD)
 	{
-		feed_heredoc(ast, &heredocs);
+		feed_heredoc(ast);
 		return (NULL);
 	}
 	if (node->type == PIPE)

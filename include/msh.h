@@ -63,6 +63,7 @@ typedef struct s_redirs
 {
 	t_type	type;
 	char	*string;
+	int fd;
 }			t_redir;
 
 typedef struct s_cmd
