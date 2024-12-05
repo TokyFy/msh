@@ -1,6 +1,16 @@
-#include "libft.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/04 22:24:17 by franaivo          #+#    #+#             */
+/*   Updated: 2024/12/05 19:15:14 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <msh.h>
-#include <string.h>
 
 void	write_heredoc(t_redir *redir, int fd)
 {
@@ -27,9 +37,9 @@ void	write_heredoc(t_redir *redir, int fd)
 
 void	feed_heredoc(t_cmd *cmd)
 {
-	t_list		*redirs;
-	t_redir		*redir;
-	int			fds[2];
+	t_list	*redirs;
+	t_redir	*redir;
+	int		fds[2];
 
 	redirs = cmd->redirs;
 	while (redirs)
@@ -48,7 +58,7 @@ void	feed_heredoc(t_cmd *cmd)
 
 t_list	*exec_heredoc(void *ast)
 {
-	t_node			*node;
+	t_node	*node;
 
 	node = ast;
 	setup_heredoc_signal_handling();

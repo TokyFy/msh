@@ -24,7 +24,7 @@ char	*remove_quotes(char *input)
 	result = malloc(strlen(input) + 1);
 	if (!result)
 		return (NULL);
-	i = 0; 
+	i = 0;
 	j = 0;
 	quote_char = '\0';
 	while (input[i])

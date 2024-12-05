@@ -10,20 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-
-
-int count_char(char *str , char c)
-{
-	int count = 0;
-	while (*str) {
-		if(*str == c)
-			count++;
-		str++;
-	}
-	return count;
-}
 
 char	*extract_env_name(char *string)
 {
@@ -34,8 +21,9 @@ char	*extract_env_name(char *string)
 	len = 0;
 	if (*string == '?')
 		return (ft_strdup("?"));
-	if((isspace(*string) || ( *string == '"' && count_char(string, '\"') % 2 != 0) || !*string))
-		return ft_strdup("$");
+	if ((isspace(*string) || (*string == '"' && ft_chrc(string, '\"') % 2 != 0)
+			|| !*string))
+		return (ft_strdup("$"));
 	if (ft_isalpha(*string) || *string == '_')
 	{
 		start = string;

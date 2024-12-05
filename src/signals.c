@@ -11,11 +11,6 @@
 /* ************************************************************************** */
 
 #include <msh.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 extern volatile sig_atomic_t	g_signal_received;
 

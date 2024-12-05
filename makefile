@@ -5,7 +5,8 @@ SRCS =	msh.c src/tokenizer/tokenizer.c src/tokenizer/tokenizer_utils.c src/parse
 		src/env_utils.c  src/builtins/env.c  src/builtins/export.c  src/builtins/unset.c \
 		src/builtins/builtin_utils.c src/builtins/pwd.c src/builtins/echo.c src/builtins/exit.c \
 		src/expander/expand.c src/expander/quote_utils.c src/expander/expand_utils.c \
-		src/heredoc.c src/utils/status.c
+		src/heredoc.c src/utils/status.c src/parser/parser_utils.c src/exec/ft_execvp.c \
+		src/builtins/builting.c src/builtins/cd.c src/exec/redirect.c
 
 OBJS = $(SRCS:.c=.o)
 

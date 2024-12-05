@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 t_list	*env_exist(t_list *env, char *name)
 {
@@ -68,7 +64,7 @@ int	builtin_export(t_list **env, char *str)
 	if (!contains_equal_after_first(str))
 		return (1);
 	new_element = new_env(str);
-	if(!new_element)
+	if (!new_element)
 		return (1);
 	element = env_exist(*env, new_element->name);
 	if (element)
@@ -86,15 +82,6 @@ int	builtin_export(t_list **env, char *str)
 		return (0);
 	}
 	return (1);
-}
-
-void set_env(char *env , char* value)
-{
-	char *str1 = ft_strjoin(env, "=");
-	char *joined = ft_strjoin(str1, value);
-	builtin_export(static_env(NULL), joined);
-	free(str1);
-	free(joined);
 }
 
 int	ft_export(t_cmd *cmd)

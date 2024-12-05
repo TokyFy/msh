@@ -28,13 +28,11 @@ int						ft_isdigit(int c);
 int						ft_isalnum(int c);
 int						ft_isascii(int c);
 int						ft_isprint(int c);
-
 t_size_t				ft_strlen(const char *s);
 void					*ft_memset(void *byte, int c, t_size_t n);
 void					ft_bzero(void *s, unsigned int n);
 void					*ft_memcpy(void *dest, const void *src, t_size_t n);
 void					*ft_memmove(void *dest, const void *src, t_size_t n);
-
 unsigned int			ft_strlcat(char *dest, char *src, unsigned int size);
 unsigned int			ft_strlcpy(char *dest, char *src, unsigned int size);
 
@@ -43,6 +41,7 @@ int						ft_tolower(int c);
 
 char					*ft_strchr(const char *s, int c);
 char					*ft_strrchr(const char *s, int c);
+int						ft_chrc(char *str, char c);
 int						ft_strncmp(char *s1, char *s2, unsigned int n);
 int						ft_strcmp(char *s1, char *s2);
 
@@ -83,9 +82,8 @@ void					ft_lstadd_back(t_list **lst, t_list *el);
 void					ft_lstdelone(t_list *lst, void (*del)(void *));
 void					ft_lstclear(t_list **lst, void (*del)(void *));
 void					ft_lstiter(t_list *lst, void (*f)(void *));
-t_list					*ft_lstmap(t_list *lst, void *(*f)(void *),
-							void (*del)(void *));
-void	**ft_lsttoarr(t_list *lst);
-unsigned long ft_abs(long n);
-int	ft_strcmp(char *s1, char *s2);
+t_list					*ft_lstmap(t_list *lst, void *(*f)(void *));
+void					**ft_lsttoarr(t_list *lst);
+unsigned long			ft_abs(long n);
+int						ft_strcmp(char *s1, char *s2);
 #endif

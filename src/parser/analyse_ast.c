@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <unistd.h>
 
 static int	analyse_t_pipe(t_pipe *pipe)
 {
@@ -23,9 +21,30 @@ static int	analyse_t_pipe(t_pipe *pipe)
 			ft_putstr_fd("msh : syntax error : void pipe\n", STDERR_FILENO);
 			return (0);
 		}
-		return 1;
+		return (1);
 	}
-	return 0;
+	return (0);
+}
+
+int	is_valid_quotes(char *str)
+{
+	char	unclosed;
+
+	if (!str)
+		return (1);
+	unclosed = '\0';
+	while (*str)
+	{
+		if (!unclosed && (*str == '\'' || *str == '\"'))
+			unclosed = *str;
+		else
+		{
+			if (*str == unclosed)
+				unclosed = '\0';
+		}
+		str++;
+	}
+	return (!unclosed);
 }
 
 static int	analyse_t_cmd(t_cmd *cmd)
@@ -37,7 +56,8 @@ static int	analyse_t_cmd(t_cmd *cmd)
 	{
 		if (((t_redir *)redirs->content)->string == NULL)
 		{
-			ft_putstr_fd("msh : syntax error : void redirection\n", STDERR_FILENO);
+			ft_putstr_fd("msh : syntax error : void redirection\n",
+				STDERR_FILENO);
 			return (0);
 		}
 		redirs = redirs->next;

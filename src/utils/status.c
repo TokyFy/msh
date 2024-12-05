@@ -12,22 +12,23 @@
 
 #include <msh.h>
 
-int manage_status(int action, int value)
+int	manage_status(int action, int value)
 {
-    static int status = 0;
-    if (action == 1)
-        status = value;
-    else if (action == 0)
-        return status;
-    return 0;
+	static int	status = 0;
+
+	if (action == 1)
+		status = value;
+	else if (action == 0)
+		return (status);
+	return (0);
 }
 
-int get_status(void)
+int	get_status(void)
 {
-    return manage_status(0, 0);
+	return (manage_status(0, 0));
 }
 
-void set_status(int value)
+void	set_status(int value)
 {
-    manage_status(1, value);
+	manage_status(1, value);
 }

@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 void	print_token(const t_token *token)
 {
@@ -85,6 +81,11 @@ t_list	*tokenizer(char **buff)
 	t_token	*temp;
 
 	lst = NULL;
+	if (!is_valid_quotes(*buff))
+	{
+		ft_putstr_fd("msh : syntax error : unclosed quote\n", STDERR_FILENO);
+		return (NULL);
+	}
 	temp = get_token(buff);
 	while (temp)
 	{

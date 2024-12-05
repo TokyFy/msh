@@ -19,6 +19,7 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	f(lst->content);
 	ft_lstiter(lst->next, f);
 }
+
 void	**ft_lsttoarr(t_list *lst)
 {
 	t_size_t	len;

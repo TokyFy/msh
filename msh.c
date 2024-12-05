@@ -10,41 +10,40 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
 
 volatile sig_atomic_t	g_signal_received;
 
-const char* shell_path(char **argv)
+const char	*shell_path(char **argv)
 {
-	static char *path;
-	char *next_shlvl;
-	char *pwd = NULL;
-	if(!argv)
-		return path;
+	static char	*path;
+	char		*next_shlvl;
+	char		*pwd;
+	char		*shlvl;
+	int			shell_level;
 
-	char* shlvl = get_env(*static_env(NULL), "SHLVL");
-	if(!shlvl)
+	pwd = NULL;
+	if (!argv)
+		return (path);
+	shlvl = get_env(*static_env(NULL), "SHLVL");
+	if (!shlvl)
 		shlvl = strdup("1");
-	int shell_level = ft_atoi(shlvl);
+	shell_level = ft_atoi(shlvl);
 	next_shlvl = ft_itoa(shell_level + 1);
 	set_env("SHLVL", next_shlvl);
 	free(next_shlvl);
 	pwd = getcwd(pwd, 0);
 	path = ft_strjoin(pwd, "/minishell");
 	free(pwd);
-	return NULL;
+	return (NULL);
 }
 
 int	main(const int argc, char **argv, char **e)
 {
 	char	*line;
 	t_node	*ast;
-	if(argc > 1)
+
+	if (argc > 1)
 		exit(ft_atoi(argv[1]));
 	static_env(e);
 	shell_path(argv);
@@ -56,11 +55,11 @@ int	main(const int argc, char **argv, char **e)
 		{
 			free(line);
 			free_env(*static_env(NULL));
-			free((void*)shell_path(NULL));
+			free((void *)shell_path(NULL));
 			exit(WEXITSTATUS(get_status()));
 		}
 		ast = parser(line);
-		set_status(execute(ast , e));
+		set_status(execute(ast));
 		free_ast(ast);
 		free(line);
 	}

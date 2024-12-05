@@ -5,15 +5,12 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/11 13:09:10 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:32:49 by sranaivo         ###   ########.fr       */
+/*   Created: 2024/11/30 07:00:15 by franaivo          #+#    #+#             */
+/*   Updated: 2024/12/05 19:12:10 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdlib.h>
-#include <string.h>
 
 void	*parser(char *line)
 {
@@ -50,30 +47,6 @@ int	parse_redir(t_cmd *cmd, t_list **tokens)
 	if (token_next && token_next->type == WORD)
 		*tokens = (*tokens)->next;
 	return (1);
-}
-
-void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
-{
-	t_list	*argv;
-	t_token	*token;
-
-	argv = NULL;
-	token = (*tokens)->content;
-	while (token && token->type != PIPE)
-	{
-		if (token->type == WORD)
-			ft_lstadd_back(&argv, ft_lstnew(token->value));
-		else
-			parse_redir(cmd, tokens);
-		if (!*tokens)
-			break ;
-		(*tokens) = (*tokens)->next;
-		token = NULL;
-		if ((*tokens))
-			token = (*tokens)->content;
-	}
-	cmd->argv = (char **)ft_lsttoarr(argv);
-	ft_lstclear(&argv, NULL);
 }
 
 void	*parse_cmd(t_list **tokens)

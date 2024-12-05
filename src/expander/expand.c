@@ -36,6 +36,7 @@ void	expand_cmd(void *tree)
 	t_node	*ast;
 	t_cmd	*cmd;
 	char	**temp;
+
 	env = static_env(NULL);
 	ast = tree;
 	if (ast->type == CMD)
@@ -46,14 +47,15 @@ void	expand_cmd(void *tree)
 	}
 }
 
-void expand(void *tree)
+void	expand(void *tree)
 {
-	t_node *ast = tree;
-	if(ast->type == CMD)
-		return expand_cmd(tree);
+	t_node	*ast;
 
-	expand(((t_pipe*)tree)->left);
-	expand(((t_pipe*)tree)->right);
+	ast = tree;
+	if (ast->type == CMD)
+		return (expand_cmd(tree));
+	expand(((t_pipe *)tree)->left);
+	expand(((t_pipe *)tree)->right);
 }
 
 char	*get_element_value(t_list *element)
