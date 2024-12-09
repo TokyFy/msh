@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:00:01 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 12:16:42 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:24:58 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ char	*extract_env_name(char *string)
 	len = 0;
 	if (*string == '?')
 		return (ft_strdup("?"));
-	if ((ft_isspace(*string) || (*string == '"' && ft_chrc(string, '\"') % 2 != 0)
-			|| !*string))
+	if ((ft_isspace(*string) || (*string == '"' && ft_chrc(string, '\"')
+				% 2 != 0) || !*string))
 		return (ft_strdup("$"));
 	if (ft_isalpha(*string) || *string == '_')
 	{
