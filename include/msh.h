@@ -126,6 +126,7 @@ t_env		*new_env(char *str);
 void		set_env(char *env, char *value);
 int			is_valid_env_name(char *name);
 char		**list_to_env_array(t_list *env_list);
+int			are_all_env_names_valid(char **names);
 
 void		remove_quote(char *input, char *current_quote, int *j,
 				char **result);

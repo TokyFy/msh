@@ -104,3 +104,24 @@ t_list	*copy_env(char **env)
 	}
 	return (list_env);
 }
+
+int	are_all_env_names_valid(char **names)
+{
+	char	*tmp;
+
+	if (!names)
+		return (0);
+	while (*names)
+	{
+		tmp = ft_substr(*names, 0, ft_strchr(*names, '=') - *names);
+		if (!is_valid_env_name(tmp))
+		{
+			ft_putendl_fd("msh : export : invalid identidier", STDERR_FILENO);
+			free(tmp);
+			return (0);
+		}
+		free(tmp);
+		names++;
+	}
+	return (1);
+}

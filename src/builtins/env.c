@@ -38,7 +38,7 @@ void	set_env(char *env, char *value)
 	char	*joined;
 
 	str1 = ft_strjoin(env, "=");
-	if(!value)
+	if (!value)
 		joined = ft_strjoin(str1, "");
 	else
 		joined = ft_strjoin(str1, value);
