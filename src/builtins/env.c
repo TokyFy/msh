@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 13:08:07 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 17:25:45 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,10 @@ char	*get_env(t_list *env, char *name)
 	{
 		status = WEXITSTATUS(get_status());
 		return (ft_itoa(status));
+	}
+	if (ft_strcmp(name, "") == 0)
+	{
+		return (ft_strdup(""));
 	}
 	if (ft_strcmp(name, "$") == 0)
 		return (ft_strdup("$"));
