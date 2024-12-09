@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/18 16:10:34 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:59:17 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,27 @@ int	builtin_export(t_list **env, char *str)
 	return (1);
 }
 
+int are_all_env_names_valid(char **names)
+{
+	char *tmp;
+    if (!names)
+        return 0;
+
+    while (*names)
+    {
+        tmp = ft_substr(*names, 0, ft_strchr(*names , '=') - *names);
+		if(!is_valid_env_name(tmp))
+		{
+			ft_putendl_fd("msh : export : invalid identidier", STDERR_FILENO);
+			free(tmp);
+			return 0;
+		}
+		free(tmp);
+		names++;
+    }
+    return 1;
+}
+
 int	ft_export(t_cmd *cmd)
 {
 	t_list	**env;
@@ -91,10 +112,12 @@ int	ft_export(t_cmd *cmd)
 
 	env = static_env(NULL);
 	i = 1;
+	if (!are_all_env_names_valid(cmd->argv))
+		return (1);
 	while ((cmd->argv)[i])
 	{
 		if (builtin_export(env, (cmd->argv)[i]) != 0)
-			return (1);
+			return (0);
 		i++;
 	}
 	return (0);

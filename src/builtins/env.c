@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 11:08:58 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 13:08:07 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,10 @@ void	set_env(char *env, char *value)
 	char	*joined;
 
 	str1 = ft_strjoin(env, "=");
-	joined = ft_strjoin(str1, value);
+	if(!value)
+		joined = ft_strjoin(str1, "");
+	else
+		joined = ft_strjoin(str1, value);
 	builtin_export(static_env(NULL), joined);
 	free(str1);
 	free(joined);
