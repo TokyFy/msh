@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:55:51 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/15 15:16:43 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 12:16:29 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*trim_space(const char *str)
 	space_found = 0;
 	while (*str != '\0')
 	{
-		if (isspace((unsigned char)*str))
+		if (ft_isspace((unsigned char)*str))
 		{
 			if (!space_found)
 			{
