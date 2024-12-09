@@ -6,7 +6,7 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:10:58 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/05 19:14:35 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/12/09 15:39:33 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	ft_execvp(const char *__file, char *__argv[])
 	char	*path;
 	char	**paths;
 	char	*exec_path;
+	char	*error_str;
 
 	exec_path = NULL;
 	if (!ft_strchr(__file, '/'))
@@ -66,14 +67,12 @@ int	ft_execvp(const char *__file, char *__argv[])
 			exec_path = find_exec(__file, paths);
 		}
 		if (!exec_path)
-		{
 			exec_path = path_join(".", (char *)__file);
-		}
 		__argv[0] = exec_path;
 	}
 	execve(__argv[0], __argv, list_to_env_array(*static_env(NULL)));
-	ft_putstr_fd((char *)__file, STDERR_FILENO);
-	ft_putendl_fd(" : command not found", STDERR_FILENO);
+	error_str = ft_strjoin(__file, " : command not found\n");
+	ft_putstr_fd(error_str, STDERR_FILENO);
 	_exit2(127);
 	return (-1);
 }
