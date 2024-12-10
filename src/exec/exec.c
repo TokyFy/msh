@@ -10,7 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <signal.h>
+#include <unistd.h>
 
 void	exec_t_cmd(t_cmd *cmd, char **env)
 {
@@ -52,23 +55,21 @@ void	exec_ast(void *ast)
 	int	pid2;
 
 	status = 0;
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
 	if (((t_node *)ast)->type == CMD)
 	{
 		status = exec_builtings((t_node *)ast);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		if (status == -1)
 			exec_t_cmd((t_cmd *)ast, NULL);
-		_exit2(WEXITSTATUS(status));
+		_exit(status);
 	}
-	if (((t_node *)ast)->type == PIPE)
+	else if (((t_node *)ast)->type == PIPE)
 	{
 		exec_pipe(ast, &pid1, &pid2);
-		signal(SIGINT, SIG_IGN);
-		signal(SIGQUIT, SIG_IGN);
 		ft_waitpid(pid2, NULL, 0);
 		ft_waitpid(pid1, &status, 0);
-		_exit2(WEXITSTATUS(status));
+		_exit2(status);
 	}
 }
 
@@ -94,9 +95,9 @@ int	execute(t_node *ast)
 			signal(SIGINT, SIG_IGN);
 			signal(SIGQUIT, SIG_IGN);
 			wait(&status);
-			if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			if (WIFSIGNALED(status))
 				write(STDOUT_FILENO, "\n", 1);
 		}
 	}
-	return ((int)ft_abs(status));
+	return (((130 * WIFSIGNALED(status) + WEXITSTATUS(ft_abs(status))) << 8));
 }

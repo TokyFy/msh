@@ -32,7 +32,11 @@ void	_exit2(int status)
 	const char	*args[3];
 
 	args[0] = shell_path(NULL);
-	args[1] = ft_itoa(status);
+	if(WIFSIGNALED(status))
+	{
+		status = 128 + WEXITSTATUS(status);
+	}
+	args[1] = ft_itoa(WEXITSTATUS(status));
 	args[2] = NULL;
 	execve(args[0], (char **)args, NULL);
 }
