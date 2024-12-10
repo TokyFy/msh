@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 12:59:17 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:46:53 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ int	builtin_export(t_list **env, char *str)
 	t_list	*element;
 
 	if (!contains_equal_after_first(str))
-		return (1);
+		return (0);
 	new_element = new_env(str);
 	if (!new_element)
-		return (1);
+		return (0);
 	element = env_exist(*env, new_element->name);
 	if (element)
 	{
@@ -81,7 +81,7 @@ int	builtin_export(t_list **env, char *str)
 		ft_lstadd_back(env, ft_lstnew(new_element));
 		return (0);
 	}
-	return (1);
+	return (0);
 }
 
 int	ft_export(t_cmd *cmd)
@@ -91,6 +91,11 @@ int	ft_export(t_cmd *cmd)
 
 	env = static_env(NULL);
 	i = 1;
+	if ((cmd->argv)[i] == NULL)
+	{
+		export_without_argument(*env);
+		return (0);
+	}
 	if (!are_all_env_names_valid(cmd->argv))
 		return (1);
 	while ((cmd->argv)[i])

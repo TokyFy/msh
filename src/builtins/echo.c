@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/22 10:58:01 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 10:06:46 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 10:09:44 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,11 @@ static int	has_n_option(char *arg)
 		return (0);
 	}
 	i = 1;
+	if (tmp[i] == '\0')
+	{
+		free(tmp);
+		return (0);
+	}
 	while (tmp[i] == 'n')
 		i++;
 	if (tmp[i] == '\0')

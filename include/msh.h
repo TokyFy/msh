@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 12:15:44 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/10 11:32:58 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,7 @@ t_list		*copy_env(char **env);
 int			builtin_env(t_list *env);
 t_list		*env_exist(t_list *env, char *name);
 int			builtin_export(t_list **env, char *str);
+void		export_without_argument(t_list *env_list);
 int			builtin_unset(t_list **env, char *name);
 char		**list_to_env_array(t_list *env_list);
 t_env		*new_env(char *str);
