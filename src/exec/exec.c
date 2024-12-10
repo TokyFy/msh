@@ -62,7 +62,7 @@ void	exec_ast(void *ast)
 		signal(SIGQUIT, SIG_DFL);
 		if (status == -1)
 			exec_t_cmd((t_cmd *)ast, NULL);
-		_exit(status);
+		_exit2(status);
 	}
 	else if (((t_node *)ast)->type == PIPE)
 	{
