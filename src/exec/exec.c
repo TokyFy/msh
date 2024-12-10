@@ -99,5 +99,5 @@ int	execute(t_node *ast)
 				write(STDOUT_FILENO, "\n", 1);
 		}
 	}
-	return (((130 * WIFSIGNALED(status) + WEXITSTATUS(ft_abs(status))) << 8));
+	return (((128 * WIFSIGNALED(status) + WTERMSIG(ft_abs(status))) << 8));
 }
