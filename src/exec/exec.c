@@ -64,6 +64,8 @@ void	exec_ast(void *ast)
 	if (((t_node *)ast)->type == PIPE)
 	{
 		exec_pipe(ast, &pid1, &pid2);
+		signal(SIGINT, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
 		ft_waitpid(pid2, NULL, 0);
 		ft_waitpid(pid1, &status, 0);
 		_exit2(WEXITSTATUS(status));
