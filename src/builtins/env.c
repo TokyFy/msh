@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 17:25:45 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:47:53 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,15 @@ t_env	*new_env(char *str)
 	unsigned int	i;
 
 	i = 0;
+	tmp = NULL;
 	env = malloc(sizeof(t_env));
 	while (str[i] && str[i] != '=')
 		i++;
 	env->name = ft_substr(str, 0, i);
-	tmp = ft_substr(str, i + 1, -1);
+	if (!(str[i]))
+		env->value = NULL;
+	else
+		tmp = ft_substr(str, i + 1, -1);
 	env->value = remove_quotes(tmp);
 	if (!is_valid_env_name(env->name))
 	{
@@ -86,8 +90,11 @@ int	builtin_env(t_list *env)
 	tmp = env;
 	while (tmp)
 	{
-		printf("%s=%s\n", ((t_env *)tmp->content)->name,
-			((t_env *)tmp->content)->value);
+		if (((t_env *)tmp->content)->value != NULL)
+		{
+			printf("%s=%s\n", ((t_env *)tmp->content)->name,
+				((t_env *)tmp->content)->value);
+		}
 		tmp = tmp->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 17:30:42 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:52:08 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,30 +26,32 @@ t_list	*env_exist(t_list *env, char *name)
 	return (NULL);
 }
 
-static int	contains_equal_after_first(const char *str)
-{
-	int	i;
+// static int	contains_equal_after_first(const char *str)
+// {
+// 	int	i;
 
-	if (str == NULL || str[1] == '\0')
-	{
-		return (0);
-	}
-	i = 1;
-	while (str[i] != '\0')
-	{
-		if (str[i] == '=')
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
+// 	if (str == NULL || str[1] == '\0')
+// 	{
+// 		return (0);
+// 	}
+// 	i = 1;
+// 	while (str[i] != '\0')
+// 	{
+// 		if (str[i] == '=')
+// 		{
+// 			return (1);
+// 		}
+// 		i++;
+// 	}
+// 	return (0);
+// }
 
 static void	update_env_element(t_list *element, char *value)
 {
 	char	*new_value;
 
+	if (!value)
+		return ;
 	new_value = ft_strdup(value);
 	free(((t_env *)element->content)->value);
 	((t_env *)element->content)->value = new_value;
@@ -61,8 +63,6 @@ int	builtin_export(t_list **env, char *str)
 	t_env	*new_element;
 	t_list	*element;
 
-	if (!contains_equal_after_first(str))
-		return (0);
 	new_element = new_env(str);
 	if (!new_element)
 		return (0);

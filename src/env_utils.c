@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:55:51 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 17:32:40 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:42:57 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	is_valid_env_name(char *name)
 	int	i;
 
 	if (!name || !*name)
-		return (0);
+		return (1);
 	if (!ft_isalpha(name[0]) && name[0] != '_')
 		return (0);
 	i = 1;
