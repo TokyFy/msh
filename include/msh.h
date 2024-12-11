@@ -27,6 +27,7 @@
 
 # define WHITESPACE " \t\r\n\v"
 # define SYMBOL "<|>"
+# define HEREDOC_ERROR "msh: warning: here-document delimited by end-of-file"
 
 typedef enum e_type
 {

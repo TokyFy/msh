@@ -35,7 +35,7 @@ void	handle_sig_heredoc(int sig)
 	write(STDOUT_FILENO, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
-	_exit2(1);
+	_exit2(130);
 }
 
 void	setup_signal_handling(void)
@@ -53,14 +53,10 @@ void	setup_signal_handling(void)
 void	setup_heredoc_signal_handling(void)
 {
 	struct sigaction	sa;
-	struct sigaction	sa1;
 
 	sa.sa_handler = handle_sig_heredoc;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
-	sa1.sa_handler = handle_sig_heredoc;
-	sigemptyset(&sa1.sa_mask);
-	sa1.sa_flags = 0;
-	sigaction(SIGQUIT, &sa1, NULL);
+	signal(SIGQUIT, SIG_IGN);
 }

@@ -6,11 +6,14 @@
 /*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 22:24:17 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/05 19:15:14 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 08:54:46 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <stdio.h>
+#include <unistd.h>
 
 void	write_heredoc(t_redir *redir, int fd)
 {
@@ -32,6 +35,11 @@ void	write_heredoc(t_redir *redir, int fd)
 		}
 		free(line);
 		line = readline("heredoc < ");
+		if (!line)
+		{
+			ft_putendl_fd(HEREDOC_ERROR, STDERR_FILENO);
+			_exit2(0);
+		}
 	}
 }
 

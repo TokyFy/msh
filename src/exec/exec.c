@@ -98,13 +98,8 @@ int	execute(t_node *ast)
 			signal(SIGQUIT, SIG_IGN);
 			wait(&status);
 			if (WIFSIGNALED(status))
-				write(STDOUT_FILENO, "\n", 1);
+				return (write(1, "\n", 1), ((128 + WTERMSIG(status)) << 8));
 		}
-	}
-	if(WIFSIGNALED(status))
-	{
-		status = 128 + WTERMSIG(status);
-		return status << 8;
 	}
 	return (ft_abs(status));
 }
