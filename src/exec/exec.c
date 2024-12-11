@@ -13,6 +13,8 @@
 #include "libft.h"
 #include <msh.h>
 #include <signal.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
 void	exec_t_cmd(t_cmd *cmd, char **env)
@@ -99,5 +101,10 @@ int	execute(t_node *ast)
 				write(STDOUT_FILENO, "\n", 1);
 		}
 	}
-	return (((128 * WIFSIGNALED(status) + WTERMSIG(ft_abs(status))) << 8));
+	if(WIFSIGNALED(status))
+	{
+		status = 128 + WTERMSIG(status);
+		return status << 8;
+	}
+	return (ft_abs(status));
 }
