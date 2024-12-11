@@ -14,16 +14,12 @@
 
 static int	analyse_t_pipe(t_pipe *pipe)
 {
-	if (pipe->left && pipe->right)
+	if (!analyse_ast(pipe->right) || !analyse_ast(pipe->left))
 	{
-		if (!analyse_ast(pipe->right) || !analyse_ast(pipe->left))
-		{
-			ft_putstr_fd("msh : syntax error : void pipe\n", STDERR_FILENO);
-			return (0);
-		}
-		return (1);
+		ft_putstr_fd("msh : syntax error : void pipe\n", STDERR_FILENO);
+		return (0);
 	}
-	return (0);
+	return (1);
 }
 
 int	is_valid_quotes(char *str)
