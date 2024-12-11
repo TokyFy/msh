@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/10 11:32:58 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:17:38 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ typedef struct s_heredoc
 }			t_heredoc;
 
 char		*remove_quotes(char *input);
+void		remove_translate(char **input);
 int			get_status(void);
 void		set_status(int value);
 int			ft_unset(t_cmd *cmd);

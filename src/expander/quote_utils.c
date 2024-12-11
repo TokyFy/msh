@@ -70,8 +70,8 @@ char	*handle_quote(char *input)
 	char	current_quote;
 	char	*final_result;
 	int		j;
-	return (ft_strdup(input));
 
+	return (ft_strdup(input));
 	result = malloc(ft_strlen(input) + 1);
 	if (!result)
 		return (NULL);

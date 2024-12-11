@@ -3,17 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/04 22:24:17 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 08:54:46 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 15:16:57 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <stdio.h>
-#include <unistd.h>
 
 void	write_heredoc(t_redir *redir, int fd)
 {
@@ -22,6 +19,7 @@ void	write_heredoc(t_redir *redir, int fd)
 
 	line = NULL;
 	quoted = ft_strchr(redir->string, '\"') != NULL;
+	remove_translate(&(redir->string));
 	redir->string = remove_quotes(redir->string);
 	while (42)
 	{

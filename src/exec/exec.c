@@ -58,7 +58,7 @@ char	*ft_strjoins(char **str, char *delim)
 	joined = ft_strdup("");
 	while (*str)
 	{
-		tmp = ft_strjoin(joined , delim);
+		tmp = ft_strjoin(joined, delim);
 		free(joined);
 		joined = tmp;
 		tmp = ft_strjoin(joined, *str);
@@ -73,17 +73,18 @@ void	flatten_t_cmd(t_cmd **cmd)
 {
 	char	*joined;
 	char	*tmp_char;
-	t_list *token;
-	t_list *lst;
-	t_list *tmp_lst;
+	t_list	*token;
+	t_list	*lst;
+	t_list	*tmp_lst;
 
 	joined = ft_strjoins((*cmd)->argv, " ");
 	tmp_char = joined;
 	token = tokenizer(&tmp_char);
 	lst = NULL;
 	tmp_lst = token;
-	while (tmp_lst) {
-		ft_lstadd_back(&lst, ft_lstnew(((t_token*)tmp_lst->content)->value));
+	while (tmp_lst)
+	{
+		ft_lstadd_back(&lst, ft_lstnew(((t_token *)tmp_lst->content)->value));
 		tmp_lst = tmp_lst->next;
 	}
 	free_tokens(token);
@@ -93,12 +94,14 @@ void	flatten_t_cmd(t_cmd **cmd)
 	ft_lstclear(&lst, NULL);
 }
 
-void remove_quote_t_cmd(t_cmd *cmd)
+void	remove_quote_t_cmd(t_cmd *cmd)
 {
-	char** argv = cmd->argv;
-	char *tmp_str;
+	char	**argv;
+	char	*tmp_str;
 
-	while (*argv) {
+	argv = cmd->argv;
+	while (*argv)
+	{
 		tmp_str = remove_quotes(*argv);
 		free(*argv);
 		*argv = tmp_str;
@@ -115,7 +118,7 @@ void	exec_ast(void *ast)
 	status = 0;
 	if (((t_node *)ast)->type == CMD)
 	{
-		flatten_t_cmd((t_cmd**)&ast);
+		flatten_t_cmd((t_cmd **)&ast);
 		remove_quote_t_cmd((t_cmd *)ast);
 		status = exec_builtings((t_node *)ast);
 		signal(SIGINT, SIG_DFL);
