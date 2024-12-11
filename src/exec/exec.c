@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
-#include <signal.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
 
 void	exec_t_cmd(t_cmd *cmd, char **env)
 {
@@ -50,25 +45,6 @@ void	exec_pipe(void *ast, int *pid1, int *pid2)
 	ft_close(fds[1]);
 }
 
-char	*ft_strjoins(char **str, char *delim)
-{
-	char	*joined;
-	char	*tmp;
-
-	joined = ft_strdup("");
-	while (*str)
-	{
-		tmp = ft_strjoin(joined, delim);
-		free(joined);
-		joined = tmp;
-		tmp = ft_strjoin(joined, *str);
-		free(joined);
-		joined = tmp;
-		str++;
-	}
-	return (joined);
-}
-
 void	flatten_t_cmd(t_cmd **cmd)
 {
 	char	*joined;
@@ -92,21 +68,6 @@ void	flatten_t_cmd(t_cmd **cmd)
 	free_array_nulled((*cmd)->argv);
 	(*cmd)->argv = (char **)ft_lsttoarr(lst);
 	ft_lstclear(&lst, NULL);
-}
-
-void	remove_quote_t_cmd(t_cmd *cmd)
-{
-	char	**argv;
-	char	*tmp_str;
-
-	argv = cmd->argv;
-	while (*argv)
-	{
-		tmp_str = remove_quotes(*argv);
-		free(*argv);
-		*argv = tmp_str;
-		argv++;
-	}
 }
 
 void	exec_ast(void *ast)

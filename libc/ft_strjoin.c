@@ -29,3 +29,22 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	ft_strlcat(joined, (char *)s2, l_joined);
 	return (joined);
 }
+
+char	*ft_strjoins(char **str, char *delim)
+{
+	char	*joined;
+	char	*tmp;
+
+	joined = ft_strdup("");
+	while (*str)
+	{
+		tmp = ft_strjoin(joined, delim);
+		free(joined);
+		joined = tmp;
+		tmp = ft_strjoin(joined, *str);
+		free(joined);
+		joined = tmp;
+		str++;
+	}
+	return (joined);
+}

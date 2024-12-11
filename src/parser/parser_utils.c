@@ -35,3 +35,19 @@ void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
 	cmd->argv = (char **)ft_lsttoarr(argv);
 	ft_lstclear(&argv, NULL);
 }
+
+
+void	remove_quote_t_cmd(t_cmd *cmd)
+{
+	char	**argv;
+	char	*tmp_str;
+
+	argv = cmd->argv;
+	while (*argv)
+	{
+		tmp_str = remove_quotes(*argv);
+		free(*argv);
+		*argv = tmp_str;
+		argv++;
+	}
+}

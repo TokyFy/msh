@@ -106,6 +106,7 @@ typedef struct s_heredoc
 }			t_heredoc;
 
 char		*remove_quotes(char *input);
+void		remove_quote_t_cmd(t_cmd *cmd);
 void		remove_translate(char **input);
 int			get_status(void);
 void		set_status(int value);
@@ -166,7 +167,6 @@ void		setup_heredoc_signal_handling(void);
 const char	*shell_path(char **argv);
 void		_exit2(int status);
 
-
-void	debug_array_nulled(char **array);
-void	flatten_t_cmd(t_cmd **cmd);
+void		debug_array_nulled(char **array);
+void		flatten_t_cmd(t_cmd **cmd);
 #endif
