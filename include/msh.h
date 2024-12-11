@@ -165,4 +165,7 @@ void		setup_heredoc_signal_handling(void);
 const char	*shell_path(char **argv);
 void		_exit2(int status);
 
+
+void	debug_array_nulled(char **array);
+void	flatten_t_cmd(t_cmd **cmd);
 #endif

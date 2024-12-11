@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 
 char	*remove_quotes(char *input)
@@ -69,6 +70,7 @@ char	*handle_quote(char *input)
 	char	current_quote;
 	char	*final_result;
 	int		j;
+	return (ft_strdup(input));
 
 	result = malloc(ft_strlen(input) + 1);
 	if (!result)

@@ -50,6 +50,62 @@ void	exec_pipe(void *ast, int *pid1, int *pid2)
 	ft_close(fds[1]);
 }
 
+char	*ft_strjoins(char **str, char *delim)
+{
+	char	*joined;
+	char	*tmp;
+
+	joined = ft_strdup("");
+	while (*str)
+	{
+		tmp = ft_strjoin(joined , delim);
+		free(joined);
+		joined = tmp;
+		tmp = ft_strjoin(joined, *str);
+		free(joined);
+		joined = tmp;
+		str++;
+	}
+	return (joined);
+}
+
+void	flatten_t_cmd(t_cmd **cmd)
+{
+	char	*joined;
+	char	*tmp_char;
+	t_list *token;
+	t_list *lst;
+	t_list *tmp_lst;
+
+	joined = ft_strjoins((*cmd)->argv, " ");
+	tmp_char = joined;
+	token = tokenizer(&tmp_char);
+	lst = NULL;
+	tmp_lst = token;
+	while (tmp_lst) {
+		ft_lstadd_back(&lst, ft_lstnew(((t_token*)tmp_lst->content)->value));
+		tmp_lst = tmp_lst->next;
+	}
+	free_tokens(token);
+	free(joined);
+	free_array_nulled((*cmd)->argv);
+	(*cmd)->argv = (char **)ft_lsttoarr(lst);
+	ft_lstclear(&lst, NULL);
+}
+
+void remove_quote_t_cmd(t_cmd *cmd)
+{
+	char** argv = cmd->argv;
+	char *tmp_str;
+
+	while (*argv) {
+		tmp_str = remove_quotes(*argv);
+		free(*argv);
+		*argv = tmp_str;
+		argv++;
+	}
+}
+
 void	exec_ast(void *ast)
 {
 	int	status;
@@ -59,6 +115,8 @@ void	exec_ast(void *ast)
 	status = 0;
 	if (((t_node *)ast)->type == CMD)
 	{
+		flatten_t_cmd((t_cmd**)&ast);
+		remove_quote_t_cmd((t_cmd *)ast);
 		status = exec_builtings((t_node *)ast);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);

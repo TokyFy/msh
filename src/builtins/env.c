@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <stdlib.h>
 
 char	*get_env(t_list *env, char *name)
 {
@@ -63,7 +64,7 @@ t_env	*new_env(char *str)
 		i++;
 	env->name = ft_substr(str, 0, i);
 	tmp = ft_substr(str, i + 1, -1);
-	env->value = trim_space(tmp);
+	env->value = remove_quotes(tmp);
 	if (!is_valid_env_name(env->name))
 	{
 		ft_putendl_fd("msh : export : invalid identidier", STDERR_FILENO);

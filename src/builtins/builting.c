@@ -61,6 +61,7 @@ int	exec_high_level_builting(t_node *ast)
 	if (!ast || ast->type != CMD || !((t_cmd *)ast)->argv[0])
 		return (-1);
 	cmd = (t_cmd *)ast;
+	flatten_t_cmd(&cmd);
 	exec = cmd->argv[0];
 	status = -1;
 	if (!(ft_strcmp(exec, "export") == 0 || ft_strcmp(exec, "unset") == 0
