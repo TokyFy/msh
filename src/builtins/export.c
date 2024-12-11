@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/10 11:46:53 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:30:42 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,11 @@ int	ft_export(t_cmd *cmd)
 		export_without_argument(*env);
 		return (0);
 	}
-	if (!are_all_env_names_valid(cmd->argv))
-		return (1);
 	while ((cmd->argv)[i])
 	{
 		if (builtin_export(env, (cmd->argv)[i]) != 0)
 			return (0);
 		i++;
 	}
-	return (0);
+	return (!are_all_env_names_valid(cmd->argv));
 }

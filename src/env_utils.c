@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:55:51 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/09 12:22:41 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/11 17:32:40 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,9 @@ t_list	*copy_env(char **env)
 int	are_all_env_names_valid(char **names)
 {
 	char	*tmp;
+	int		error;
 
+	error = 0;
 	if (!names)
 		return (0);
 	while (*names)
@@ -117,11 +119,10 @@ int	are_all_env_names_valid(char **names)
 		if (!is_valid_env_name(tmp))
 		{
 			ft_putendl_fd("msh : export : invalid identidier", STDERR_FILENO);
-			free(tmp);
-			return (0);
+			error++;
 		}
 		free(tmp);
 		names++;
 	}
-	return (1);
+	return (!error);
 }
