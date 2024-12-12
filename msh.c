@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   msh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/07 11:22:04 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 12:23:44 by sranaivo         ###   ########.fr       */
+/*   Created: 2024/12/07 16:31:55 by franaivo          #+#    #+#             */
+/*   Updated: 2024/12/12 22:35:51 by franaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
-#include <stdlib.h>
 
 volatile sig_atomic_t	g_signal_received;
 
