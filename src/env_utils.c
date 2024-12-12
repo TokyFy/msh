@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 09:55:51 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 17:42:57 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:02:21 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ char	**list_to_env_array(t_list *env_list)
 	{
 		env = (t_env *)env_list->content;
 		name_eq = ft_strjoin(env->name, "=");
-		full_env = ft_strjoin(name_eq, env->value);
+		if (!(env->value))
+			full_env = ft_strjoin(name_eq, "");
+		else
+			full_env = ft_strjoin(name_eq, env->value);
 		free(name_eq);
 		env_array[i++] = full_env;
 		env_list = env_list->next;
@@ -70,7 +73,7 @@ int	is_valid_env_name(char *name)
 	int	i;
 
 	if (!name || !*name)
-		return (1);
+		return (0);
 	if (!ft_isalpha(name[0]) && name[0] != '_')
 		return (0);
 	i = 1;

@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:21:46 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 17:52:08 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:06:40 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,6 @@ t_list	*env_exist(t_list *env, char *name)
 	}
 	return (NULL);
 }
-
-// static int	contains_equal_after_first(const char *str)
-// {
-// 	int	i;
-
-// 	if (str == NULL || str[1] == '\0')
-// 	{
-// 		return (0);
-// 	}
-// 	i = 1;
-// 	while (str[i] != '\0')
-// 	{
-// 		if (str[i] == '=')
-// 		{
-// 			return (1);
-// 		}
-// 		i++;
-// 	}
-// 	return (0);
-// }
 
 static void	update_env_element(t_list *element, char *value)
 {
@@ -78,7 +58,8 @@ int	builtin_export(t_list **env, char *str)
 	}
 	else
 	{
-		ft_lstadd_back(env, ft_lstnew(new_element));
+		if (new_element->name[0])
+			ft_lstadd_back(env, ft_lstnew(new_element));
 		return (0);
 	}
 	return (0);

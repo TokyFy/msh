@@ -36,7 +36,6 @@ void	fill_t_cmd(t_cmd *cmd, t_list **tokens)
 	ft_lstclear(&argv, NULL);
 }
 
-
 void	remove_quote_t_cmd(t_cmd *cmd)
 {
 	char	**argv;

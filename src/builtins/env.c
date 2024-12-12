@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 17:47:53 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/12 09:03:27 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,6 @@ t_env	*new_env(char *str)
 	env->value = remove_quotes(tmp);
 	if (!is_valid_env_name(env->name))
 	{
-		ft_putendl_fd("msh : export : invalid identidier", STDERR_FILENO);
 		free(env->name);
 		free(env->value);
 		free(env);
