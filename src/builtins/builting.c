@@ -60,16 +60,16 @@ int	exec_high_level_builting(t_node *ast)
 	if (!ast || ast->type != CMD || !((t_cmd *)ast)->argv[0])
 		return (-1);
 	cmd = (t_cmd *)ast;
-	flatten_t_cmd(&cmd);
-	remove_quote_t_cmd(cmd);
 	status = -1;
 	if (!(ft_strcmp(cmd->argv[0], "export") == 0 || ft_strcmp(cmd->argv[0], "unset") == 0
 			|| ft_strcmp(cmd->argv[0], "cd") == 0 || ft_strcmp(cmd->argv[0], "exit") == 0))
 		return (-1);
 	expand(ast);
+	flatten_t_cmd(&cmd);
+	remove_quote_t_cmd(cmd);
 	if (ft_strcmp("cd", cmd->argv[0]) == 0)
 		status = (builtin_cd(cmd));
-	else if (ft_strcmp("export", cmd->argv[0]) == 0)
+	else if (ft_strcmp("export", cmd->argv[0]) == 0 && cmd->argv[1])
 		status = (ft_export(cmd));
 	else if (ft_strcmp("unset", cmd->argv[0]) == 0)
 		status = (ft_unset(cmd));

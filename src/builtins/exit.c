@@ -16,8 +16,9 @@
 int	is_valit_exit(char *exit)
 {
 	char	*str;
+	exit = ft_strtrim(exit, " \t");
 
-	str = ft_strtrim(exit , " \t");
+	str = exit;
 	while (*str == '+' || *str == '-')
 		str++;
 	if (!str)
