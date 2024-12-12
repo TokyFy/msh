@@ -58,8 +58,8 @@ int	main(const int argc, char **argv, char **e)
 			free((void *)shell_path(NULL));
 			exit(WEXITSTATUS(get_status()));
 		}
-		if(!*line)
-			continue;
+		if (!*line)
+			continue ;
 		ast = parser(line);
 		set_status(execute(ast));
 		free_ast(ast);

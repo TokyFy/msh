@@ -89,7 +89,7 @@ t_env	*new_env(char *str)
 		free(tmp);
 		return (NULL);
 	}
-	return (free(tmp) , env);
+	return (free(tmp), env);
 }
 
 int	builtin_env(t_list *env)

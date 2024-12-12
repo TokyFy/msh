@@ -40,9 +40,10 @@ void	remove_quote_t_cmd(t_cmd *cmd)
 {
 	char	**argv;
 	char	*tmp_str;
+	t_list	*tmp_redir;
 
 	argv = cmd->argv;
-	t_list *tmp_redir = cmd->redirs;
+	tmp_redir = cmd->redirs;
 	while (*argv)
 	{
 		tmp_str = remove_quotes(*argv);
@@ -52,9 +53,9 @@ void	remove_quote_t_cmd(t_cmd *cmd)
 	}
 	while (tmp_redir)
 	{
-		tmp_str = remove_quotes(((t_redir*)tmp_redir->content)->string);
-		free(((t_redir*)tmp_redir->content)->string);
-		((t_redir*)tmp_redir->content)->string = tmp_str;
+		tmp_str = remove_quotes(((t_redir *)tmp_redir->content)->string);
+		free(((t_redir *)tmp_redir->content)->string);
+		((t_redir *)tmp_redir->content)->string = tmp_str;
 		tmp_redir = tmp_redir->next;
 	}
 }

@@ -13,25 +13,27 @@
 #include <msh.h>
 #include <stdlib.h>
 
-
-char *expand_in_heredoc(char *str)
+char	*expand_in_heredoc(char *str)
 {
-	char *tmp_str = str;
-	while(*tmp_str)
+	char	*tmp_str;
+	char	*result;
+
+	tmp_str = str;
+	while (*tmp_str)
 	{
-		if(*tmp_str == '\'')
+		if (*tmp_str == '\'')
 			*tmp_str = 1;
 		tmp_str++;
 	}
-	char *result = expand_variables_in_string(*static_env(NULL), str);
+	result = expand_variables_in_string(*static_env(NULL), str);
 	tmp_str = result;
-	while(*tmp_str)
+	while (*tmp_str)
 	{
-		if(*tmp_str == 1)
+		if (*tmp_str == 1)
 			*tmp_str = '\'';
 		tmp_str++;
 	}
-	return result;
+	return (result);
 }
 
 static int	is_special_case(const char *original, int i, char current_quote)

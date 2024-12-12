@@ -50,19 +50,20 @@ char	*find_exec(const char *exec, char **path)
 	return (NULL);
 }
 
-void execvp_error(const char* __file)
+void	execvp_error(const char *__file)
 {
-	char	*error_str;
-	struct stat file_stat;
+	char		*error_str;
+	struct stat	file_stat;
 
-	if(!file_exists(__file))
+	if (!file_exists(__file))
 	{
 		error_str = ft_strjoin(__file, " : command not found\n");
 		ft_putstr_fd(error_str, STDERR_FILENO);
 		_exit2(127);
 	}
 	stat(__file, &file_stat);
-	if (S_ISDIR(file_stat.st_mode)) {
+	if (S_ISDIR(file_stat.st_mode))
+	{
 		error_str = ft_strjoin(__file, " : Is a directory\n");
 		ft_putstr_fd(error_str, STDERR_FILENO);
 		_exit2(126);
