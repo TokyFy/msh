@@ -28,7 +28,7 @@ void	write_heredoc(t_redir *redir, int fd)
 			if (ft_strcmp(line, redir->string) == 0)
 				break ;
 			if (!quoted)
-				line = expand_variables_in_string(*static_env(NULL), line);
+				line = expand_in_heredoc(line);
 			ft_putendl_fd(line, fd);
 		}
 		free(line);
