@@ -55,17 +55,16 @@ int	exec_builtings(t_node *ast)
 int	exec_high_level_builting(t_node *ast)
 {
 	t_cmd	*cmd;
-	char	*exec;
 	int		status;
 
 	if (!ast || ast->type != CMD || !((t_cmd *)ast)->argv[0])
 		return (-1);
 	cmd = (t_cmd *)ast;
 	flatten_t_cmd(&cmd);
-	exec = cmd->argv[0];
+	remove_quote_t_cmd(cmd);
 	status = -1;
-	if (!(ft_strcmp(exec, "export") == 0 || ft_strcmp(exec, "unset") == 0
-			|| ft_strcmp(exec, "cd") == 0 || ft_strcmp(exec, "exit") == 0))
+	if (!(ft_strcmp(cmd->argv[0], "export") == 0 || ft_strcmp(cmd->argv[0], "unset") == 0
+			|| ft_strcmp(cmd->argv[0], "cd") == 0 || ft_strcmp(cmd->argv[0], "exit") == 0))
 		return (-1);
 	expand(ast);
 	if (ft_strcmp("cd", cmd->argv[0]) == 0)

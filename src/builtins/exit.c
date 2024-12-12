@@ -10,17 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
 
 int	is_valit_exit(char *exit)
 {
 	char	*str;
 
-	str = exit;
+	str = ft_strtrim(exit , " \t");
 	while (*str == '+' || *str == '-')
-	{
 		str++;
-	}
 	if (!str)
 		return (0);
 	while (*str)
