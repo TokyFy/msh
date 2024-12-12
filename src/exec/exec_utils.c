@@ -19,9 +19,8 @@ int	ft_open(char *file, int oflags, int iflags)
 	fd = open(file, oflags, iflags);
 	if (fd == -1)
 	{
-		perror("msh");
-		if(oflags == O_RDONLY)
-			_exit2(2);
+		perror(file);
+		_exit2(EXIT_FAILURE);
 	}
 	return (fd);
 }

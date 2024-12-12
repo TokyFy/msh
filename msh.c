@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <stdlib.h>
 
 volatile sig_atomic_t	g_signal_received;
 
@@ -53,11 +54,12 @@ int	main(const int argc, char **argv, char **e)
 		line = readline("> ");
 		if (!line)
 		{
-			free(line);
 			free_env(*static_env(NULL));
 			free((void *)shell_path(NULL));
 			exit(WEXITSTATUS(get_status()));
 		}
+		if(!*line)
+			continue;
 		ast = parser(line);
 		set_status(execute(ast));
 		free_ast(ast);

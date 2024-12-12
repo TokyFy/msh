@@ -3,6 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
+/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/12/12 14:32:57 by franaivo          #+#    #+#             */
+/*   Updated: 2024/12/12 21:50:07 by franaivo         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:16:38 by sranaivo          #+#    #+#             */
@@ -74,10 +86,10 @@ t_env	*new_env(char *str)
 		free(env->name);
 		free(env->value);
 		free(env);
+		free(tmp);
 		return (NULL);
 	}
-	free(tmp);
-	return (env);
+	return (free(tmp) , env);
 }
 
 int	builtin_env(t_list *env)

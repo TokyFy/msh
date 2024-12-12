@@ -18,6 +18,7 @@ void	exec_t_cmd(t_cmd *cmd, char **env)
 	redirect(cmd);
 	if (cmd->argv[0])
 		ft_execvp(cmd->argv[0], cmd->argv);
+	_exit2(0);
 }
 
 void	exec_pipe(void *ast, int *pid1, int *pid2)
