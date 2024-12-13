@@ -52,6 +52,7 @@ char					*ft_strnstr(const char *str, const char *needle,
 							t_size_t len);
 
 int						ft_atoi(const char *str);
+long double				ft_atold(const char *str);
 
 void					*ft_calloc(t_size_t nmemb, t_size_t size);
 char					*ft_strdup(char *src);

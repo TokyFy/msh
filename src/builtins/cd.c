@@ -18,7 +18,7 @@ int	builtin_cd(t_cmd *cmd)
 {
 	char	*path;
 
-	if (cmd->argv[2])
+	if (cmd->argv[1] && cmd->argv[2])
 	{
 		ft_putendl_fd("msh : cd : too many arguments", STDERR_FILENO);
 		return (2);

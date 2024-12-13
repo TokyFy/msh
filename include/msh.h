@@ -15,6 +15,7 @@
 
 # include <fcntl.h>
 # include <libft.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>

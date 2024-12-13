@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 #include "libft.h"
+#include <math.h>
 
 int	is_space(char c)
 {
@@ -24,6 +25,26 @@ int	is_sign(char c)
 int	ft_atoi(const char *str)
 {
 	int			value;
+	int			sign;
+	const char	*c;
+
+	value = 0;
+	sign = 1;
+	c = str;
+	while (is_space(*c))
+		c++;
+	if (is_sign(*c) && *c++ == '-')
+		sign *= -1;
+	while (ft_isdigit(*c))
+	{
+		value = value * 10 + (*c++ - '0');
+	}
+	return (value * sign);
+}
+
+long double	ft_atold(const char *str)
+{
+	long double	value;
 	int			sign;
 	const char	*c;
 

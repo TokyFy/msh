@@ -14,11 +14,15 @@
 
 int	is_valit_exit(char *exit)
 {
-	char	*str;
+	char		*str;
+	long double	return_exit;
 
 	if (!*exit)
 		return (0);
 	exit = ft_strtrim(exit, " \t");
+	return_exit = ft_atold(exit);
+	if (return_exit > LLONG_MAX || return_exit < LLONG_MIN)
+		return (0);
 	str = exit;
 	while (*str == '+' || *str == '-')
 		str++;
