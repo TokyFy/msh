@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 10:24:45 by franaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 15:26:15 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:39:57 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	exec_ast(void *ast)
 	{
 		flatten_t_cmd((t_cmd **)&ast);
 		remove_quote_t_cmd((t_cmd *)ast);
-		status = exec_builtings((t_node *)ast);
+		status = exec_builtins((t_node *)ast);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		if (status == -1)
@@ -103,7 +103,7 @@ int	execute(t_node *ast)
 	int	status;
 	int	analyse;
 
-	status = exec_high_level_builting((ast));
+	status = exec_high_level_builtin((ast));
 	analyse = analyse_ast(ast);
 	if (!analyse)
 		return (2 << 8);
