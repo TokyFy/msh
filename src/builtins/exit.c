@@ -33,19 +33,26 @@ int	is_valit_exit(char *exit)
 
 int	msh_exit(t_cmd *cmd)
 {
+	char **arg = cmd->argv;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
+	arg++;
 	if (cmd->argv[1])
 	{
-		if (cmd->argv[2])
+		while(*arg)
 		{
-			ft_putstr_fd("msh: exit: too many arguments\n", STDERR_FILENO);
-			return (2);
+			if (!is_valit_exit(*arg))
+			{
+				ft_putstr_fd("msh: exit: numeric argument required\n",
+					STDERR_FILENO);
+				_exit2(2);
+			}
+			arg++;
 		}
-		if (!is_valit_exit(cmd->argv[1]))
+		if(cmd->argv[2])
 		{
-			ft_putstr_fd("msh: exit: numeric argument required\n",
+			ft_putstr_fd("msh: exit: too many arguments\n",
 				STDERR_FILENO);
-			_exit2(2);
+			return (2);
 		}
 		_exit2(ft_atoi(cmd->argv[1]));
 	}

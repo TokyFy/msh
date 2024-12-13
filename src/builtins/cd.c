@@ -10,12 +10,19 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <msh.h>
+#include <unistd.h>
 
 int	builtin_cd(t_cmd *cmd)
 {
 	char	*path;
 
+	if(cmd->argv[2])
+	{
+		ft_putendl_fd("msh : cd : too many arguments", STDERR_FILENO);
+		return (2);
+	}
 	path = cmd->argv[1];
 	if (!path)
 		path = get_env(*static_env(NULL), "HOME");
