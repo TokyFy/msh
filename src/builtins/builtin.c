@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builting.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/05 17:15:08 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/05 19:14:05 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:40:06 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
 
-int	is_builting(t_cmd *cmd)
+int	is_builtin(t_cmd *cmd)
 {
 	char	*exec;
 
@@ -25,14 +25,14 @@ int	is_builting(t_cmd *cmd)
 		|| ft_strcmp(exec, "exit") == 0);
 }
 
-int	exec_builtings(t_node *ast)
+int	exec_builtins(t_node *ast)
 {
 	t_cmd	*cmd;
 	int		status;
 
 	status = -1;
 	cmd = (t_cmd *)ast;
-	if (!is_builting(cmd))
+	if (!is_builtin(cmd))
 		return (-1);
 	redirect(cmd);
 	if (strcmp("cd", cmd->argv[0]) == 0)
@@ -52,7 +52,7 @@ int	exec_builtings(t_node *ast)
 	return (status);
 }
 
-int	exec_high_level_builting(t_node *ast)
+int	exec_high_level_builtin(t_node *ast)
 {
 	t_cmd	*cmd;
 	int		status;

@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 14:34:33 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 15:17:38 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:39:57 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void		free_ast(void *ast);
 void		free_array_nulled(char **array);
 void		*parser(char *line);
 int			execute(t_node *ast);
-int			exec_builtings(t_node *ast);
+int			exec_builtins(t_node *ast);
 int			parse_redir(t_cmd *cmd, t_list **tokens);
 void		fill_t_cmd(t_cmd *cmd, t_list **tokens);
 
@@ -150,7 +150,7 @@ char		*expand_variable_if_exists(t_list *env, char *result, char *input,
 char		*expand_variables_in_string(t_list *env, char *input);
 char		*expand_in_heredoc(char *str);
 void		expand_main_loop(t_list *env, char ***temp);
-int			exec_high_level_builting(t_node *ast);
+int			exec_high_level_builtin(t_node *ast);
 void		expand(void *tree);
 
 int			ft_open(char *file, int oflags, int iflags);
