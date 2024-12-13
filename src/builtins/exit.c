@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/26 09:48:04 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/13 08:03:49 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:35:10 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	is_valit_exit(char *exit)
 {
 	char	*str;
 
-	if(!*exit)
-		return 0;
+	if (!*exit)
+		return (0);
 	exit = ft_strtrim(exit, " \t");
 	str = exit;
 	while (*str == '+' || *str == '-')
@@ -35,25 +35,25 @@ int	is_valit_exit(char *exit)
 
 int	msh_exit(t_cmd *cmd)
 {
-	char **arg = cmd->argv;
+	char	**arg;
+
+	arg = cmd->argv;
 	ft_putstr_fd("exit\n", STDERR_FILENO);
 	arg++;
 	if (cmd->argv[1])
 	{
-		while(*arg)
+		while (*arg)
 		{
-			if (!is_valit_exit(*arg))
+			if (!is_valit_exit(*arg++))
 			{
 				ft_putstr_fd("msh: exit: numeric argument required\n",
 					STDERR_FILENO);
 				_exit2(2);
 			}
-			arg++;
 		}
-		if(cmd->argv[2])
+		if (cmd->argv[2])
 		{
-			ft_putstr_fd("msh: exit: too many arguments\n",
-				STDERR_FILENO);
+			ft_putstr_fd("msh: exit: too many arguments\n", STDERR_FILENO);
 			return (2);
 		}
 		_exit2(ft_atoi(cmd->argv[1]));

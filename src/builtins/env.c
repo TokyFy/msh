@@ -100,9 +100,9 @@ int	builtin_env(t_list *env)
 
 int	ft_env(t_cmd *cmd)
 {
-	if(cmd->argv[1])
+	if (cmd->argv[1])
 	{
-		ft_putendl_fd("msh : No such file or directory" , STDERR_FILENO);
+		ft_putendl_fd("msh : No such file or directory", STDERR_FILENO);
 		_exit2(127);
 	}
 	return (builtin_env(*(static_env(NULL))));
