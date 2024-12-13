@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   msh.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: franaivo <franaivo@student.42antananariv>  +#+  +:+       +#+        */
+/*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/07 16:31:55 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/12 22:35:51 by franaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:01:23 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ const char	*shell_path(char **argv)
 		return (path);
 	shlvl = get_env(*static_env(NULL), "SHLVL");
 	if (!shlvl)
-		shlvl = strdup("1");
+		shlvl = ft_strdup("1");
 	shell_level = ft_atoi(shlvl);
 	next_shlvl = ft_itoa(shell_level + 1);
 	set_env("SHLVL", next_shlvl);

@@ -6,11 +6,10 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:55:24 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/11/29 13:24:48 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:57:56 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <msh.h>
 
 char	*remove_quotes(char *input)

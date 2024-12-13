@@ -6,12 +6,11 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:16:18 by sranaivo          #+#    #+#             */
-/*   Updated: 2024/12/11 15:19:01 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 07:58:04 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <msh.h>
-#include <stdlib.h>
 
 char	*expand_in_heredoc(char *str)
 {
