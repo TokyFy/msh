@@ -40,7 +40,7 @@ int	msh_exit(t_cmd *cmd)
 		if (cmd->argv[2])
 		{
 			ft_putstr_fd("msh: exit: too many arguments\n", STDERR_FILENO);
-			_exit2(2);
+			return 2;
 		}
 		if (!is_valit_exit(cmd->argv[1]))
 		{
