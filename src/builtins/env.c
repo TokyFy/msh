@@ -6,7 +6,7 @@
 /*   By: sranaivo <sranaivo@student.42antananari    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/12 14:32:57 by franaivo          #+#    #+#             */
-/*   Updated: 2024/12/13 07:56:12 by sranaivo         ###   ########.fr       */
+/*   Updated: 2024/12/13 08:31:08 by sranaivo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,10 @@ int	builtin_env(t_list *env)
 
 int	ft_env(t_cmd *cmd)
 {
-	(void)cmd;
+	if(cmd->argv[1])
+	{
+		ft_putendl_fd("msh : No such file or directory" , STDERR_FILENO);
+		_exit2(127);
+	}
 	return (builtin_env(*(static_env(NULL))));
 }
