@@ -55,6 +55,11 @@ void	execvp_error(const char *__file)
 	char		*error_str;
 	struct stat	file_stat;
 
+	if(ft_strcmp((char *)__file , ".") == 0)
+	{
+		ft_putstr_fd("filename argument required\n" , STDERR_FILENO);
+		_exit2(2);
+	}
 	if (!file_exists(__file))
 	{
 		error_str = ft_strjoin(__file, " : command not found\n");
