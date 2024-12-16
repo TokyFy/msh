@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include <msh.h>
+#include <stdio.h>
 
 volatile sig_atomic_t	g_signal_received;
 
@@ -33,7 +34,7 @@ const char	*shell_path(char **argv)
 	set_env("SHLVL", next_shlvl);
 	free(next_shlvl);
 	pwd = getcwd(pwd, 0);
-	path = ft_strjoin(pwd, "/minishell");
+	path = ft_strjoin(pwd, argv[0] + 1);
 	free(pwd);
 	return (NULL);
 }
