@@ -11,33 +11,8 @@
 /* ************************************************************************** */
 
 #include <msh.h>
-#include <stdio.h>
 
 volatile sig_atomic_t	g_signal_received;
-
-const char	*shell_path(char **argv)
-{
-	static char	*path;
-	char		*next_shlvl;
-	char		*pwd;
-	char		*shlvl;
-	int			shell_level;
-
-	pwd = NULL;
-	if (!argv)
-		return (path);
-	shlvl = get_env(*static_env(NULL), "SHLVL");
-	if (!shlvl)
-		shlvl = ft_strdup("1");
-	shell_level = ft_atoi(shlvl);
-	next_shlvl = ft_itoa(shell_level + 1);
-	set_env("SHLVL", next_shlvl);
-	free(next_shlvl);
-	pwd = getcwd(pwd, 0);
-	path = ft_strjoin(pwd, argv[0] + 1);
-	free(pwd);
-	return (NULL);
-}
 
 int	main(const int argc, char **argv, char **e)
 {
